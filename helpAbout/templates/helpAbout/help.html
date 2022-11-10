@@ -1,0 +1,158 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+<!--Main layout-->
+<main class="mt-5">
+  <div class="container">
+    <h4 class="mb-5 text-center"><strong>Help</strong></h4>
+    <hr class="my-5" />
+    <div class="row">
+      <div class="col-md-10">
+        <!-- Spied element -->
+        <div
+          data-mdb-spy="scroll"
+          data-mdb-target="#scrollspy"
+          data-mdb-offset="0"
+          class="scrollspy-example"
+        >
+          <section id="introduce">
+            <h3>What is CRISPRone?</h3>
+            <hr class="my-2" />
+            <p>CRISPRone is a comprehensive webtool to design sgRNA efficiency.</p>
+          </section>
+          <section id="characteristics">
+            <h3>What are the characteristics of CRISPRone?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="enzymes">
+            <h3>Notes on enzymes</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="genomes">
+            <h3>Notes on genomes</h3>
+            <hr class="my-2" />
+            <p>See <a href="/download" target="_blank">here (download page) <i class="fas fa-external-link-alt"></i></a> for detailed metadata and download of genome version.</p>
+          </section>
+          <section id="Cas9">
+            <h3>How do you use Cas9 design?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="Cas12">
+            <h3>How do you use Cas12 design?</h3>
+            <hr class="my-2" />
+            ...
+            <section id="cpf1">
+              <h4>Cpf1</h4>
+              ...
+            </section>
+            <section id="c2c1">
+              <h4>C2c1</h4>
+              ...
+            </section>
+          </section>
+          <section id="Cas13">
+            <h3>How do you use Cas13 design?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="Base_Editor">
+            <h3>How do you use Base Editor design?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="Prime_Editor">
+            <h3>How do you use Prime Editor design?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="CIRSPRa">
+            <h3>How do you use CIRSPRa design?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="CIRSPR_Knock-in">
+            <h3>How do you use CIRSPR Knock-in design?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="CIRSPR_Epigenome">
+            <h3>How do you use CIRSPR Epigenome design?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+          <section id="Fragment_Editor">
+            <h3>How do you use Fragment Editor design?</h3>
+            <hr class="my-2" />
+            ...
+          </section>
+        </div>
+        <!-- Spied element -->
+      </div>
+    
+      <div class="col-md-2">
+        <!-- Scrollspy -->
+        <div id="scrollspy" class="sticky-top">
+          <ul class="nav flex-column nav-pills menu-sidebar">
+            <li class="nav-item">
+              <a class="nav-link" href="#introduce">What is CRISPRone?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#characteristics">What are the characteristics of CRISPRone?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#enzymes">Notes on enzymes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#genomes">Notes on genomes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Cas9">How do you use Cas9 design?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Cas12">How do you use Cas12 design?</a>
+              <ul class="nav flex-column ps-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="#cpf1">Cpf1</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#c2c1">C2c1</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Cas13">How do you use Cas13 design?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Base_Editor">How do you use Base Editor design?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Prime_Editor">How do you use Prime Editor design?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#CIRSPRa">How do you use CIRSPRa design?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#CIRSPR_Knock-in">How do you use CIRSPR Knock-in design?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#CIRSPR_Epigenome">How do you use CIRSPR Epigenome design?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Fragment_Editor">How do you use Fragment Editor design?</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Scrollspy -->
+      </div>
+    </div>
+  </div>
+</main>
+<!--Main layout-->
+
+
+{% endblock %}

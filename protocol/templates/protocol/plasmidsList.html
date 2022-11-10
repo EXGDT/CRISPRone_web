@@ -1,0 +1,319 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+  <!--Main layout-->
+  <main class="mt-5">
+    <div class="container">
+      <!--Section: Content-->
+      <section class="text-center">
+        <h4 class="mb-5"><strong>Plasmids used in our labs</strong></h4>
+        <hr class="my-5" />
+        <!--row1-->
+        <div class="row">
+          <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR/Cas9</h5>
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up the bulk of the
+                  card's content.
+                </p>
+                <a href="#!" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/CBE.png' %}" class="img-fluid" />
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">GhCBE</h5>
+                <p class="card-text">
+                  A cytidine deaminase sequence (APOBEC) fused with nCas9 and uracil glycosylase inhibitor (UGI) was inserted into our CRISPR/Cas9 plasmid (pRGEB32-GhU6.7). 
+                  The editing efficiency ranged from 26.67 to 57.78% at the three target sites.
+                </p>
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/ABE.png' %}" class="img-fluid" />
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">GhABE</h5>
+                <p class="card-text">
+                    We established various ABE vectors based on different engineered adenosine deaminase (TadA) proteins fused to Cas9 variants (dCas9, nCas9), enabling efficient A to G editing up to 64% efficiency on-target sites of the allotetraploid cotton genome.
+                </p>
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--row1-->
+        <hr class="my-5" />
+        <!--row2-->
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/CBE.png' %}" class="img-fluid" />
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">GhCBE</h5>
+                <p class="card-text">
+                  A cytidine deaminase sequence (APOBEC) fused with nCas9 and uracil glycosylase inhibitor (UGI) was inserted into our CRISPR/Cas9 plasmid (pRGEB32-GhU6.7). 
+                  The editing efficiency ranged from 26.67 to 57.78% at the three target sites.
+                </p>
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/ABE.png' %}" class="img-fluid" />
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">GhABE</h5>
+                <p class="card-text">
+                    We established various ABE vectors based on different engineered adenosine deaminase (TadA) proteins fused to Cas9 variants (dCas9, nCas9), enabling efficient A to G editing up to 64% efficiency on-target sites of the allotetraploid cotton genome.
+                </p>
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">GhCBE + GhABE</h5>
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up the bulk of the
+                  card's content.
+                </p>
+                <a href="#!" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--row2-->
+        <hr class="my-5" />
+        <!--row3-->
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/CBE.png' %}" class="img-fluid" />
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR-Cas12a (Cpf1)</h5>
+                <p class="card-text">
+                  A cytidine deaminase sequence (APOBEC) fused with nCas9 and uracil glycosylase inhibitor (UGI) was inserted into our CRISPR/Cas9 plasmid (pRGEB32-GhU6.7). 
+                  The editing efficiency ranged from 26.67 to 57.78% at the three target sites.
+                </p>
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/ABE.png' %}" class="img-fluid" />
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR-Cas12b (C2c1)</h5>
+                <p class="card-text">
+                    We established various ABE vectors based on different engineered adenosine deaminase (TadA) proteins fused to Cas9 variants (dCas9, nCas9), enabling efficient A to G editing up to 64% efficiency on-target sites of the allotetraploid cotton genome.
+                </p>
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR Cas13</h5>
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up the bulk of the
+                  card's content.
+                </p>
+                <a href="#!" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--row3-->
+        <hr class="my-5" />
+        <!--row4-->
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/CBE.png' %}" class="img-fluid" />
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Prime Editing</h5>
+                <p class="card-text">
+                  A cytidine deaminase sequence (APOBEC) fused with nCas9 and uracil glycosylase inhibitor (UGI) was inserted into our CRISPR/Cas9 plasmid (pRGEB32-GhU6.7). 
+                  The editing efficiency ranged from 26.67 to 57.78% at the three target sites.
+                </p>
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/ABE.png' %}" class="img-fluid" />
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR activation</h5>
+                <p class="card-text">
+                    We established various ABE vectors based on different engineered adenosine deaminase (TadA) proteins fused to Cas9 variants (dCas9, nCas9), enabling efficient A to G editing up to 64% efficiency on-target sites of the allotetraploid cotton genome.
+                </p>
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR Knock-ins</h5>
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up the bulk of the
+                  card's content.
+                </p>
+                <a href="#!" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--row4-->
+        <hr class="my-5" />
+        <!--row5-->
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/CBE.png' %}" class="img-fluid" />
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR Epigenetics</h5>
+                <p class="card-text">
+                  A cytidine deaminase sequence (APOBEC) fused with nCas9 and uracil glycosylase inhibitor (UGI) was inserted into our CRISPR/Cas9 plasmid (pRGEB32-GhU6.7). 
+                  The editing efficiency ranged from 26.67 to 57.78% at the three target sites.
+                </p>
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13168" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/protocol/images/ABE.png' %}" class="img-fluid" />
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR activation</h5>
+                <p class="card-text">
+                    We established various ABE vectors based on different engineered adenosine deaminase (TadA) proteins fused to Cas9 variants (dCas9, nCas9), enabling efficient A to G editing up to 64% efficiency on-target sites of the allotetraploid cotton genome.
+                </p>
+                <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">CRISPR Knock-ins</h5>
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up the bulk of the
+                  card's content.
+                </p>
+                <a href="#!" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--row5-->
+      </section>
+      <!--Section: Content-->
+    </div>
+  </main>
+  <!--Main layout-->
+
+
+{% endblock %}

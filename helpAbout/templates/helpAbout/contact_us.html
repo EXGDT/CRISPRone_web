@@ -1,0 +1,100 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+<!--Main layout-->
+<main class="mt-3">
+    <div class="container">
+      <!--Section: Content-->
+      <section class="mb-5">
+        <h4 class="mb-5 text-center"><strong>Contact Us</strong></h4>
+        <hr class="my-5" />
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12">
+            <form action="/contact_us/" method="post" class="row g-3 needs-validation" novalidate>
+              {% csrf_token %}
+              <!-- 2 column grid layout with text inputs for the first and last names -->
+              <div class="row mb-4">
+                <div class="col">
+                  <div class="form-outline">
+                    <input type="text" id="firstName" name="firstName" class="form-control" required />
+                    <label class="form-label" for="firstName">First name</label>
+                    <div class="invalid-feedback">Please provide a valid First name.</div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <input type="text" id="lastName" name="lastName" class="form-control" required />
+                    <label class="form-label" for="lastName">Last name</label>
+                    <div class="invalid-feedback">Please provide a valid Last name.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col">
+                  <div class="form-outline">
+                    <input type="email" id="yourEmail" name="yourEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required />
+                    <label class="form-label" for="yourEmail">Email</label>
+                    <div class="invalid-feedback">Please provide a valid Email.</div>
+                  </div>
+                </div>
+                <div class="col">
+                  <select class="form-select" aria-label="Default select example" name="myvectors" id="myvectors">
+                    <option value="requestPlasmids">Request CRISPR Plasmids</option>
+                    <option value="requestQuestion">Request Question</option>
+                    <option value="otherQuestion">Other</option>
+                  </select>
+                </div>
+              </div>
+            
+              <!-- Message input -->
+              <div class="mb-3 pb-1">
+                <div class="form-outline">
+                  <textarea class="form-control" id="information" name="information" rows="4" placeholder="please enter a message" required></textarea>
+                  <label for="information" class="form-label">Message</label>
+                  <div class="invalid-feedback">Please enter a message in the textarea.</div>
+                </div>
+              </div>
+            
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+      <div class="row">
+        <div class="col-md-12">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3438.6224366374727!2d114.35084631545814!3d30.475130605052215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x9cdee9c2f051347!2z5Y2O5Lit5Yac5Lia5aSn5a2m!5e0!3m2!1sen!2sus!4v1605798126656!5m2!1sen!2sus"
+                  width="100%" height="340" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!--Main layout-->
+
+
+<!--validation input-->
+<script>
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      var forms = document.getElementsByClassName('needs-validation');
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
+<!--validation input-->
+
+{% endblock %}

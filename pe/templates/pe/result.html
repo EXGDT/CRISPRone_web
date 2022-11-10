@@ -1,0 +1,352 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.3/runtime.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/seqviz"></script>
+
+<!--Main layout-->
+<main class="mt-5">
+    <!-- container layout -->
+    <div class="container">
+        <h2>Set Parameters</h2>
+        <!-- Error Information -->
+        {% if messages %}
+            <div class="alert alert-danger align-items-center" role="alert">
+                {% for message in messages %}
+                    {{ message|safe }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <!-- Error Information -->
+        <!-- Section: intro -->
+        <section>
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-mdb-toggle="collapse"
+                      data-mdb-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                      User Seted Parameters  &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-compress"></i>
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <table class="table table-hover" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Parameters</th>
+                                    <th scope="col">Set Values</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Input Sequence</th>
+                                    <td><div class="col-md-1">{{ inputSequence|safe }}</div></td> 
+                                </tr>
+                                <tr>
+                                    <th valign="center" rowspan="2">Reference DNA Sequence</th>
+                                    <td><div class="col-md-1">{{ refSequence|safe }}</div></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="background-color:#e8f3ff; color:#1E90FF;">Substitution</span> | <span style="background-color:#fbe7eb; color:#DC143C;">Deletion</span> | pegRNA spacer | ngRNA spacer</td>
+                                </tr>
+                                <tr>
+                                    <th valign="center" rowspan="2">Edited DNA Sequence</th>
+                                    <td><div class="col-md-1">{{ editSequence|safe }}</div></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="background-color:#e8f3ff; color:#1E90FF;">Substitution</span> | <span style="background-color:#ebf7f0; color:#3CB371;">Insertion</span> | pegRNA spacer 1-17nt | PBS | RTT | ngRNA spacer</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Mutation Type</th>
+                                    <td>{{ mutationType }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">PAM Type</th>
+                                    <td>{{ pamType }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Target Genome</th>
+                                    <td>{{ targetGenome }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Cut distance to PAM</th>
+                                    <td>{{ cutDistance }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Spacer GC content (%)</th>
+                                    <td>{{ spacerGC }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">PBS Length (bp)</th>
+                                    <td>{{ pbsLength }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">PBS GC content (%)</th>
+                                    <td>{{ pbsGC }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Recommended Tm of PBS sequence (℃)</th>
+                                    <td>{{ pbsTm }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Homologous RT template length (the default values are recommended) (bp)</th>
+                                    <td>{{ rtLength }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Exclude first C in RT template</th>
+                                    <td>{{ excludeFirstCRT }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Dual-pegRNA model</th>
+                                    <td>{{ dualpegRNA }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">ngRNA spacers</th>
+                                    <td>{{ ngRNAspacers }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Distance of secondary nicking sgRNAs (ngRNA) to pegRNA (bp)</th>
+                                    <td>{{ ngRNA }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">pegLIT</th>
+                                    <td>{{ pegLIT }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Incorporated structured RNA motifs</th>
+                                    <td>{{ motifsRNA }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Linker Pattern</th>
+                                    <td>{{ linkerPattern }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section: intro -->
+
+        <br>
+
+        <h2>pegRNA Designer</h2>
+        <br>
+        <p class="note note-primary">
+            <strong>Note:</strong> In column of Off Target (k: n) show stat of off target for a Spacer sgRNA in k mismatch have total of n off target site in genome.
+            <br>
+            <strong>Note:</strong> In column of Off Target (k: n) show stat of off target for a Spacer sgRNA in k mismatch have total of n off target site in genome.
+        </p>
+        <br>
+
+        <div class="col-md-12">
+            <table id="pegRNAspacersTable" class="display nowrap" style="width:100%"></table>
+        </div>
+        <br>
+        <hr class="my-2" />
+        <h2>Schematic diagram of pegRNA Vector show order of pegRNA elements</h2>
+        <br>
+        <div class="col-md-12" id="peVector"></div>
+    </div>
+    <!-- container layout -->
+</main>
+<!--Main layout-->
+
+
+<!--pegRNA spacers DataTable JS-->
+<script type="text/javascript">
+    function format(d) {
+        // `d` is the original data object for the row
+        return (
+            '<div class="col-md-12" style="background-color: antiquewhite;">' + 
+                '<h5>pegRNA sequences</h5>' +
+                '<br>' +
+                '<h6>pegRNAs sequence (5\'-3\')</h6>' +
+                '<code style="background-color: antiquewhite;">' + d.pegRNAs_seq5_3 + '</code>' +
+                '<br>' +
+                '<hr class="my-2" />' +
+                '<h6>PE Vector Viewer</h6>' +
+                '<div class="col-md-12" id="peVector"></div>' +
+            '</div>'
+        );
+    }
+
+$(document).ready(function () {
+    var table = $('#pegRNAspacersTable').DataTable({
+            data: {{ pegRNAspacersJS|safe }},
+            columns: [
+                {title: "", "data": "id"}, 
+                {title: "spacer sequence", "data": "spacer_sequence",
+                    render: function(data) {
+                        return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                    }
+                },
+                {title: "PAM", "data": "PAM"},
+                {title: "strand", "data": "strand"},
+                {title: "start", "data": "start"},
+                {title: "peg-to-edit distance", "data": "peg-to-edit distance"},
+                {title: "spacer GC content", "data": "spacer GC content"},
+                {title: "Off Target", "data": "Off Target",
+                    render: function(data) {
+                        return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                    }
+                }
+                ],
+            search: {
+                return: true,
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'pdf', 'print'
+            ],
+            "createdRow": function(row, data, dataIndex) {
+                if (data.PBS_seq !== "" && data.RTT_seq !== "") {
+                $(row).find("td:eq(0)").addClass('details-control');
+                }
+              }
+    });
+
+    // Add event listener for opening and closing details
+    $('#pegRNAspacersTable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+        var rowData = row.data();
+ 
+        //get index to use for child table ID
+        var index = row.index();
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(
+               '<div class="col-md-12" style="background-color: aliceblue;">' + 
+               '<h5>pegRNA extensions (PBS and RT sequences)</h5>' +
+                '<table class="child_table" id = "pbs_rt' + index + '" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                    '<thead>' +
+                        '<tr>' +
+                            '<th style="background-color: aliceblue; border-color: blue; text-align:center;" rowspan="1" colspan="6">PBS</th>' +
+                            '<th style="background-color: aliceblue; border-color: red; text-align:center;" rowspan="1" colspan="3">RT</th>' +
+                            '<th style="background-color: aliceblue; border-color: green; text-align:center;" rowspan="1" colspan="3">pegLIT</th>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<th></th>' +
+                            '<th style="background-color: aliceblue;">PBS length</th>' +
+                            '<th style="background-color: aliceblue;">PBS seq</th>' +
+                            '<th style="background-color: aliceblue;">PBS GC content</th>' +
+                            '<th style="background-color: aliceblue;">PBS Tm</th>' +
+                            '<th style="background-color: aliceblue;">PBS Level</th>' +
+                            '<th style="background-color: aliceblue;">RTT length</th>' +
+                            '<th style="background-color: aliceblue;">RTT seq</th>' +
+                            '<th style="background-color: aliceblue;">RTT GC content</th>' +
+                            '<th style="background-color: aliceblue;">pegLIT linker</th>' +
+                            '<th style="background-color: aliceblue;">pegLIT linker score</th>' +
+                            '<th style="background-color: aliceblue;">pegLIT motifs_RNA</th>' +
+                        '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '</tbody>' +
+                '</table>' +
+                '</div>' +
+                '<hr class="my-2" />' +
+                '<br>' +
+                '<div class="col-md-12" style="background-color: lavender;">' + 
+                    '<h5>ngRNA sequence</h5>' +
+                    '<table class="display nowrap" id = "ngRNA_details' + index + '" style="width:100%; background-color: lavender;" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                        '<thead>' +
+                            '<tr>' +
+                                '<th style="background-color: lavender;">spacer sequence</th>' +
+                                '<th style="background-color: lavender;">PAM</th>' +
+                                '<th style="background-color: lavender;">strand</th>' +
+                                '<th style="background-color: lavender;">start</th>' +
+                                '<th style="background-color: lavender;">nick-to-peg distance</th>' +
+                                '<th style="background-color: lavender;">spacer GC content</th>' +
+                                '<th style="background-color: lavender;">Off Target</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody>' +
+                        '</tbody>' +
+                    '</table>' +
+                '</div>' +
+                '<br>'
+                ).show();
+                var childTable = $('#pbs_rt' + index).DataTable({
+                    data: {{ pegRNAspacersJS|safe }},
+                columns: [
+                        {
+                            "className":      'details-control1',
+                            "orderable":      false,
+                            "data":           null,
+                            "defaultContent": ''
+                        },
+                        { "data": "PBS_length" },
+                        { "data": "PBS_seq" },
+                        { "data": "PBS_GC_content" },
+                        { "data": "PBS_Tm" },
+                        { "data": "PBS_Level" },
+                        { "data": "RTT_length" },
+                        { "data": "RTT_seq" },
+                        { "data": "RTT_GC_content" },
+                        { "data": "pegLIT_linker" },
+                        { "data": "pegLIT_linker_score" },
+                        { "data": "motifs_RNA" },
+                ],
+                search: {
+                    return: true,
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'pdf', 'print'
+                ]
+            });
+
+            var ngRNAchildTable = $('#ngRNA_details' + index).DataTable({
+                data: {{ pegRNAspacersJS|safe }},
+                columns: [
+                        { "data": "ngRNAs_spacer_sequence" },
+                        { "data": "ngRNAs_pam" },
+                        { "data": "ngRNAs_strand" },
+                        { "data": "ngRNAs_start" },
+                        { "data": "ngRNAs_nickTopegDistance" },
+                        { "data": "ngRNAs_spacerGCcontent" },
+                        { "data": "ngRNAs_OffTarget" }
+                ],
+                search: {
+                    return: true,
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'pdf', 'print'
+                ]
+            });
+            tr.addClass('shown');
+        }
+       // Add event listener for opening and closing second level child details
+       $('.child_table tbody').off().on('click', 'td.details-control1', function () {
+            var c_tr = $(this).closest('tr');
+            var c_row = childTable.row( c_tr );
+
+            if ( c_row.child.isShown() ) {
+                // This row is already open - close it
+                c_row.child.hide();
+                c_tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                c_row.child(format(c_row.data())).show();
+                c_tr.addClass('shown');
+            }
+        } );
+
+    } );
+} );
+</script>
+<!-- pegRNAspacersTable DataTable JS -->
+{{ pegRNAs_seq_Seqviz_Viewer|safe }}
+
+{% endblock %}

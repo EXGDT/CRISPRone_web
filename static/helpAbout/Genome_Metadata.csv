@@ -1,0 +1,2 @@
+id,species,genome_fasta,genome_gff3,genome_cds,genome_pep,data_source,institution,database_version,assembly
+,Gossypium hirsutum,Gossypium_hirsutum_genome.fasta,Gossypium_hirsutum_gene_model.gff3,Gossypium_hirsutum_gene_CDS.fasta,Gossypium_hirsutum_gene_peptide.fasta,http://cotton.hzau.edu.cn/EN/Download.htm,Huazhong Agricultural University,v1.1,HAU AD1 v1.1

@@ -1,0 +1,231 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+  <!--Main layout-->
+  <main class="mt-5">
+    <div class="container">
+      <!-- Section: intro -->
+      <section>
+        <div class="row">
+          <div class="col-md-6 gx-5 mb-3">
+            <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+              <img src="{% static '/crispra/images/crispr-activation.webp' %}" class="img-fluid" />
+              <a href="#">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+          </div>
+          <!-- https://beamtx.com/our-science/ -->
+          <div class="col-md-6 gx-5 mb-3">
+            <h4><strong>Design of <span style="color:red">CRISPR a</span>ctivation guide RNAs</strong></h4>
+            <p class="text-muted">
+              CRISPR activation (CRISPRa) is an optimized method for specific gene overexpression. CRISPRa uses an inactivated CRISPR-Cas9 system (dCas9) to upregulate target genes within their native context. This method offers many advantages over more traditional gene overexpression techniques, such as cDNA and ORF. <a href="https://horizondiscovery.com/en/applications/crisprmod/crispra" target="_blank">More ...<i class="fas fa-external-link-alt"></i></a>.
+            </p>
+            <p><strong>Advantages:</strong></p>
+            <ul>
+              <li>Temporary or sustained overexpression options</li>
+              <li>CRISPR-based gene targeting specificity</li>
+              <li>Upregulation within the gene's native context</li>
+              <li>Natural cellular post-transcriptional processing</li>
+              <li>Highly biologically relevant overexpression models</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Section: intro -->
+
+      <hr class="my-2" />
+
+      <section class="mb-5">
+        <div class="row d-flex">
+          <div class="col-md-12">
+            <form action="/crispra_submit/" method="post" class="row g-3 needs-validation" novalidate>
+              {% csrf_token %}
+              <!-- Input Sequence -->
+              <label class="form-label" for="inputSequence"><strong>Input Sequence</strong> (Only <span style="color:red"><strong>One</strong></span> Id/Position/Sequence required; <strong>Design speed:</strong> Id = Position > Fasta Sequence) <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="right" title='Recommended input Gene Id or Genome Position'></i></label>
+              <div class="form-outline mb-5 position-relative">
+                <textarea class="form-control" name="inputSequence", id="inputSequence" rows="4" value="" placeholder="Input Your Gene Id / DNA Sequence or See a DEMO as show in example" required></textarea>
+                <div class="invalid-tooltip">Please input a valid Gene Id or Genome Position or Sequence.</div>
+              </div>
+              
+              <!-- Example Input Sequence -->
+              <div class="row mb-1">
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-link text-left" data-mdb-color="dark" style="font-size: 18px;">Example of <i class="fas fa-forward"></i></button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-warning" onclick="document.getElementById('inputSequence').value='Ghir_A01G000010';document.getElementById('geneId').style='display: block;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: none;';">Gene Id<i class="fas fa-check" id="geneId" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-secondary" onclick="document.getElementById('inputSequence').value='Ghir_A01:80323913-80324566';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: block;';document.getElementById('genomeSequence').style='display: none;';">Genome Position<i class="fas fa-check" id="genomePosition" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-info" onclick="document.getElementById('inputSequence').value='>Ghir_A01G000010\nATGTTGAAACAAGATGGAACTCTGTGTTCCTTCTCACCGTGCATGGAGCAAGTGCAACGTTCATGTGAAACTCTGAGATCTGACTTTATAGAGATATATGGACCTTTGAAATACTGCTCCGCATGTATGAAATCTGTGAATGGAAAATGGATCACTCGAAGGTCAATGATGGGAATTCCATTGCATGCTCTCCACACAAGAGGAGGCCGCCTTCAAGTGAAGCAAGTGTGGGGGACAATGCAAGTTCTCCGAGAATCATGGCTTGGCCATCTGCTGAAACTCGAGGGCATACTGGATATTTGA';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: block;';">Genome Sequence (fasta format)<i class="fas fa-check" id="genomeSequence" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-1">
+                  <button type="button" class="btn btn-danger" onclick="document.getElementById('inputSequence').value='';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: none;';">Clear</button>
+                </div>
+              </div>
+
+              <!-- Input Information -->
+              <div class="row mb-1">
+                <div class="col-md-12">
+                  <p class="note note-primary">When inputting the gene ID, the 2000bp sequence upstream of the gene is selected by default for sgRNA design.<br>Or you can modify the parameter <span style="color:red">5' flanking sequence length (upstream)<i class="fas fa-level-down-alt"></i></span> to specify the length.</p>
+                </div>
+              </div>
+              <!-- Input Information -->
+
+              <!-- Optional parameters -->
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      style="background-color:antiquewhite;"
+                      data-mdb-toggle="collapse"
+                      data-mdb-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      Mandatory Parameters &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-circle-down"></i>
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-mdb-parent="#accordionExample">
+                    <div class="accordion-body" style="background-color:antiquewhite;">
+                      <!-- 2 column grid layout with text inputs for the first and last names -->
+                      <div class="row mb-1">
+                        <div class="col-md-6">
+                          <label class="form-label" for="pamType"><strong>PAM Type</strong> <i class="fas fa-level-down-alt"></i> <a href="/help/#enzymes" target="_blank">See notes on enzymes in the help <i class="fas fa-external-link-alt"></i></a></label>
+                          <select class="form-select" aria-label="Default select example" name="pamType" id="pamType">
+                            <option value="NGG">SpCas9 from Streptococcus pyogenes: 5'-NGG-3'</option>
+                            <option value="NG">NG-Cas9 or xCas9 3.7 (TLIKDIV SpCas9) from Streptococcus pyogenes: 5'-NG-3'</option>
+                            <option value="custom">Customized PAM: 5'-XXX-3'</option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label class="form-label" for="targetGenome<"><strong>Target Genome</strong><a href="/help/#genomes" target="_blank">: More Information of Genomes Metadata <i class="fas fa-external-link-alt"></i></a></label>
+                          <select class="form-select" aria-label="Default select example" name="targetGenome" id="targetGenome">
+                            <option value="Ghirsutum_HZAU_v1.1">Ghirsutum_HZAU_v1.1</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <hr>
+                      <!-- Customized PAM -->
+                      <div class="row mb-2">
+                        <div class="col-md-6">
+                          <label class="form-label" for="customizedPAM"><strong>Customized PAM</strong> (Need to select <code>Customized PAM</code> in <strong>PAM Type</strong> <i class="fas fa-level-up-alt"></i>)</label>
+                          <input type="text" id="customizedPAM" name="customizedPAM" class="form-control" pattern="[A-Z]{2,10}$" disabled/>
+                          <div class="invalid-feedback" id="pamCheck">Please input a valid PAM DNA Sequence (Only Capital Letters with more than 2 letters).</div>
+                        </div>
+                        <div class="col-md-3">
+                          <label class="form-label" for="sgRNAModule"><strong>sgRNA module of Customized PAM</strong></label>
+                          <select class="form-select" aria-label="sgRNA module" name="sgRNAModule" id="sgRNAModule" disabled>
+                            <option value="spacerpam">5'-Spacer + PAM-3'</option>
+                            <option value="pamspacer">5'-PAM + Spacer-3'</option>
+                          </select>
+                        </div>
+                        <div class="col-md-3 position-relative">
+                          <label class="form-label" for="spacerLength"><strong>Spacer length of Customized PAM</strong></label>
+                          <input class="form-control input-lg" type="number" inputmode="decimal" name="spacerLength" id="spacerLength" min=10 max=50 step=1 value="20" disabled>
+                          <div class="invalid-feedback">Please input a valid Spacer Length (10-50).</div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-1">
+                        <div class="col-md-12">
+                          <p class="note note-primary"><strong><i class="fas fa-comment-alt"></i> Note:</strong> For a <b>Customized PAM</b> select <code>Customized PAM: 5'-XXX-3'</code> in <b>PAM Type <i class="fas fa-level-up-alt"></i></b> and then set <b>sgRNA module <i class="fas fa-level-up-alt"></i></b> and <b>Spacer length <i class="fas fa-level-up-alt"></i></b>.</p>
+                        </div>
+                      </div>
+
+                      <hr>
+                      <!-- flanking sequence length -->
+                      <div class="row mb-1">
+                        <div class="col-md-3">
+                          <label class="form-label" for="upstream"><strong>5' flanking sequence length (upstream):</strong></label>
+                          <input class="form-control input-lg" type="number" inputmode="decimal" name="upstream" id="upstream" min=100 max=5000 step=1 value="2000">
+                          <div class="invalid-feedback">Please input a valid Upstream Length (100-5000).</div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4" onclick="document.getElementById('loading').style='display: block;';"> 
+                Design CRISPRa sgRNAs <i class="fas fa-angle-double-right"></i>
+              </button>
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" id="loading" role="status" style="display: none;">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+    </div>
+  </main>
+
+  <!-- Text Input validation https://mdbootstrap.com/docs/standard/forms/validation/ -->
+  <script type="text/javascript">
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+      'use strict';
+    
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation');
+      var myload = document.getElementById("loading");
+    
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms).forEach((form) => {
+        form.addEventListener('submit', (event) => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            myload.style.display = "none";
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+  <!-- Text Input validation -->
+
+  <script type="text/javascript">
+    var mycustomizedPAM = document.getElementById("customizedPAM");
+    var mysgRNAModule = document.getElementById("sgRNAModule");
+    var myspacerLength = document.getElementById("spacerLength");
+
+    window.onload = function() {
+        //获取下拉列表对象
+        var mypamTypeElt = document.getElementById("pamType");
+        //设置change事件，当value改变时，获取value
+        mypamTypeElt.onchange = function() {
+            // alert(mypamTypeElt.value);
+            if(mypamTypeElt.value == "custom"){
+              mycustomizedPAM.disabled = false;
+              mycustomizedPAM.required = true;
+              mysgRNAModule.disabled = false;
+              myspacerLength.disabled = false;
+            }else{
+              mycustomizedPAM.disabled = true;
+              mycustomizedPAM.value = '';
+              mysgRNAModule.disabled = true;
+              myspacerLength.disabled = true;
+            }
+        };
+    };
+  </script>
+
+{% endblock %}

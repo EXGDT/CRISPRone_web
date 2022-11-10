@@ -1,0 +1,277 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+  <!--Main layout-->
+  <main class="mt-5">
+    <div class="container">
+      <!-- Section: intro -->
+      <section>
+        <div class="row">
+          <div class="col-md-6 gx-5 mb-3">
+            <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+              <img src="{% static '/cas9/images/cas9.png' %}" class="img-fluid" />
+              <a href="#">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+          </div>
+          <!-- https://beamtx.com/our-science/ -->
+          <div class="col-md-6 gx-5 mb-3">
+            <h4><strong>Design of <span style="color:red">CRISPR/Cas9</span> guide RNAs</strong></h4>
+            <p class="text-muted">
+              CRISPR/Cas enzymes will introduce a double-strand break (DSB) at a specific location based on a gRNA-defined target sequence. DSBs are preferentially repaired in the cell by non-homologous end joining (NHEJ), a mechanism which frequently causes insertions or deletions (indels) in the DNA. Indels often lead to frameshifts, creating loss of function alleles.<a href="https://www.synthego.com/blog/crispr-knockin-tips-tricks" target="_blank">More ...<i class="fas fa-external-link-alt"></i></a>.
+            </p>
+            <p><strong>Components:</strong></p>
+            <ul>
+              <li>Guide RNA (gRNA or sgRNA), a short synthetic RNA composed of a scaffold sequence necessary for Cas-binding and a user-defined ∼20 nucleotide spacer that defines the genomic target to be modified.</li>
+              <li>CRISPR-associated endonuclease (Cas protein)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Section: intro -->
+
+      <hr class="my-2" />
+
+      <section class="mb-5">
+        <div class="row d-flex">
+          <div class="col-md-12">
+            <form name="inputData" action="/cas9_result/" method="post" class="row g-3 needs-validation" novalidate>
+              {% csrf_token %}
+              <!-- Input Sequence -->
+              <label class="form-label" for="inputSequence"><strong>Input Sequence</strong> (Only <span style="color:red"><strong>One</strong></span> Id/Position/Sequence required; <strong>Design speed:</strong> Id = Position > Fasta Sequence) <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="right" title='Recommended input Gene Id or Genome Position'></i></label>
+              <div class="form-outline mb-5 position-relative">
+                <textarea class="form-control" name="inputSequence", id="inputSequence" rows="4" value="" placeholder="Input Your Gene Id / DNA Sequence or See a DEMO as show in example" required></textarea>
+                <div class="invalid-tooltip">Please input a valid Gene Id or Genome Position or Sequence.</div>
+              </div>
+              
+              <!-- Example Input Sequence -->
+              <div class="row mb-1">
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-link text-left" data-mdb-color="dark" style="font-size: 18px;">Example of <i class="fas fa-forward"></i></button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-warning" onclick="document.getElementById('inputSequence').value='Ghir_A01G000010';document.getElementById('geneId').style='display: block;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: none;';">Gene Id<i class="fas fa-check" id="geneId" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-secondary" onclick="document.getElementById('inputSequence').value='Ghir_A01:80323913-80324566';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: block;';document.getElementById('genomeSequence').style='display: none;';">Genome Position<i class="fas fa-check" id="genomePosition" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-info" onclick="document.getElementById('inputSequence').value='>Ghir_A01G000010\nATGTTGAAACAAGATGGAACTCTGTGTTCCTTCTCACCGTGCATGGAGCAAGTGCAACGTTCATGTGAAACTCTGAGATCTGACTTTATAGAGATATATGGACCTTTGAAATACTGCTCCGCATGTATGAAATCTGTGAATGGAAAATGGATCACTCGAAGGTCAATGATGGGAATTCCATTGCATGCTCTCCACACAAGAGGAGGCCGCCTTCAAGTGAAGCAAGTGTGGGGGACAATGCAAGTTCTCCGAGAATCATGGCTTGGCCATCTGCTGAAACTCGAGGGCATACTGGATATTTGA';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: block;';">Genome Sequence (fasta format)<i class="fas fa-check" id="genomeSequence" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-1">
+                  <button type="button" class="btn btn-danger" onclick="document.getElementById('inputSequence').value='';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: none;';">Clear</button>
+                </div>
+              </div>
+
+              <!-- Input Information -->
+              <div role="alert" id="checkMessages" style="display: none;"></div>
+              <!-- Input Information -->
+
+              <!-- Optional parameters -->
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      style="background-color:antiquewhite;"
+                      data-mdb-toggle="collapse"
+                      data-mdb-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      Mandatory Parameters &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-circle-down"></i>
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-mdb-parent="#accordionExample">
+                    <div class="accordion-body" style="background-color:antiquewhite;">
+                      <div class="row mb-1">
+                        <div class="col-md-6">
+                          <label class="form-label" for="pamType"><strong>PAM Type</strong> <i class="fas fa-level-down-alt"></i> <a href="/help/#enzymes" target="_blank">See notes on enzymes in the help <i class="fas fa-external-link-alt"></i></a></label>
+                          <select class="form-select" aria-label="Default select example" name="pamType" id="pamType">
+                            <option value="NGG">SpCas9 from Streptococcus pyogenes: 5'-NGG-3'</option>
+                            <option value="custom">Customized PAM: 5'-XXX-3'</option>
+                            <option value="NG">NG-Cas9 or xCas9 3.7 (TLIKDIV SpCas9) from Streptococcus pyogenes: 5'-NG-3'</option>
+                            <option value="NNG">20bp-NNG - Cas9 S. canis</option>
+                            <option value="NGN">20bp-NGN - SpG</option>
+                            <option value="NNGT">20bp-NNGT - Cas9 S. canis - high efficiency PAM, recommended</option>
+                            <option value="NAA">20bp-NAA - iSpyMacCas9</option>
+                            <option value="NNGRRT">21bp-NNG(A/G)(A/G)T - Cas9 S. Aureus</option>
+                            <option value="NNGRRT-20">20bp-NNG(A/G)(A/G)T - Cas9 S. Aureus with 20bp-guides</option>
+                            <option value="NGK">20bp-NG(G/T) - xCas9, recommended PAM, see notes</option>
+                            <option value="NNNRRT">21bp-NNN(A/G)(A/G)T - KKH SaCas9</option>
+                            <option value="NNNRRT-20">20bp-NNN(A/G)(A/G)T - KKH SaCas9 with 20bp-guides</option>
+                            <option value="NGA">20bp-NGA - Cas9 S. Pyogenes mutant VQR</option>
+                            <option value="NNNNCC">24bp-NNNNCC - Nme2Cas9</option>
+                            <option value="NGCG">20bp-NGCG - Cas9 S. Pyogenes mutant VRER</option>
+                            <option value="NNAGAA">20bp-NNAGAA - Cas9 S. Thermophilus</option>
+                            <option value="NGGNG">20bp-NGGNG - Cas9 S. Thermophilus</option>
+                            <option value="NNNNGMTT">20bp-NNNNG(A/C)TT - Cas9 N. Meningitidis</option>
+                            <option value="NNNNACA">20bp-NNNNACA - Cas9 Campylobacter jejuni, original PAM</option>
+                            <option value="NNNNRYAC">22bp-NNNNRYAC - Cas9 Campylobacter jejuni, revised PAM</option>
+                            <option value="NNNVRYAC">22bp-NNNVRYAC - Cas9 Campylobacter jejuni, opt. efficiency</option>
+                            <option value="TTCN">TTCN-20bp - CasX</option>
+                            <option value="YTTV">YTTV-20bp - MAD7 Nuclease, Lui, Schiel, Maksimova et al, CRISPR J 2020</option>
+                            <option value="NNNNCNAA">20bp-NNNNCNAA - Thermo Cas9 - Walker et al, Metab Eng Comm 2020</option>
+                            <option value="NNN">20bp-NNN - SpRY, Walton et al Science 2020</option>
+                            <option value="NRN">20bp-NRN - SpRY (high efficiency PAM)</option>
+                            <option value="NYN">20bp-NYN - SpRY (low efficiency PAM)</option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label class="form-label" for="targetGenome<"><strong>Target Genome</strong><a href="/help/#genomes" target="_blank">: More Information of Genomes Metadata <i class="fas fa-external-link-alt"></i></a></label>
+                          <select class="form-select" aria-label="Default select example" name="targetGenome" id="targetGenome">
+                            <option value="Gossypium_hirsutum_TM1_HAU">Gossypium hirsutum TM-1 (HAU v1.1)</option>
+                            <option value="Arabidopsis_thaliana">Arabidopsis thaliana (TAIR10)</option>
+                            <option value="Brassica_napus_Xiaoyun">Brassica napus (Xiaoyun)</option>
+                            <option value="Brassica_napus_Xiaoyun">Brassica napus (Xiaoyun)</option>
+                            <option value="Zea_mays_v4">Zea mays (AGPv4)</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <hr>
+                      <!-- Customized PAM -->
+                      <div class="row mb-1">
+                        <div class="col-md-6">
+                          <label class="form-label" for="customizedPAM"><strong>Customized PAM</strong> (Need to select <code>Customized PAM</code> in <strong>PAM Type</strong> <i class="fas fa-level-up-alt"></i>)</label>
+                          <input type="text" id="customizedPAM" name="customizedPAM" class="form-control" pattern="[A-Z]{2,10}$" disabled/>
+                          <div class="invalid-feedback" id="pamCheck">Please input a valid PAM DNA Sequence (Only Capital Letters with more than 2 letters).</div>
+                        </div>
+                        <div class="col-md-3">
+                          <label class="form-label" for="sgRNAModule"><strong>sgRNA module of Customized PAM</strong></label>
+                          <select class="form-select" aria-label="sgRNA module" name="sgRNAModule" id="sgRNAModule" disabled>
+                            <option value="spacerpam">5'-Spacer + PAM-3'</option>
+                            <option value="pamspacer">5'-PAM + Spacer-3'</option>
+                          </select>
+                        </div>
+                        <div class="col-md-3 position-relative">
+                          <label class="form-label" for="spacerLength"><strong>Spacer length of Customized PAM</strong></label>
+                          <input class="form-control input-lg" type="number" inputmode="decimal" name="spacerLength" id="spacerLength" min=10 max=50 step=1 value="20" disabled>
+                          <div class="invalid-feedback">Please input a valid Spacer Length (10-50).</div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-1">
+                        <div class="col-md-12">
+                          <p class="note note-primary"><strong><i class="fas fa-comment-alt"></i> Note:</strong> For a <b>Customized PAM</b> select <code>Customized PAM: 5'-XXX-3'</code> in <b>PAM Type <i class="fas fa-level-up-alt"></i></b> and then set <b>sgRNA module <i class="fas fa-level-up-alt"></i></b> and <b>Spacer length <i class="fas fa-level-up-alt"></i></b>.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4" onclick="document.getElementById('loading').style='display: block;'; return inputSequenceCheck()"> 
+                Design Cas9 sgRNAs <i class="fas fa-angle-double-right"></i>
+              </button>
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" id="loading" role="status" style="display: none;">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+    </div>
+  </main>
+
+  <!-- Text Input validation https://mdbootstrap.com/docs/standard/forms/validation/ -->
+  <script type="text/javascript">
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+      'use strict';
+    
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation');
+      var myload = document.getElementById("loading");
+    
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms).forEach((form) => {
+        form.addEventListener('submit', (event) => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            myload.style.display = "none";
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+  <!-- Text Input validation -->
+
+  <!-- Select PAM validation -->
+  <script type="text/javascript">
+    var mycustomizedPAM = document.getElementById("customizedPAM");
+    var mysgRNAModule = document.getElementById("sgRNAModule");
+    var myspacerLength = document.getElementById("spacerLength");
+
+    window.onload = function() {
+        //获取下拉列表对象
+        var mypamTypeElt = document.getElementById("pamType");
+        //设置change事件，当value改变时，获取value
+        mypamTypeElt.onchange = function() {
+            // alert(mypamTypeElt.value);
+            if(mypamTypeElt.value == "custom"){
+              mycustomizedPAM.disabled = false;
+              mycustomizedPAM.required = true;
+              mysgRNAModule.disabled = false;
+              myspacerLength.disabled = false;
+            }else{
+              mycustomizedPAM.disabled = true;
+              mycustomizedPAM.value = '';
+              mysgRNAModule.disabled = true;
+              myspacerLength.disabled = true;
+            }
+        };
+    };
+  </script>
+  <!-- Select PAM validation -->
+
+  <!-- Text Input Check -->
+  <script type="text/javascript">
+    const inputSequence = document.getElementById('inputSequence');
+    const targetGenome = document.getElementById('targetGenome');
+    const checkMessages = document.getElementById('checkMessages');
+    const myload = document.getElementById("loading");
+    const inputRegEx = /^[A-Za-z0-9_:-]*$/;   //限制inputSequence输入内容
+
+    function inputSequenceCheck(){
+      if (inputSequence.value == ""){
+        checkMessages.style.display = "none";
+      } else if (inputSequence.value != "" && !inputSequence.value.match(inputRegEx)){
+        checkMessages.style.display = "block";
+        checkMessages.innerHTML = '<p style="margin-bottom: 0;"><i class="fas fa-exclamation-triangle"></i> Invalid characters in the input [ ' + inputSequence.value.substring(0,30) + '... ]. Only English characters (alphabet, digit or special character) are allowed. Please to check.</p>';
+        myload.style.display = "none";
+        checkMessages.setAttribute('class', 'alert alert-danger align-items-center');
+        return false;
+      } else if (inputSequence.value != "" && inputSequence.value.match(inputRegEx) && inputSequence.value.includes("Ghir") && targetGenome.value == "Gossypium_hirsutum_TM1_HAU"){
+        //正确的情况
+        checkMessages.style.display = "block";
+        checkMessages.innerHTML = '<p style="margin-bottom: 0;"><i class="fas fa-check-circle"></i> All input and parameters are right. Please wait patiently for the run to complete.</p>';
+        checkMessages.setAttribute('class', 'alert alert-success align-items-center');
+        return true;
+      } else {
+        checkMessages.style.display = "block";
+        checkMessages.innerHTML = '<p style="margin-bottom: 0;"><i class="fas fa-exclamation-triangle"></i> Input [ ' + inputSequence.value.substring(0,30) + '... ] is not match select target genome [ ' + targetGenome.value + ' ]. Please refer <a href="/help/#genomes" target="_blank">here <i class="fas fa-external-link-alt"></i></a> to input the correct gene ID/Position/Sequence.</p>';
+        myload.style.display = "none";
+        checkMessages.setAttribute('class', 'alert alert-danger align-items-center');
+        return false;
+      }
+    }
+  </script>
+  <!-- Text Input Check -->
+
+{% endblock %}

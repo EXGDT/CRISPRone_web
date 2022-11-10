@@ -1,0 +1,122 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+<!--Main layout-->
+<main class="mt-5">
+    <div class="container">
+      <!--Section: Content-->
+      <section>
+        <div class="row">
+          <div class="col-md-6 gx-5 mb-3">
+            <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+              <img src="{% static '/protocol/images/crispr-screen-guide.png' %}" class="img-fluid" />
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-6 gx-5 mb-3">
+            <h4><strong>Want to edit in my species?</strong></h4>
+            <p class="text-muted">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis consequatur
+              eligendi quisquam doloremque vero ex debitis veritatis placeat unde animi laborum
+              sapiente illo possimus, commodi dignissimos obcaecati illum maiores corporis.
+            </p>
+            <p><strong>How to do?</strong></p>
+            <p class="text-muted">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod itaque voluptate
+              nesciunt laborum incidunt. Officia, quam consectetur. Earum eligendi aliquam illum
+              alias, unde optio accusantium soluta, iusto molestiae adipisci et?
+            </p>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+
+      <hr class="my-5" />
+
+      <!--Section: Content-->
+      <section class="mb-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12">
+            <form action="/protocol_getPlasmids/" method="post" class="row g-3 needs-validation" novalidate>
+              {% csrf_token %}
+              <!-- 2 column grid layout with text inputs for the first and last names -->
+              <div class="row mb-4">
+                <div class="col">
+                  <div class="form-outline">
+                    <input type="text" id="firstName" name="firstName" class="form-control" required />
+                    <label class="form-label" for="firstName">First name</label>
+                    <div class="invalid-feedback">Please provide a First name.</div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <input type="text" id="lastName" name="lastName" class="form-control" required />
+                    <label class="form-label" for="lastName">Last name</label>
+                    <div class="invalid-feedback">Please provide a Last name.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col">
+                  <div class="form-outline">
+                    <input type="email" id="yourEmail" name="yourEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required />
+                    <label class="form-label" for="yourEmail">Your Email</label>
+                    <div class="invalid-feedback">Please provide a valid Email.</div>
+                  </div>
+                </div>
+                <div class="col">
+                  <select class="form-select" aria-label="Default select example" name="myvectors" id="myvectors">
+                    <option value="requestPlasmids">Request CRISPR Plasmids</option>
+                    <option value="requestQuestion">Request Question</option>
+                    <option value="otherQuestion">Other</option>
+                  </select>
+                </div>
+              </div>
+            
+              <!-- Message input -->
+              <div class="mb-3 pb-1">
+                <div class="form-outline">
+                  <textarea class="form-control" id="information" name="information" rows="4" placeholder="Please enter a message, such as what plasmids?" required></textarea>
+                  <label for="information" class="form-label">Message</label>
+                  <div class="invalid-feedback">Please enter a message in the textarea.</div>
+                </div>
+              </div>
+            
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+    </div>
+  </main>
+  <!--Main layout-->
+
+<!--validation input-->
+<script>
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      var forms = document.getElementsByClassName('needs-validation');
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
+<!--validation input-->
+
+{% endblock %}

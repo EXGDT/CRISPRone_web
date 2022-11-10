@@ -1,0 +1,780 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+  <!--Main layout-->
+  <main class="mt-5">
+    <div class="container">
+      <!-- Section: intro -->
+      <section>
+        <div class="row">
+          <div class="col-md-6 gx-5 mb-4">
+            <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+              <img src="{% static '/pe/images/prime-editor-pegRNA-complex.jpg' %}" class="img-fluid" />
+              <a href="#">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+          </div>
+          <!-- https://www.lifeasible.com/custom-solutions/plant/genetically-modified-plants/prime-editing-pe/ -->
+          <div class="col-md-6 gx-5 mb-4">
+            <h4><strong>Design of <span style="color:red">P</span>rime <span style="color:red">E</span>diting guide RNAs</strong></h4>
+            <p class="text-muted">
+                Prime editing (PE) tools that consist of a reverse transcriptase linked with Cas9 nickase are capable of generating targeted <span style="color:blue">insertions, 
+                deletions, and base conversions</span> without producing DNA double strand breaks or requiring any donor DNA. <a href="https://www.nature.com/articles/s41586-019-1711-4" target="_blank">More ...<i class="fas fa-external-link-alt"></i></a>.
+            </p>
+            <p><strong>Advantages:</strong></p>
+            <p>Relatively less restricted by PAM / Universal and easy / Precise and flexible</p>
+            <p><strong>Note:</strong></p>
+            <p class="text-muted">
+                The designed mutations or corrections are marked as "<span style="color:red">Substitution (a/b), Insertion (+c), Deletion (-c)</span>". 
+                "<span style="color:red">a</span>" is the original sequence and "<span style="color:red">b</span>" is the designed mutation sequence,
+                "<span style="color:red">c</span>" is the deletion (<span style="color:red">-</span>) or insertion (<span style="color:red">+</span>) sequence.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Section: intro -->
+
+      <hr class="my-2" />
+
+      <section class="mb-5">
+        <div class="row d-flex">
+          <div class="col-md-12">
+            <form action="/pe_submit/" method="post" class="row g-3 needs-validation" novalidate>
+              {% csrf_token %}
+              <!-- Input Sequence -->
+              <label class="form-label" for="inputSequence"><strong>Input Sequence</strong> <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="right" title='Edit formatting examples: Substitution (ATGC/CGTA) | Insertion (+ATGC) | Deletion (-ATGC)'></i></label>
+              <div class="form-outline mb-5 position-relative">
+                <textarea class="form-control" name="inputSequence", id="inputSequence" rows="4" value="" placeholder="Input Your DNA Sequence or See a DEMO as show in example" required></textarea>
+                <div class="invalid-tooltip">Please input a valid DNA Sequence.</div>
+              </div>
+              
+              <!-- Example Input Sequence -->
+              <div class="row mb-1">
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-link text-left" data-mdb-color="dark" style="font-size: 18px;">Example of <i class="fas fa-forward"></i></button>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-warning" onclick="document.getElementById('inputSequence').value='CACACCTACACTGCTCGAAGTAAATATGCGAAGCGCGCGGCCTGGCCGGAGGCGTTCCGCGCCGCCACGTGTTCGTTAACTGTTGATTGGTGGCACATAAGCAATCGTAGTCCGTCAAATTCAGCTCTGTTATCCCGGGCGTTATGTGTCAAATGGCGTAGAACGGGATTGACTGTTTGACGGTAGCTGCTGAGGCGG(G/T)AGAGACCCTCCGTCGGGCTATGTCACTAATACTTTCCAAACGCCCCGTACCGATGCTGAACAAGTCGATGCAGGCTCCCGTCTTTGAAAAGGGGTAAACATACAAGTGGATAGATGATGGGTAGGGGCCTCCAATACATCCAACACTCTACGCCCTCTCCAAGAGCTAGAAGGGCACCCTGCAGTTGGAAAGGG';document.getElementById('substitution').style='display: block;';document.getElementById('insertion').style='display: none;';document.getElementById('deletion').style='display: none;';document.getElementById('subinsdel').style='display: none;';">Substitution (a/b)<i class="fas fa-check" id="substitution" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-secondary" onclick="document.getElementById('inputSequence').value='CACACCTACACTGCTCGAAGTAAATATGCGAAGCGCGCGGCCTGGCCGGAGGCGTTCCGCGCCGCCACGTGTTCGTTAACTGTTGATTGGTGGCACATAAGCAATCGTAGTCCGTCAAATTCAGCTCTGTTATCCCGGGCGTTATGTGTCAAATGGCGTAGAACGGGATTGACTGTTTGACGGTAGCTGCTGAGGCGGGA(+GTAA)GAGACCCTCCGTCGGGCTATGTCACTAATACTTTCCAAACGCCCCGTACCGATGCTGAACAAGTCGATGCAGGCTCCCGTCTTTGAAAAGGGGTAAACATACAAGTGGATAGATGATGGGTAGGGGCCTCCAATACATCCAACACTCTACGCCCTCTCCAAGAGCTAGAAGGGCACCCTGCAGTTGGAAAGGG';document.getElementById('substitution').style='display: none;';document.getElementById('insertion').style='display: block;';document.getElementById('deletion').style='display: none;';document.getElementById('subinsdel').style='display: none;';">Insertion (+ATCG)<i class="fas fa-check" id="insertion" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-info" onclick="document.getElementById('inputSequence').value='CACACCTACACTGCTCGAAGTAAATATGCGAAGCGCGCGGCCTGGCCGGAGGCGTTCCGCGCCGCCACGTGTTCGTTAACTGTTGATTGGTGGCACATAAGCAATCGTAGTCCGTCAAATTCAGCTCTGTTATCCCGGGCGTTATGTGTCAAATGGCGTAGAACGGGATTGACTGTTTGACGGTAGCTGCTGAGGCGGGAG(-AGAC)CCTCCGTCGGGCTATGTCACTAATACTTTCCAAACGCCCCGTACCGATGCTGAACAAGTCGATGCAGGCTCCCGTCTTTGAAAAGGGGTAAACATACAAGTGGATAGATGATGGGTAGGGGCCTCCAATACATCCAACACTCTACGCCCTCTCCAAGAGCTAGAAGGGCACCCTGCAGTTGGAAAGGG';document.getElementById('substitution').style='display: none;';document.getElementById('insertion').style='display: none;';document.getElementById('deletion').style='display: block;';document.getElementById('subinsdel').style='display: none;';">Deletion (-ATCG)<i class="fas fa-check" id="deletion" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-success" onclick="document.getElementById('inputSequence').value='CACACCTACACTGCTCGAAGTAAATATGCGAAGCGCGCGGCCTGGCCGGAGGCGTTCCGCGCCGCCACGTGTTCGTTAACTGTTGATTGGTGGCACATAAGCAATCGTAGTCCGTCAAATTCAGCTCTGTTATCCCGGGCGTTATGTGTCAAATGGCGTAGAACGGGATTGACTGTTTGACGGTAGCTGCTGAGGCGG(G/T)A(+GTAA)G(-AGAC)CCTCCGTCGGGCTATGTCACTAATACTTTCCAAACGCCCCGTACCGATGCTGAACAAGTCGATGCAGGCTCCCGTCTTTGAAAAGGGGTAAACATACAAGTGGATAGATGATGGGTAGGGGCCTCCAATACATCCAACACTCTACGCCCTCTCCAAGAGCTAGAAGGGCACCCTGCAGTTGGAAAGGG';document.getElementById('substitution').style='display: none;';document.getElementById('insertion').style='display: none;';document.getElementById('deletion').style='display: none;';document.getElementById('subinsdel').style='display: block;';">Substitution + Insertion + Deletion<i class="fas fa-check" id="subinsdel" style="display: none;"></i></button>
+                </div>
+                <div class="col-md-1">
+                  <button type="button" class="btn btn-danger" onclick="document.getElementById('inputSequence').value='';document.getElementById('substitution').style='display: none;';document.getElementById('insertion').style='display: none;';document.getElementById('deletion').style='display: none;';document.getElementById('subinsdel').style='display: none;';">Clear</button>
+                </div>
+              </div>
+
+              <!-- Optional parameters -->
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      style="background-color:antiquewhite;"
+                      data-mdb-toggle="collapse"
+                      data-mdb-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      Mandatory Parameters &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-circle-down"></i>
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-mdb-parent="#accordionExample">
+                    <div class="accordion-body" style="background-color:antiquewhite;">
+                      <!-- 2 column grid layout with text inputs for the first and last names -->
+                      <div class="row mb-1">
+                        <div class="col-md-6">
+                          <label class="form-label" for="pamType"><strong>PAM Type</strong> <i class="fas fa-level-down-alt"></i> <a href="/help/#enzymes" target="_blank">See notes on enzymes in the help <i class="fas fa-external-link-alt"></i></a></label>
+                          <select class="form-select" aria-label="Default select example" name="pamType" id="pamType">
+                            <option value="NGG">SpCas9 from Streptococcus pyogenes: 5'-NGG-3'</option>
+                            <option value="NG">NG-Cas9 or xCas9 3.7 (TLIKDIV SpCas9) from Streptococcus pyogenes: 5'-NG-3'</option>
+                            <option value="custom">Customized PAM: 5'-XXX-3'</option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label class="form-label" for="targetGenome<"><strong>Target Genome</strong><a href="/help/#genomes" target="_blank">: More Information of Genomes Metadata <i class="fas fa-external-link-alt"></i></a></label>
+                          <select class="form-select" aria-label="Default select example" name="targetGenome" id="targetGenome">
+                            <option value="Ghirsutum_HZAU_v1.1">Ghirsutum_HZAU_v1.1</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <hr>
+                      <!-- Customized PAM -->
+                      <div class="row mb-2">
+                        <div class="col-md-6">
+                          <label class="form-label" for="customizedPAM"><strong>Customized PAM</strong> (Need to select <code>Customized PAM</code> in <strong>PAM Type</strong> <i class="fas fa-level-up-alt"></i>)</label>
+                          <input type="text" id="customizedPAM" name="customizedPAM" class="form-control" pattern="[A-Z]{2,10}$" disabled/>
+                          <div class="invalid-feedback" id="pamCheck">Please input a valid PAM DNA Sequence.</div>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="form-label" for="sgRNAModule"><strong>sgRNA module</strong></label>
+                          <select class="form-select" aria-label="Default select example" name="sgRNAModule" id="sgRNAModule" disabled>
+                            <option value="spacerPAM">5'-Spacer + PAM-3'</option>
+                            <option value="pamSpacer">5'-PAM + Spacer-3'</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="form-label" for="cutDistance"><strong>Cut distance to PAM</strong></label>
+                          <input class="form-control input-lg" type="number" inputmode="decimal" name="cutDistance" id="cutDistance" min=-10 max=10 step=1 value="-3" disabled>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="form-label" for="spacerLength"><strong>Spacer length</strong></label>
+                          <input class="form-control input-lg" type="number" inputmode="decimal" name="spacerLength" id="spacerLength" min=10 max=50 step=1 value="20" disabled>
+                        </div>
+                      </div>
+
+                      <div class="row mb-1">
+                        <div class="col-md-12">
+                          <p class="note note-primary"><strong><i class="fas fa-comment-alt"></i> Note:</strong> For a <b>Customized PAM</b> select <code>Customized PAM: 5'-XXX-3'</code> in <b>PAM Type <i class="fas fa-level-up-alt"></i></b> and then set <b>sgRNA module <i class="fas fa-level-up-alt"></i></b>, <b>Cut distance to PAM <i class="fas fa-level-up-alt"></i></b> and <b>Spacer length <i class="fas fa-level-up-alt"></i></b>.</p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      style="background-color:azure;"
+                      data-mdb-toggle="collapse"
+                      data-mdb-target="#collapseTwo"
+                      aria-expanded="false"
+                      aria-controls="collapseTwo"
+                    >
+                      Optional Parameters &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-circle-down"></i>
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-mdb-parent="#accordionExample">
+                    <div class="accordion-body" style="background-color:azure;">
+                      <!-- Spacer GC content -->
+                      <div class="row mb-1">
+                        <div class="col-md-3">
+                          <label class="form-label" for="spacerGC"><strong>pegRNA Spacer GC content(%):</strong></label>
+                          <div class="range-slider">
+                            <input type="text" class="spacerGC" id="spacerGC" name="spacerGC" value="" />
+                          </div>
+                          <div class="extra-controls">
+                            <input type="text" class="spacerGCmin" value="0" id="spacerGCmin" name="spacerGCmin" style="display: none;" readonly />
+                            <input type="text" class="spacerGCmax" value="0" id="spacerGCmax" name="spacerGCmax" style="display: none;" readonly />
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="form-label" for="pbsLength"><strong>PBS length (bp):</strong></label>
+                          <div class="range-slider">
+                            <input type="text" class="pbsLength" id="pbsLength" name="pbsLength" value="" />
+                          </div>
+                          <div class="extra-controls">
+                            <input type="text" class="pbsLengthmin" value="0" id="pbsLengthmin" name="pbsLengthmin" style="display: none;" readonly />
+                            <input type="text" class="pbsLengthmax" value="0" id="pbsLengthmax" name="pbsLengthmax" style="display: none;" readonly />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <label class="form-label" for="pbsGC"><strong>PBS GC content (%):</strong></label>
+                          <div class="range-slider">
+                            <input type="text" class="pbsGC" id="pbsGC" name="pbsGC" value="" />
+                          </div>
+                          <div class="extra-controls">
+                            <input type="text" class="pbsGCmin" value="0" id="pbsGCmin" name="pbsGCmin" style="display: none;" readonly />
+                            <input type="text" class="pbsGCmax" value="0" id="pbsGCmax" name="pbsGCmax" style="display: none;" readonly />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label" for="pbsTm"><strong>Recommended Tm of PBS sequence (℃):</strong></label>
+                          <div class="range-slider">
+                            <input type="text" class="pbsTm" id="pbsTm" name="pbsTm" value="" />
+                          </div>
+                          <div class="extra-controls"> 
+                            <input type="text" class="pbsTmmin" value="0" id="pbsTmmin" name="pbsTmmin" style="display: none;" readonly />
+                            <input type="text" class="pbsTmmax" value="0" id="pbsTmmax" name="pbsTmmax" style="display: none;" readonly />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- RT Lengrh -->
+                      <div class="row mb-1">
+                        <div class="col-md-7">
+                          <label class="form-label" for="rtLength"><strong>Homologous RT template length (the default values are recommended) (bp): 7-16:</strong></label>
+                          <div class="range-slider">
+                            <input type="text" class="rtLength" id="rtLength" name="rtLength" value="" />
+                          </div>
+                          <div class="extra-controls">
+                            <input type="text" class="rtLengthmin" value="0" id="rtLengthmin" name="rtLengthmin" style="display: none;" readonly />
+                            <input type="text" class="rtLengthmax" value="0" id="rtLengthmax" name="rtLengthmax" style="display: none;" readonly />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- ngRNA spacers -->
+                      <div class="row mb-1">
+                        <div class="col-md-3">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="excludeFirstCRT" id="excludeFirstCRT" name="excludeFirstCRT" checked/>
+                            <label class="form-check-label" for="excludeFirstCRT">Exclude first C in RT template</label>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="dualpegRNA" id="dualpegRNA" name="dualpegRNA" checked/>
+                            <label class="form-check-label" for="dualpegRNA">Dual-pegRNA model</label>
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="my-2" />
+                      <!-- nicking sgRNA -->
+                      <div class="row mb-1">
+                        <div class="col-md-2">
+                          <div class="row mb-1">
+                            <label class="form-check-label" for="ngRNAspacers"><strong>ngRNA spacers</strong> (same PAM with pegRNA)</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="ngRNAspacers" id="ngRNAspacers" name="ngRNAspacers" checked/>
+                          </div>
+                        </div>
+                        <div class="col-md-5">
+                          <label class="form-label" for="ngRNA"><strong>Distance of secondary nicking sgRNAs (ngRNA) to pegRNA (bp): </strong></label>
+                          <div class="range-slider">
+                            <input type="text" class="ngRNA" id="ngRNA" name="ngRNA" value="" />
+                          </div>
+                          <div class="extra-controls">
+                            <input type="text" class="ngRNAmin" value="0" id="ngRNAmin" name="ngRNAmin" style="display: none;" readonly />
+                            <input type="text" class="ngRNAmax" value="0" id="ngRNAmax" name="ngRNAmax" style="display: none;" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="my-2" />
+                      <!-- pegLIT -->
+                      <div class="row mb-1">
+                        <div class="col-md-1">
+                          <div class="row mb-1">
+                            <label class="form-check-label" for="pegLIT"><strong>pegLIT</strong> <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="top" title="Automatically identify non-interfering nucleotide linkers between a pegRNA and 3' motif."></i></label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="pegLIT" id="pegLIT" name="pegLIT" checked/>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label" for="linkerPattern"><strong>Linker Pattern <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="top" title='Usually set to N with 8bp: NNNNNNNN'></i></strong></label>
+                          <input type="text" id="linkerPattern" name="linkerPattern" class="form-control" />
+                        </div>
+                        <div class="col-md-7">
+                          <label class="form-label" for="motifsRNA"><strong>Incorporated structured RNA motifs</strong>
+                            <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="top" 
+                               title='Incorporated the structured RNA motifs to the 3′ terminus of pegRNAs that enhance their stability and prevent degradation of the 3′ extension. The resulting engineered pegRNAs improve prime editing efficiency 3–4-fold and without increasing off-target editing activity.'>
+                            </i>(Read of <a href="https://www.nature.com/articles/s41587-021-01039-7" target="_blank">article <i class="fas fa-external-link-alt"></i></a> or <a href="https://www.nature.com/articles/s41587-021-01039-7" target="_blank"> Help <i class="fas fa-link"></i></a> in this site.)
+                          </label>
+                          <select class="form-select" aria-label="Default select example" id="motifsRNA" name="motifsRNA" >
+                            <option id="tvopreQ1", name="tevopreQ1", value="tevopreQ1">tevopreQ1 (Trimmed evopreQ1): a modified prequeosine1-1 riboswitch aptamer (Recommend)</option>
+                            <option id="mpknot", name="mpknot", value="mpknot">mpknot: frameshifting pseudoknot from Moloney murine leukemia virus (MMLV)</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- pegLIT -->
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-mdb-toggle="collapse"
+                      style="background-color:gainsboro;"
+                      data-mdb-target="#collapseThree"
+                      aria-expanded="false"
+                      aria-controls="collapseThree"
+                    >
+                      Primer Design &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-circle-down"></i>
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-mdb-parent="#accordionExample">
+                    <div class="accordion-body" style="background-color:gainsboro;">
+                      <div class="form-outline mb-4">
+                        <div class="btn-group">
+                          <input type="pOsU3" class="btn-check" name="options" id="option1" value="" autocomplete="off" checked />
+                          <label class="btn btn-secondary" for="option1">pOsU3 <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="top" title='Predicted cleavage position: -3bp from the end of the provided sgRNA sequence'></i></label>
+                        
+                          <input type="pTaU3" class="btn-check" name="options" id="option2" autocomplete="off" />
+                          <label class="btn btn-secondary" for="option2">pTaU3 <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="top" title='Predicted cleavage position: -3bp from the end of the provided sgRNA sequence'></i></label>
+                        
+                          <input type="pHePPE" class="btn-check" name="options" id="option3" autocomplete="off" />
+                          <label class="btn btn-secondary" for="option3">pH-nCas9-PPE-V2/pH-ePPE <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="top" title='Predicted cleavage position: -3bp from the end of the provided sgRNA sequence'></i></label>
+                        </div>
+                      </div>
+
+                      <div class="mb-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                          <label class="form-check-label" for="flexRadioDefault1">
+                            <div class="input-group mb-4">
+                              <span class="input-group-text">Forward primer (5'-3'):</span>
+                              <input type="text" aria-label="First name" class="form-control" />
+                              <span class="input-group-text"> + Spacer sequence + </span>
+                              <input type="text" aria-label="Last name" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                              <span class="input-group-text">Reverse primer (5'-3'):</span>
+                              <input type="text" aria-label="First name" class="form-control" />
+                              <span class="input-group-text"> + PBS and RT template sequence + </span>
+                              <input type="text" aria-label="Last name" class="form-control" />
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                      <!--  -->
+                    </div>
+                    <!--  -->
+                  </div>
+                </div>
+              </div>
+              <br>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4" onclick="document.getElementById('loading').style='display: block;';"> 
+                Design pegRNAs <i class="fas fa-angle-double-right"></i>
+              </button>
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" id="loading" role="status" style="display: none;">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+    </div>
+  </main>
+
+  <!-- Text Input validation https://mdbootstrap.com/docs/standard/forms/validation/ -->
+  <script type="text/javascript">
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var myload = document.getElementById("loading");
+
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              myload.style.display = "none";
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>
+  <!-- Text Input validation -->
+
+  <!-- double Range Slider -->
+  <script type="text/javascript">
+    ///////////////// spacerGC ////////////////////////
+    var $range = $(".spacerGC"),
+    $inputFrom = $(".spacerGCmin"),
+    $inputTo = $(".spacerGCmax"),
+    instance,
+    min = 1,
+    max = 100,
+    from = 0,
+    to = 0;
+
+  $range.ionRangeSlider({
+    type: "double",
+    min: min,
+    max: max,
+    from: 40,
+    to: 60,
+    onStart: updateInputs,
+    onChange: updateInputs
+  });
+  instance = $range.data("ionRangeSlider");
+
+  function updateInputs(data) {
+    from = data.from;
+    to = data.to;
+
+    $inputFrom.prop("value", from);
+    $inputTo.prop("value", to);
+  }
+
+  $inputFrom.on("input", function() {
+    var val = $(this).prop("value");
+
+    // validate
+    if (val < min) {
+      val = min;
+    } else if (val > to) {
+      val = to;
+    }
+
+    instance.update({
+      from: val
+    });
+  });
+
+  $inputTo.on("input", function() {
+    var val = $(this).prop("value");
+
+    // validate
+    if (val < from) {
+      val = from;
+    } else if (val > max) {
+      val = max;
+    }
+
+    instance.update({
+      to: val
+    });
+  });
+
+  //////////////////// pbsLength ////////////////////////////
+
+  var $rangepbsLength = $(".pbsLength"),
+    $inputFrompbsLength = $(".pbsLengthmin"),
+    $inputTopbsLength = $(".pbsLengthmax"),
+    instancepbsLength,
+    minpbsLength = 1,
+    maxpbsLength = 50,
+    frompbsLength = 7,
+    topbsLength = 16;
+
+  $rangepbsLength.ionRangeSlider({
+    type: "double",
+    min: minpbsLength,
+    max: maxpbsLength,
+    from: frompbsLength,
+    to: topbsLength,
+    onStart: updateInputspbsLength,
+    onChange: updateInputspbsLength
+  });
+  instancepbsLength = $rangepbsLength.data("ionRangeSlider");
+
+  function updateInputspbsLength(data) {
+    frompbsLength = data.from;
+    topbsLength = data.to;
+
+    $inputFrompbsLength.prop("value", frompbsLength);
+    $inputTopbsLength.prop("value", topbsLength);
+  }
+
+  $inputFrompbsLength.on("input", function() {
+    var valpbsLength = $(this).prop("value");
+
+    // validate
+    if (valpbsLength < minpbsLength) {
+      valpbsLength = minpbsLength;
+    } else if (valpbsLength > topbsLength) {
+      valpbsLength = topbsLength;
+    }
+
+    instancepbsLength.update({
+      from: valpbsLength
+    });
+  });
+
+  $inputTopbsLength.on("input", function() {
+    var valpbsLength = $(this).prop("value");
+
+    // validate
+    if (valpbsLength < frompbsLength) {
+      valpbsLength = frompbsLength;
+    } else if (valpbsLength > maxpbsLength) {
+      valpbsLength = maxpbsLength;
+    }
+
+    instancepbsLength.update({
+      to: valpbsLength
+    });
+  });
+
+  //////////////////// pbsGC ////////////////////////////
+
+  var $rangepbsGC = $(".pbsGC"),
+    $inputFrompbsGC = $(".pbsGCmin"),
+    $inputTopbsGC = $(".pbsGCmax"),
+    instancepbsGC,
+    minpbsGC = 1,
+    maxpbsGC = 100,
+    frompbsGC = 40,
+    topbsGC = 60;
+
+  $rangepbsGC.ionRangeSlider({
+    type: "double",
+    min: minpbsGC,
+    max: maxpbsGC,
+    from: frompbsGC,
+    to: topbsGC,
+    onStart: updateInputspbsGC,
+    onChange: updateInputspbsGC
+  });
+  instancepbsGC = $rangepbsGC.data("ionRangeSlider");
+
+  function updateInputspbsGC(data) {
+    frompbsGC = data.from;
+    topbsGC = data.to;
+
+    $inputFrompbsGC.prop("value", frompbsGC);
+    $inputTopbsGC.prop("value", topbsGC);
+  }
+
+  $inputFrompbsGC.on("input", function() {
+    var valpbsGC = $(this).prop("value");
+
+    // validate
+    if (valpbsGC < minpbsGC) {
+      valpbsGC = minpbsGC;
+    } else if (valpbsGC > topbsGC) {
+      valpbsGC = topbsGC;
+    }
+
+    instancepbsGC.update({
+      from: valpbsGC
+    });
+  });
+
+  $inputTopbsGC.on("input", function() {
+    var valpbsGC = $(this).prop("value");
+
+    // validate
+    if (valpbsGC < frompbsGC) {
+      valpbsGC = frompbsGC;
+    } else if (valpbsGC > maxpbsGC) {
+      valpbsGC = maxpbsGC;
+    }
+
+    instancepbsGC.update({
+      to: valpbsGC
+    });
+  });
+
+  //////////////////// pbsTm ////////////////////////////
+
+  var $rangepbsTm = $(".pbsTm"),
+    $inputFrompbsTm = $(".pbsTmmin"),
+    $inputTopbsTm = $(".pbsTmmax"),
+    instancepbsTm,
+    minpbsTm = 1,
+    maxpbsTm = 100,
+    frompbsTm = 20,
+    topbsTm = 40;
+
+  $rangepbsTm.ionRangeSlider({
+    type: "double",
+    min: minpbsTm,
+    max: maxpbsTm,
+    from: frompbsTm,
+    to: topbsTm,
+    onStart: updateInputspbsTm,
+    onChange: updateInputspbsTm
+  });
+  instancepbsTm = $rangepbsTm.data("ionRangeSlider");
+
+  function updateInputspbsTm(data) {
+    frompbsTm = data.from;
+    topbsTm = data.to;
+
+    $inputFrompbsTm.prop("value", frompbsTm);
+    $inputTopbsTm.prop("value", topbsTm);
+  }
+
+  $inputFrompbsTm.on("input", function() {
+    var valpbsTm = $(this).prop("value");
+
+    // validate
+    if (valpbsTm < minpbsTm) {
+      valpbsTm = minpbsTm;
+    } else if (valpbsTm > topbsTm) {
+      valpbsTm = topbsTm;
+    }
+
+    instancepbsTm.update({
+      from: valpbsTm
+    });
+  });
+
+  $inputTopbsTm.on("input", function() {
+    var valpbsTm = $(this).prop("value");
+
+    // validate
+    if (valpbsTm < frompbsTm) {
+      valpbsTm = frompbsTm;
+    } else if (valpbsTm > maxpbsTm) {
+      valpbsTm = maxpbsTm;
+    }
+
+    instancepbsTm.update({
+      to: valpbsTm
+    });
+  });
+
+  //////////////////// rtLength ////////////////////////////
+
+  var $rangertLength = $(".rtLength"),
+    $inputFromrtLength = $(".rtLengthmin"),
+    $inputTortLength = $(".rtLengthmax"),
+    instancertLength,
+    minrtLength = 1,
+    maxrtLength = 50,
+    fromrtLength = 7,
+    tortLength = 16;
+
+  $rangertLength.ionRangeSlider({
+    type: "double",
+    min: minrtLength,
+    max: maxrtLength,
+    from: fromrtLength,
+    to: tortLength,
+    onStart: updateInputsrtLength,
+    onChange: updateInputsrtLength
+  });
+  instancertLength = $rangertLength.data("ionRangeSlider");
+
+  function updateInputsrtLength(data) {
+    fromrtLength = data.from;
+    tortLength = data.to;
+
+    $inputFromrtLength.prop("value", fromrtLength);
+    $inputTortLength.prop("value", tortLength);
+  }
+
+  $inputFromrtLength.on("input", function() {
+    var valrtLength = $(this).prop("value");
+
+    // validate
+    if (valrtLength < minrtLength) {
+      valrtLength = minrtLength;
+    } else if (valrtLength > tortLength) {
+      valrtLength = tortLength;
+    }
+
+    instancertLength.update({
+      from: valrtLength
+    });
+  });
+
+  $inputTortLength.on("input", function() {
+    var valrtLength = $(this).prop("value");
+
+    // validate
+    if (valrtLength < fromrtLength) {
+      valrtLength = fromrtLength;
+    } else if (valrtLength > maxrtLength) {
+      valrtLength = maxrtLength;
+    }
+
+    instancertLength.update({
+      to: valrtLength
+    });
+  });
+
+  //////////////////// ngRNA ////////////////////////////
+
+  var $rangengRNA = $(".ngRNA"),
+    $inputFromngRNA = $(".ngRNAmin"),
+    $inputTongRNA = $(".ngRNAmax"),
+    instancengRNA,
+    minngRNA = 1,
+    maxngRNA = 200,
+    fromngRNA = 40,
+    tongRNA = 150;
+
+  $rangengRNA.ionRangeSlider({
+    type: "double",
+    min: minngRNA,
+    max: maxngRNA,
+    from: fromngRNA,
+    to: tongRNA,
+    onStart: updateInputsngRNA,
+    onChange: updateInputsngRNA
+  });
+  instancengRNA = $rangengRNA.data("ionRangeSlider");
+
+  function updateInputsngRNA(data) {
+    fromngRNA = data.from;
+    tongRNA = data.to;
+
+    $inputFromngRNA.prop("value", fromngRNA);
+    $inputTongRNA.prop("value", tongRNA);
+  }
+
+  $inputFromngRNA.on("input", function() {
+    var valngRNA = $(this).prop("value");
+
+    // validate
+    if (valngRNA < minngRNA) {
+      valngRNA = minngRNA;
+    } else if (valngRNA > tongRNA) {
+      valngRNA = tongRNA;
+    }
+
+    instancengRNA.update({
+      from: valngRNA
+    });
+  });
+
+  $inputTongRNA.on("input", function() {
+    var valngRNA = $(this).prop("value");
+
+    // validate
+    if (valngRNA < fromngRNA) {
+      valngRNA = fromngRNA;
+    } else if (valngRNA > maxngRNA) {
+      valngRNA = maxngRNA;
+    }
+
+    instancengRNA.update({
+      to: valngRNA
+    });
+  });
+  
+  </script>
+
+  <script type="text/javascript">
+    var mycustomizedPAM = document.getElementById("customizedPAM");
+    var mysgRNAModule = document.getElementById("sgRNAModule");
+    var mycutDistance = document.getElementById("cutDistance");
+    var myspacerLength = document.getElementById("spacerLength");
+
+    window.onload = function() {
+        //获取下拉列表对象
+        var mypamTypeElt = document.getElementById("pamType");
+        //设置change事件，当value改变时，获取value
+        mypamTypeElt.onchange = function() {
+            // alert(mypamTypeElt.value);
+            if(mypamTypeElt.value == "custom"){
+              mycustomizedPAM.disabled = false;
+              mycustomizedPAM.required = true;
+              mysgRNAModule.disabled = false;
+              mycutDistance.disabled = false;
+              myspacerLength.disabled = false;
+            }else{
+              mycustomizedPAM.disabled = true;
+              mycustomizedPAM.value = '';
+              mysgRNAModule.disabled = true;
+              mycutDistance.disabled = true;
+              myspacerLength.disabled = true;
+            }
+        };
+    };
+  </script>
+
+{% endblock %}

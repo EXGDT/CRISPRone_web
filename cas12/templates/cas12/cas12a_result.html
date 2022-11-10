@@ -1,0 +1,112 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+<link href="{% static 'base/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'base/bootstrap-icons.css' %}" rel="stylesheet">
+<link href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="{% static 'base/bootstrap.bundle.min.js' %}"></script>
+<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.21.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
+
+<script
+src="//unpkg.com/react@16/umd/react.development.js"
+crossorigin
+></script>
+<script
+src="//unpkg.com/react-dom@16/umd/react-dom.development.js"
+crossorigin
+></script>
+<script
+src="//unpkg.com/@jbrowse/react-linear-genome-view/dist/react-linear-genome-view.umd.development.js"
+crossorigin
+></script>
+
+<div class='container-fluid'>
+  <br>
+  <h2>Results from cas12a/Cpf1 Designer</h2>
+  <!-- Input Information -->
+  <p class="note note-primary">
+    <strong>Save or Share URL of this Results: </strong><a href="http://211.69.140.137:8866/cas12a_result/?task_id=e18290b69a3ea8bdd7bf466b86ac38af"  target="_blank">http://211.69.140.137:8866/cas12a_result/?task_id=e18290b69a3ea8bdd7bf466b86ac38af</a>
+    <br>
+    <strong>Input Gene:</strong> In column of Off Target; <strong>Input Genome:</strong> In column of Off Target; <strong>Input PAM Type:</strong> In column of Off Target.
+  </p>
+  <!-- Input Information -->
+
+  <div id="jbrowse_linear_genome_view"></div>
+
+  <table id="ontarget_table" style="font-family: monospace;">
+    <thead>
+      <tr>
+        <th data-field='sgRNA_id'>ontarget_id</th>
+        <th data-field='sgRNA_seq'>ontarget_sequence</th>
+        <th data-field='sgRNA_GC'>ontarget_GC</th>
+        <th data-field='sgRNA_position'>ontarget_position</th>
+        <th data-field='sgRNA_strand'>ontarget_strand</th>
+        <th data-field='sgRNA_family'>ontarget_gene</th>
+        <th data-field='sgRNA_type'>ontarget_gene_locus</th>
+        <th data-field='offtarget_num' data-sortable="true">offtarget_num</th>
+      </tr>
+    </thead>
+    {% comment %} <thead>
+      <tr>
+        <th data-field="id">ID</th>
+        <th data-field="name">Item Name</th>
+        <th data-field="price">Item Price</th>
+      </tr>
+    </thead> {% endcomment %}
+  </table>
+</div>
+
+
+<script>
+  $('#ontarget_table').bootstrapTable({
+    url: '/cas12a_task/{{ task_id }}/Guide.json',
+    // showExport: true,
+    // pagination: true,
+    // sidePagination: "client",
+    detailViewByClick: true,
+    detailView: true,
+    detailViewIcon: false,
+    onExpandRow: function (index, row, $detail){
+      InitSubTable(index, row, $detail)
+    }
+  });
+
+  function InitSubTable(index, row, $detail){
+    var ontargetSequence = row.sgRNA_seq;
+    var cur_table = $detail.html('<table></table>').find('table');
+    console.log(ontargetSequence);
+    $(cur_table).bootstrapTable({
+      url: '/cas12a_task/{{ task_id }}/{{ task_id }}_' + ontargetSequence + '.json',
+      pagination: true,
+      sidePagination: 'client',
+      columns: [
+        {
+          field: 'rseq',
+          title: 'offtarget_sequence'
+        },
+        {
+          field: 'pos_0_base',
+          title: 'offtarget_position'
+        },
+        {
+          field: 'family',
+          title: 'offtarget_gene'
+        },
+        {
+          field: 'types',
+          title: 'offtarget_gene_locus'
+        }
+      ],
+      onLoadError: function(status, jqXHR){
+        alert(JSON.stringify(status));
+      }
+    })
+  };
+</script>
+
+{% endblock %}

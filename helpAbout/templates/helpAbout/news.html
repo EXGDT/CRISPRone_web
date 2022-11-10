@@ -1,0 +1,85 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+<!--Main layout-->
+<main class="mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Section: Timeline -->
+        <section class="">
+          <style>
+            .timeline {
+              border-left: 1px solid hsl(0, 0%, 90%);
+              position: relative;
+              list-style: none;
+            }
+
+            .timeline .timeline-item {
+              position: relative;
+            }
+
+            .timeline .timeline-item:after {
+              position: absolute;
+              display: block;
+              top: 0;
+            }
+
+            .timeline .timeline-item:after {
+              background-color: hsl(0, 0%, 90%);
+              left: -38px;
+              border-radius: 50%;
+              height: 11px;
+              width: 11px;
+              content: "";
+            }
+          </style>
+
+          <ul class="timeline">
+            <li class="timeline-item mb-5">
+              <h5 class="fw-bold">Put forward the idea</h5>
+              <p class="text-muted mb-2 fw-bold">1 March 2022</p>
+              <p class="text-muted">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                necessitatibus adipisci, ad alias, voluptate pariatur officia
+                repellendus repellat inventore fugit perferendis totam dolor
+                voluptas et corrupti distinctio maxime corporis optio?
+              </p>
+            </li>
+
+            <li class="timeline-item mb-5">
+              <h5 class="fw-bold"> Construction of website framework</h5>
+              <p class="text-muted mb-2 fw-bold">19 March 2022</p>
+              <p class="text-muted">
+                Quisque ornare dui nibh, sagittis egestas nisi luctus nec. Sed
+                aliquet laoreet sapien, eget pulvinar lectus maximus vel.
+                Phasellus suscipit porta mattis.
+              </p>
+            </li>
+
+            <li class="timeline-item mb-5">
+              <h5 class="fw-bold">Complete sgRNA design and off target evaluation of CRISPR/Cas9</h5>
+              <p class="text-muted mb-2 fw-bold">24 June 2022</p>
+            </li>
+
+            <li class="timeline-item mb-5">
+              <h5 class="fw-bold">Complete the sgRNA design of other gene editing systems and fill in the whole content of the website</h5>
+              <p class="text-muted mb-2 fw-bold">15 October 2022</p>
+            </li>
+          </ul>
+        </section>
+        <!-- Section: Timeline -->
+      </div>
+    </div>
+  </div>
+</main>
+<!--Main layout-->
+<br>
+<br>
+<br>
+<br>
+
+
+{% endblock %}

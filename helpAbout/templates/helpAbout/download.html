@@ -1,0 +1,114 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+<!--Main layout-->
+<main class="mt-5">
+  <div class="container">
+    <h4 class="mb-5 text-center"><strong>Download</strong></h4>
+    <hr class="my-5" />
+    <table id="mydownload" class="display nowrap" style="width:100%"></table>
+  </div>
+</main>
+<!--Main layout-->
+
+
+<!--pegRNA spacers DataTable JS-->
+  <script>
+    /* Formatting function for row details - modify as you need */
+    function format(d) {
+      // `d` is the original data object for the row
+      return (
+        '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+          '<tr>' +
+            '<td>Institution:</td>' +
+            '<td>' +
+            d.institution +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Database version:</td>' +
+            '<td>' +
+            d.database_version +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Assembly:</td>' +
+            '<td>' +
+            d.assembly +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Data source:</td>' +
+            '<td>' + '<a href="' + d.data_source + '" target="_blank">' + d.data_source + '</a></td>' +
+          '</tr>' +
+        '</table>'
+    );
+  }
+
+  $(document).ready(function () {
+    var table = $('#mydownload').DataTable({
+        data: {{ genome_metadata_js|safe }},
+        columns: [
+            {
+                className: 'dt-control',
+                orderable: false,
+                data: null,
+                defaultContent: '',
+            },
+            {title: "species", "data": "species",
+              render: function(data) {
+                return '<i>' + data + '</i>';
+                }
+            }, 
+            {title: "genome fasta", "data": "genome_fasta",
+              render: function(data) {
+                return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                }
+            },
+            {title: "genome gff3", "data": "genome_gff3",
+              render: function(data) {
+                return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                }
+            },
+            {title: "genome cds", "data": "genome_cds",
+              render: function(data) {
+                return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                }
+            },
+            {title: "genome_pep", "data": "genome_pep",
+              render: function(data) {
+                return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                }
+            },
+        ],
+        search: {return: true,},
+        //dom: 'Bfrtip',
+        //buttons: ['copy', 'csv', 'pdf', 'print'],
+        paging: false,
+        "createdRow": function(row, data, dataIndex) {
+            if (data.institution !== "" && data.data_source !== "") {
+                $(row).find("td:eq(0)").addClass('details-control');
+                }
+        }
+    });
+
+    // Add event listener for opening and closing details
+    $('#mydownload tbody').on('click', 'td.dt-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+    });
+  });
+  </script>
+{% endblock %}

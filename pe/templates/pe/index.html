@@ -1,0 +1,112 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+    <!-- Carousel wrapper -->
+    <div id="introCarousel" class="carousel slide carousel-fade shadow-2-strong" data-mdb-ride="carousel">
+        <div class="carousel-item active">
+        </div>
+    </div>
+  <!--Main Navigation-->
+
+  <!--Main layout-->
+  <main class="mt-5">
+    <div class="container">
+      <!--Section: Content-->
+      <section>
+        <div class="row">
+          <div class="col-md-6 gx-5 mb-4">
+            <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+              <img src="{% static '/pe/images/CRISPR.jpg' %}" class="img-fluid" />
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-6 gx-5 mb-4">
+            <h4><strong>Why Use CRISPRone?</strong></h4>
+            <p class="text-muted">
+              CRISPRone is a comprehensive tool set that can meet any demand related to CRISPR. It includes sgRNA design of different CRISPR variants and the edited analysis of transgenic plants.
+            </p>
+            <p><strong>Doloremque vero ex debitis veritatis?</strong></p>
+            <p class="text-muted">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod itaque voluptate
+              nesciunt laborum incidunt. Officia, quam consectetur. Earum eligendi aliquam illum
+              alias, unde optio accusantium soluta, iusto molestiae adipisci et?
+            </p>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+
+      <hr class="my-5" />
+
+      <!--Section: Content-->
+      <section class="text-center">
+        <h4 class="mb-5"><strong>What are the characteristics of CRISPRone?</strong></h4>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/pe/images/InterPro.png' %}" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Gene conserved domain</h5>
+                <p class="card-text">
+                  The optimal editing regions are marked according to the conservative domain information from Pfam, NCBI and InterPro.
+                </p>
+                <a href="http://211.69.140.137:8866/help/#characteristics" target="_blank" class="btn btn-primary">more</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/pe/images/genomeSV.png' %}" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Genome Variation Information</h5>
+                <p class="card-text">
+                  Display genomic variation information of a given gene, including SNP, InDel and SV, to help select the best sgRNA.
+                </p>
+                <a href="http://211.69.140.137:8866/help/#characteristics" target="_blank" class="btn btn-primary">more</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{% static '/pe/images/3dGenome.jpg' %}" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Genome Spatial Structure</h5>
+                <p class="card-text">
+                  Display the chromosome 3D genome information (Compartment, TAD, Loop et.al) of a given gene to help select the best CRISPR knock in site.
+                </p>
+                <a href="http://211.69.140.137:8866/help/#characteristics" target="_blank" class="btn btn-primary">more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+    </div>
+  </main>
+  <!--Main layout-->
+
+
+{% endblock %}
