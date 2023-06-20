@@ -52,13 +52,13 @@
                   <button type="button" class="btn btn-link text-left" data-mdb-color="dark" style="font-size: 18px;">Example of <i class="fas fa-forward"></i></button>
                 </div>
                 <div class="col-md-3">
-                  <button type="button" class="btn btn-warning" onclick="document.getElementById('inputSequence').value='Ghir_A01G000010';document.getElementById('geneId').style='display: block;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: none;';">Gene Id<i class="fas fa-check" id="geneId" style="display: none;"></i></button>
+                  <button type="button" class="btn btn-warning" onclick="document.getElementById('inputSequence').value='Ghjin_A01g000010';document.getElementById('geneId').style='display: block;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: none;';">Gene Id<i class="fas fa-check" id="geneId" style="display: none;"></i></button>
                 </div>
                 <div class="col-md-3">
-                  <button type="button" class="btn btn-secondary" onclick="document.getElementById('inputSequence').value='Ghir_A01:80323913-80324566';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: block;';document.getElementById('genomeSequence').style='display: none;';">Genome Position<i class="fas fa-check" id="genomePosition" style="display: none;"></i></button>
+                  <button type="button" class="btn btn-secondary" onclick="document.getElementById('inputSequence').value='Ghjin_A01:80323913-80324566';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: block;';document.getElementById('genomeSequence').style='display: none;';">Genome Position<i class="fas fa-check" id="genomePosition" style="display: none;"></i></button>
                 </div>
                 <div class="col-md-3">
-                  <button type="button" class="btn btn-info" onclick="document.getElementById('inputSequence').value='>Ghir_A01G000010\nATGTTGAAACAAGATGGAACTCTGTGTTCCTTCTCACCGTGCATGGAGCAAGTGCAACGTTCATGTGAAACTCTGAGATCTGACTTTATAGAGATATATGGACCTTTGAAATACTGCTCCGCATGTATGAAATCTGTGAATGGAAAATGGATCACTCGAAGGTCAATGATGGGAATTCCATTGCATGCTCTCCACACAAGAGGAGGCCGCCTTCAAGTGAAGCAAGTGTGGGGGACAATGCAAGTTCTCCGAGAATCATGGCTTGGCCATCTGCTGAAACTCGAGGGCATACTGGATATTTGA';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: block;';">Genome Sequence (fasta format)<i class="fas fa-check" id="genomeSequence" style="display: none;"></i></button>
+                  <button type="button" class="btn btn-info" onclick="document.getElementById('inputSequence').value='>Ghjin_A01G000010\nATGTTGAAACAAGATGGAACTCTGTGTTCCTTCTCACCGTGCATGGAGCAAGTGCAACGTTCATGTGAAACTCTGAGATCTGACTTTATAGAGATATATGGACCTTTGAAATACTGCTCCGCATGTATGAAATCTGTGAATGGAAAATGGATCACTCGAAGGTCAATGATGGGAATTCCATTGCATGCTCTCCACACAAGAGGAGGCCGCCTTCAAGTGAAGCAAGTGTGGGGGACAATGCAAGTTCTCCGAGAATCATGGCTTGGCCATCTGCTGAAACTCGAGGGCATACTGGATATTTGA';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: block;';">Genome Sequence (fasta format)<i class="fas fa-check" id="genomeSequence" style="display: none;"></i></button>
                 </div>
                 <div class="col-md-1">
                   <button type="button" class="btn btn-danger" onclick="document.getElementById('inputSequence').value='';document.getElementById('geneId').style='display: none;';document.getElementById('genomePosition').style='display: none;';document.getElementById('genomeSequence').style='display: none;';">Clear</button>
@@ -118,7 +118,13 @@
                         <div class="col-md-6">
                           <label class="form-label" for="targetGenome<"><strong>Target Genome</strong><a href="/help/#genomes" target="_blank">: More Information of Genomes Metadata <i class="fas fa-external-link-alt"></i></a></label>
                           <select class="form-select" aria-label="Default select example" name="targetGenome" id="targetGenome">
-                            <option value="Ghirsutum_HZAU_v1.1">Ghirsutum_HZAU_v1.1</option>
+                            <option value="Gossypium_hirsutum_Jin668_HZAU">Gossypium hirsutum Jin668</option>
+                            <option value="Gossypium_hirsutum_YZ1_HZAU">Gossypium hirsutum YZ1</option>
+                            <option value="Gossypium_hirsutum_TM1_HAU">Gossypium hirsutum TM-1 (HAU v1.1)</option>
+                            <option value="Arabidopsis_thaliana">Arabidopsis thaliana (TAIR10)</option>
+                            <option value="Brassica_napus_Xiaoyun">Brassica napus (Xiaoyun)</option>
+                            <option value="Brassica_napus_Xiaoyun">Brassica napus (Xiaoyun)</option>
+                            <option value="Zea_mays_v4">Zea mays (AGPv4)</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                           </select>

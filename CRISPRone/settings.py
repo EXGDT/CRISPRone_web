@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'protocol.apps.ProtocolConfig',
     'literature.apps.LiteratureConfig',
     'helpAbout.apps.HelpaboutConfig',
-    'django_rename_app',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'CRISPRone.custom_middleware.CatchExcMiddleware', ## Catch and raise exception, then return it in HTTPResponse. 
+    # 'CRISPRone.custom_middleware.CatchExcMiddleware', ## Catch and raise exception, then return it in HTTPResponse. 
 ]
 
 ROOT_URLCONF = 'CRISPRone.urls'
@@ -93,9 +92,17 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'CRISPRone',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': 'crisprdb_root@2022'
     }
 }
 
@@ -135,7 +142,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'CRISPRone/static/'
-STATIC_ROOT = '/disk2/users/cbiweb/html/CRISPRone/static/'
+STATIC_ROOT = '/disk2/users/yxguo/html/CRISPRone/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -146,3 +153,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.LimitOffsetPagination'
 }
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
+CELERY_TIMEZONE = TIME_ZONE

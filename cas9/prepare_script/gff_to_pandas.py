@@ -11,15 +11,17 @@ def gff_to_pandas(gff_file):
         gff_file,
         header=None,
         sep='\t',
+        comment='#',
         names=['seqid', 'source', 'type', 'start', 'end', 'score', 'strand', 'phase', 'attributes'])
 
     gff['interval'] = pd.IntervalIndex.from_arrays(gff['start'], gff['end'], closed='both')
 
     gff["family"] = gff.parallel_apply(
         lambda row: "intergenic" if row.type == "intergenic"
-        else re.search(r'ID=(.*);', row.attributes).group(1) if row.type == "gene"
-        else re.search(r'ID=cds\.(.*?)\.', row.attributes).group(1) if row.type == "CDS"
+        else re.search(r'ID=(.*)', row.attributes).group(1) if row.type == "gene"
+        # else re.search(r'ID=cds\.(.*?)\.', row.attributes).group(1) if row.type == "CDS"
         else re.search(r'ID=(.*?)\.', row.attributes).group(1),
+        # lambda row: row if type(row.attributes) is not float else print(row),
         axis=1
     )
 

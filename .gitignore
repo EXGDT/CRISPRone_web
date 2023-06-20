@@ -2,4 +2,8 @@
 /virtualenv
 /jbrowse
 *.log
-
+*.pyc
+__pycache__
+*.sqlite3
+migrations
+**/__pycache__

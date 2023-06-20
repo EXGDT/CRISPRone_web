@@ -4,7 +4,7 @@ from pkg_resources import ContextualVersionConflict
 # Create your views here.
 
 import pymysql
-db = pymysql.connect(host="localhost", user="che", password="che_123", database="test")
+db = pymysql.connect(host="localhost", user="crisprone", password="crisprone", database="CRISPRone")
 cursor = db.cursor()
 
 

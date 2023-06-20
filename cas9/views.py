@@ -1,16 +1,19 @@
-from genericpath import isfile
-from http.client import HTTPResponse
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, JsonResponse
-from pkg_resources import ContextualVersionConflict
-
-# Create your views here.
-
-from cas9 import cas9_function
+import hashlib
 import os
 import random
 import string
-import hashlib
+import json
+from http.client import HTTPResponse
+
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
+from pkg_resources import ContextualVersionConflict
+
+from cas9 import cas9_function, tasks
+
+from cas9.models import result_cas9_list
+
+# Create your views here.
 
 
 def cas9_submit(request):
@@ -45,8 +48,9 @@ def cas9_result(request):
         task_id = hashlib.md5((pamType + name_db + inputSequence + sgRNAModule + str(spacerLength)).encode('utf-8')).hexdigest()
         task_path = 'cas9/tmp/{}'.format(task_id)
         
-        if os.path.isfile(task_path + '/task_finished'):
-            print('task_finished')
+        # if os.path.isfile(task_path + '/task_finished'):
+        #     return HttpResponseRedirect('/cas9_result?task_id={}'.format(task_id))
+        if result_cas9_list.objects.filter(task_id__exact=task_id, task_finished=1).exists():
             return HttpResponseRedirect('/cas9_result?task_id={}'.format(task_id))
         
         input_type = cas9_function.input_sequence_classify(inputSequence)
@@ -72,12 +76,52 @@ def cas9_result(request):
         # ontarget_records = cas9_function.parse_discover(name_db, task_path, task_id, fasta_sequence_position)
         # offtarget_records = cas9_function.parse_discover_offtargets(name_db, task_path, task_id)
 
-        sgRNA_pandas = cas9_function.generate_sequence_for_batmis(fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path)
-        sam_file, intersect_file = cas9_function.run_batmis(task_path, name_db, task_id)
-        sam_pandas, intersect_pandas = cas9_function.parse_batmis_sam(sam_file, intersect_file, spacerLength, name_db)
+        # sgRNA_pandas = cas9_function.generate_sequence_for_batmis(fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path)
+        # sam_file, intersect_file = cas9_function.run_batmis(task_path, name_db, task_id)
+        # sam_pandas, intersect_pandas = cas9_function.parse_batmis_sam(sam_file, intersect_file, spacerLength, name_db)
         
-        sam_pandas.to_pickle('{}/{}_sam_pandas.plk'.format(task_path, task_id))
-        intersect_pandas.to_pickle('{}/{}_intersect_pandas.plk'.format(task_path, task_id))
-        cas9_function.finish_job(task_id, task_path)
+        # sam_pandas.to_pickle('{}/{}_sam_pandas.plk'.format(task_path, task_id))
+        # intersect_pandas.to_pickle('{}/{}_intersect_pandas.plk'.format(task_path, task_id))
+        # cas9_function.finish_job(task_id, task_path)
+        
+        # tasks.form2resultjson.delay(fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path, task_id)
+        # guide_json, task_finished = tasks.form2resultjson(fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path, task_id)
+        tasks.form2resultjson.apply_async(args=[fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path, task_id])
+
+        # cas9_task_object = result_cas9_list(
+        #     pamType=pamType,
+        #     name_db=name_db,
+        #     inputSequence=inputSequence,
+        #     sgRNAModule=sgRNAModule,
+        #     spacerLength=spacerLength,
+        #     task_id=task_id,
+        #     sgRNAJson = guide_json,
+        #     task_finished = task_finished
+        # )
+        # cas9_task_object.save()
 
         return HttpResponseRedirect('/cas9_result?task_id={}'.format(task_id))
+
+def cas9_pagi_ontarget(request):
+    offset = int(request.GET.get('offset'))
+    limit = int(request.GET.get('limit'))
+    taskId = request.GET.get('task_id')
+    record = result_cas9_list.objects.get(task_id=taskId)
+    targetJsonDict = record.sgRNAJson
+    pagiDict = {'total':targetJsonDict['total'],'rows':targetJsonDict['rows'][offset:offset+limit]}
+    #pagiJson = json.dumps(pagiDict)
+    return JsonResponse(pagiDict)
+
+def cas9_pagi_offtarget(request):
+    offset = int(request.GET.get('offset'))
+    limit = int(request.GET.get('limit'))
+    taskId = request.GET.get('task_id')
+    sgRNA_seq = request.GET.get('sgRNA_seq')
+    record = result_cas9_list.objects.get(task_id=taskId)
+    ontargetJsonDict = record.sgRNAJson
+    ontargetRowList = ontargetJsonDict['rows']
+    for i in ontargetRowList:
+        if i['sgRNA_seq'] == sgRNA_seq:
+            offtargetDict = i['offtarget_json']
+    offtargetPagiDict = {'total':offtargetDict['total'],'rows':offtargetDict['rows'][offset:offset+limit]}
+    return JsonResponse(offtargetPagiDict)

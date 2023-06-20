@@ -28,6 +28,12 @@
             '</td>' +
           '</tr>' +
           '<tr>' +
+            '<td>Genotype:</td>' +
+            '<td>' +
+            d.genotype +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
             '<td>Database version:</td>' +
             '<td>' +
             d.database_version +
@@ -64,22 +70,22 @@
             }, 
             {title: "genome fasta", "data": "genome_fasta",
               render: function(data) {
-                return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                return '<a href="../../../data/' + data + '" target="_blank">' + data + '</a>';
                 }
             },
             {title: "genome gff3", "data": "genome_gff3",
               render: function(data) {
-                return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                return '<a href="../../../data/' + data + '" target="_blank">' + data + '</a>';
                 }
             },
             {title: "genome cds", "data": "genome_cds",
               render: function(data) {
-                return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                return '<a href="../../../data/' + data + '" target="_blank">' + data + '</a>';
                 }
             },
             {title: "genome_pep", "data": "genome_pep",
               render: function(data) {
-                return '<a href="https://cottonfgd.org/profiles/gene/' + data + '/" target="_blank">' + data + '</a>';
+                return '<a href="../../../data/' + data + '" target="_blank">' + data + '</a>';
                 }
             },
         ],

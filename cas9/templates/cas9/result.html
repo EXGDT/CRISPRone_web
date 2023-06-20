@@ -30,7 +30,7 @@ crossorigin
   <h2>Results from Cas9 Designer</h2>
   <!-- Input Information -->
   <p class="note note-primary">
-    <strong>Save or Share URL of this Results: </strong><a href="http://211.69.140.137:8866/cas9_result/?task_id=e18290b69a3ea8bdd7bf466b86ac38af"  target="_blank">http://211.69.140.137:8866/cas9_result/?task_id=e18290b69a3ea8bdd7bf466b86ac38af</a>
+  <strong>Save or Share URL of this Results: </strong><a href="http://crisprall.hzau.edu.cn/cas9_result/?task_id={{ task_id }}"  target="_blank">http://crisprall.hzau.edu.cn/cas9_result/?task_id={{ task_id }}</a>
     <br>
     <strong>Input Gene:</strong> In column of Off Target; <strong>Input Genome:</strong> In column of Off Target; <strong>Input PAM Type:</strong> In column of Off Target.
   </p>
@@ -51,23 +51,17 @@ crossorigin
         <th data-field='offtarget_num' data-sortable="true">offtarget_num</th>
       </tr>
     </thead>
-    {% comment %} <thead>
-      <tr>
-        <th data-field="id">ID</th>
-        <th data-field="name">Item Name</th>
-        <th data-field="price">Item Price</th>
-      </tr>
-    </thead> {% endcomment %}
   </table>
 </div>
 
 
 <script>
   $('#ontarget_table').bootstrapTable({
-    url: '/cas9_task/{{ task_id }}/Guide.json',
+    // url: '/cas9_task/{{ task_id }}/Guide.json',
+    url: '/cas9_pagi_ontarget?task_id={{ task_id }}',
     // showExport: true,
-    // pagination: true,
-    // sidePagination: "client",
+    pagination: true,
+    sidePagination: "server",
     detailViewByClick: true,
     detailView: true,
     detailViewIcon: false,
@@ -81,9 +75,10 @@ crossorigin
     var cur_table = $detail.html('<table></table>').find('table');
     console.log(ontargetSequence);
     $(cur_table).bootstrapTable({
-      url: '/cas9_task/{{ task_id }}/{{ task_id }}_' + ontargetSequence + '.json',
+      // url: '/cas9_task/{{ task_id }}/{{ task_id }}_' + ontargetSequence + '.json',
+      url: '/cas9_pagi_offtarget?task_id={{ task_id }}&sgRNA_seq=' + ontargetSequence,
       pagination: true,
-      sidePagination: 'client',
+      sidePagination: 'server',
       columns: [
         {
           field: 'rseq',
