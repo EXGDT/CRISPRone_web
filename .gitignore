@@ -3,6 +3,8 @@
 /jbrowse
 *.log
 *.pyc
+*.pid
+*.sock
 __pycache__
 *.sqlite3
 migrations

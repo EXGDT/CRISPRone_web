@@ -87,6 +87,7 @@ def cas9_result(request):
         # tasks.form2resultjson.delay(fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path, task_id)
         # guide_json, task_finished = tasks.form2resultjson(fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path, task_id)
         tasks.form2resultjson.apply_async(args=[fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path, task_id])
+        # tasks.form2resultjson(args=[fasta_sequence_position, pamType, spacerLength, sgRNAModule, name_db, task_path, task_id])
 
         # cas9_task_object = result_cas9_list(
         #     pamType=pamType,
