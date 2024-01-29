@@ -1,0 +1,166 @@
+{% extends "pe/base.html" %}
+{% block mainbody %}
+
+{% load static %}
+
+  <!--Main layout-->
+  <main class="mt-5">
+    <div class="container">
+      <!--Section: Content-->
+      <section>
+        <div class="row">
+          <div class="col-md-6 gx-5 mb-2">
+            <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+              <img src="{% static '/editedAnalysis/images/on-target.jpg' %}" class="img-fluid" />
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-6 gx-5 mb-2">
+            <h4><strong>What is editing analysis?</strong></h4>
+            <p class="text-muted">When CRISPR plasmids is delivered to infected plants through agrobacterium tumefaciens to complete genetic transformation, we need to know whether the target gene in transgenic offspring is mutated and the type of mutation. 
+              There are generally two detection methods: 1) traditional Sanger sequencing, which is usually time-consuming and laborious. 2) Illumina high throughput sequencing. <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank">More ...<i class="fas fa-external-link-alt"></i></a>.
+            </p>
+            <p><strong>How to do?</strong></p>
+            <ol>
+              <li>Primrt and Barcode design;</li>
+              <li>PCR amplification and product mixing;</li>
+              <li>Illumina sequence;</li>
+              <li>Analysis and plot;</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content-->
+      <hr class="my-5" />
+      <div class="row">
+        <div class="col-md-10">
+          <!-- Spied element -->
+          <div
+            data-mdb-spy="scroll"
+            data-mdb-target="#scrollspy"
+            data-mdb-offset="0"
+            class="scrollspy-example"
+          >
+            <section id="Design">
+              <h3>1. Barcode Primers Design</h3>
+              <hr class="my-2" />
+              <div class="row mb-2">
+                <p>The primer is all 5'-3' and have format: <code>Barcode + primer</code>;</p>
+                <p>According to the location of sgRNA, DNA sequence was used as template to design forward and reverse primers with amplification length less than 250bp;</p>
+                <p>Use <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank">Barcode Primers Design <i class="fas fa-external-link-alt"></i></a> to design barcode and add it to the 5' of the above primers;</p>
+                <p>All transgenic plants were amplified by PCR with the primers added with barcode sequence.</p>
+              </div>
+            </section>
+            <section id="Sequence">
+              <h3>2. Illumina Sequence</h3>
+              <hr class="my-2" />
+              <div class="row mb-2">
+                <p>The library was constructed using mixed PCR products, which have purified, and high-throughput sequencing was performed on the Illumina platform.</p>
+              </div>
+            </section>
+            <section id="Prepare">
+              <h3>3. Prepare Files</h3>
+              <hr class="my-2" />
+              <div class="row mb-2">
+                <p>All files are tab (<code>\t</code>) delimited and all the sequence is 5'-3'.</p>
+              </div>
+              <section id="Primers">
+                <h4>3.1 Primers File</h4>
+                <p class="note note-primary">
+                  <strong>Note:</strong> Lower case letters represent barcode sequence, and upper case letters represent primers of target interval amplification sequence.
+                  <br>
+                  <strong>Note:</strong> F: Forward primer. R: Reverse primer.
+                </p>
+                <div class="row mb-4">
+                  <div class="col-md-12">
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <th scope="row">sample1-F</th>
+                          <td>cgagacaTTAAGAGAAGTACCAGTGTAAGTGC</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">sample1-R</th>
+                          <td>tgtctcgAATTTTTTCCATCTGCAGTTACT</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </section>
+              <section id="Editing">
+                <h4>3.2 Editing Information</h4>
+                <p class="note note-primary">
+                  <strong>Note:</strong> The first column represents the name of the sample and must exactly same as the name in the primer file.
+                  <br>
+                  <strong>Note:</strong> The second column represents the amplification sequence of target gene.
+                  <br>
+                  <strong>Note:</strong> The third column represents sgRNA and no PAM.
+                </p>
+                <div class="row mb-4">
+                  <div class="col-md-12">
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <th scope="row">sample1</th>
+                          <td>TTAAGAGAAGTACCAGTGTAAGTGCCCTTGGGTGTAGTTCACCCATTTTTAAATAACAAGTTTTTCCTTGTCTCATGTACTAAACGTGTCCCTAAGTTGATGCTAGA</td>
+                          <td>TGTCTCATGTACTAAACGTG</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </section>
+            </section>
+            <section id="Analysis">
+              <h3>4. Editing Analysis</h3>
+              <hr class="my-2" />
+              <div class="row mb-2">
+                <p>Clone the software of <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-022-01232-3" target="_blank">CRISPR_Barcode_HiTom_Analysis <i class="fas fa-external-link-alt"></i></a> and modify the <code>config.yaml</code> file for editing analysis.</p>
+                <p>Then run it with command as follows:</p>
+                <p><code>snakemake  -j 100 -s workflow/Snakefile --use-conda --cluster-config config/cluster.json --cluster "bsub -q normal -o {cluster.output} -e {cluster.error} -n {threads}"</code></p>
+              </div>
+            </section>
+          </div>
+          <!-- Spied element -->
+        </div>
+      
+        <div class="col-md-2">
+          <!-- Scrollspy -->
+          <div id="scrollspy" class="sticky-top">
+            <ul class="nav flex-column nav-pills menu-sidebar">
+              <li class="nav-item">
+                <a class="nav-link" href="#Design">1. Barcode Primers Design</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#Sequence">2. Illumina Sequence</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#Prepare">3. Prepare Files</a>
+                <ul class="nav flex-column ps-3">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#Primers">3.1 Primers File</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#Editing">3.2 Editing Information</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#Analysis">4. Editing Analysis</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Scrollspy -->
+        </div>
+      </div>
+      <!--Content-->
+    </div>
+  </main>
+  <!--Main layout-->
+
+
+{% endblock %}

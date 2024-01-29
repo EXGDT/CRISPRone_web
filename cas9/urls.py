@@ -8,6 +8,5 @@ urlpatterns = [
     path('cas9_result/', views.cas9_result, name='cas9_result'),
     path('cas9_pagi_ontarget/', views.cas9_pagi_ontarget, name='cas9_pagi_ontarget'),
     path('cas9_pagi_offtarget/', views.cas9_pagi_offtarget, name='cas9_pagi_offtarget'),
-#    path('cas9_guide_json', views.guide_json, name='cas9_guide_json'),
     re_path(r'^cas9_task/(?P<path>.*)$',serve,{"document_root":"/disk2/users/yxguo/html/CRISPRone/cas9/tmp/"}),
 ]

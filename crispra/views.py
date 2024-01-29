@@ -3,9 +3,9 @@ from pkg_resources import ContextualVersionConflict
 
 # Create your views here.
 
-import pymysql
-db = pymysql.connect(host="localhost", user="crisprone", password="crisprone", database="CRISPRone")
-cursor = db.cursor()
+# import pymysql
+# db = pymysql.connect(host="localhost", user="crisprone", password="crisprone", database="CRISPRone")
+# cursor = db.cursor()
 
 
 def crispra_submit(request):

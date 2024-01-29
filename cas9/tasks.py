@@ -6,10 +6,10 @@ from celery import shared_task
 from cas9.models import result_cas9_list
 
 
-def mysql_connect():
-    import pymysql
-    cursor = pymysql.connect(host="localhost", user="hliu", password="hliu_123", database="CRISPRone").cursor()
-    return cursor
+# def mysql_connect():
+#     import pymysql
+#     cursor = pymysql.connect(host="localhost", user="hliu", password="hliu_123", database="CRISPRone").cursor()
+#     return cursor
 
 
 def initial_sgRNA(pamType):
@@ -69,6 +69,7 @@ def input_sequence_classify(inputSequence):
     return input_type
 
 
+@shared_task
 def subseq_position(name_db, position):
     import pysam
     position = position.strip().replace(",", "")
@@ -79,6 +80,7 @@ def subseq_position(name_db, position):
     return genome_handle.fetch(seqid, start, end), {"seqid": seqid, "start": start, "end": end}
 
 
+@shared_task
 def subseq_locus(name_db, locus):
     import pandas as pd
     import pysam
@@ -86,13 +88,14 @@ def subseq_locus(name_db, locus):
     # cursor = mysql_connect()
     # cursor.execute("select seqid,start,end from {}_gene_model where ID='{}'".format(name_db, locus))
     # seqid, start, end = cursor.fetchone()
-    genome_handle = pysam.FastaFile("./data/{}_genome.fasta".format(name_db))
+    genome_handle = pysam.FastaFile("./data/{}.fasta".format(name_db))
     gff_pandas = pd.read_pickle('./data/{}_gene_model_sorted_withintergenic_family.plk'.format(name_db))
     locus = gff_pandas.loc[:, locus, 'gene'][['seqid', 'start', 'end']].iloc[0].tolist()
     seqid, start, end = locus[0], locus[1], locus[2]
     return genome_handle.fetch(seqid, start, end), {"seqid": seqid, "start": start, "end": end}
 
 
+@shared_task
 def subseq_seq(name_db, task_path, task_id, seq):
     """
     这个函数最后的代码部分感觉有点问题, blastn.out6输出有时候可能会比较多, 取8和9的最小和最大值有时候不合适, 如下:
@@ -111,6 +114,8 @@ def subseq_seq(name_db, task_path, task_id, seq):
     import pandas as pd
     from Bio import SeqIO
     if seq.split("\n")[0].startswith(">"):
+        print(task_path)
+        print(task_id)
         fasta_file = open('{}/{}.fasta'.format(task_path, task_id), 'w')
         fasta_file.write(seq)
         fasta_file.close()
@@ -123,7 +128,7 @@ def subseq_seq(name_db, task_path, task_id, seq):
     blastn_command = """
         /usr/local/bin/blastn \
         -query {}/{}.fasta \
-        -db data/{}_genome.fasta \
+        -db data/{}.fasta \
         -perc_identity 100 \
         -out {}/{}.blastn.out6 \
         -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore qlen qcovhsp" \
@@ -147,6 +152,12 @@ def subseq_seq(name_db, task_path, task_id, seq):
     print(blastnfmt6_100_dicts[0])
     # return sequence, {"seqid": seqid, "start": min(start, end), "end": max(start, end)}
     return sequence, blastnfmt6_100_dicts[0]
+
+
+@shared_task
+def adjust_parameters(subseq_seq_result):
+    fasta_sequence, fasta_sequence_position = subseq_seq_result
+    return fasta_sequence_position
 
 
 @shared_task 
@@ -340,7 +351,7 @@ def parse_batmis_sam(sam_file, intersect_file, spacerLength, name_db):
     import pandas as pd
     import pysam
     from pandarallel import pandarallel
-    pandarallel.initialize(nb_workers=20, progress_bar=True)
+    pandarallel.initialize(nb_workers=20, progress_bar=False)
     
     spacerLength = int(spacerLength)
     sam_pandas = pd.read_csv(
@@ -600,10 +611,10 @@ def form2resultjson(fasta_sequence_position, pam, spacerLength, sgRNAModule, nam
     SeqIO.write(sgRNA_seqrecords + sgRNA_reverse_seqrecords, '{}/Guide.fasta'.format(task_path), 'fasta')
 
     param_dict = {'task_path': task_path, 'name_db': name_db, 'task_id': task_id}
-    os.system('batman -q {task_path}/Guide.fasta -g data/{name_db}.fasta -n 5 -mall -l /dev/null -o {task_path}/{task_id}.bin 1> /dev/null'.format(**param_dict))
-    os.system('batdecode -i {task_path}/{task_id}.bin -g data/{name_db}.fasta -o {task_path}/{task_id}.txt'.format(**param_dict))
-    os.system('samtools view -bS {task_path}/{task_id}.txt > {task_path}/{task_id}.bam'.format(**param_dict))
-    os.system('bedtools intersect -a {task_path}/{task_id}.bam -b data/{name_db}.gff3 -wo -bed > {task_path}/{task_id}.intersect'.format(**param_dict))
+    os.system('/disk2/users/yxguo/opt/bin/batman -q {task_path}/Guide.fasta -g data/{name_db}.fasta -n 5 -mall -l /dev/null -o {task_path}/{task_id}.bin 1> /dev/null'.format(**param_dict))
+    os.system('/disk2/users/yxguo/opt/bin/batdecode -i {task_path}/{task_id}.bin -g data/{name_db}.fasta -o {task_path}/{task_id}.txt'.format(**param_dict))
+    os.system('/disk2/users/yxguo/opt/bin/samtools view -bS {task_path}/{task_id}.txt > {task_path}/{task_id}.bam'.format(**param_dict))
+    os.system('/disk2/users/yxguo/software/bedtools2/bin/bedtools intersect -a {task_path}/{task_id}.bam -b data/{name_db}.gff3 -wo -bed > {task_path}/{task_id}.intersect'.format(**param_dict))
 
     sam_file, intersect_file = '{task_path}/{task_id}.txt'.format(**param_dict), '{task_path}/{task_id}.intersect'.format(**param_dict)
 

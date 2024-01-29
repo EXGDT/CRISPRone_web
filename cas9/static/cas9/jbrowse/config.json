@@ -1,0 +1,28 @@
+{
+  "assemblies": [
+    {
+      "name": "Gossypium_hirsutum_Jin668_HZAU",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "Gossypium_hirsutum_Jin668_HZAU-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "Gossypium_hirsutum_Jin668_HZAU.fasta",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "Gossypium_hirsutum_Jin668_HZAU.fasta.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      }
+    }
+  ],
+  "configuration": {},
+  "connections": [],
+  "defaultSession": {
+    "name": "New Session"
+  },
+  "tracks": []
+}

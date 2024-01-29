@@ -38,10 +38,10 @@
       <section class="mb-5">
         <div class="row d-flex">
           <div class="col-md-12">
-            <form name="inputData" action="/cas9_result/" method="post" class="row g-3 needs-validation" novalidate>
+            <form name="inputData" action="/cas9_submit/" method="post" class="row g-3 needs-validation" novalidate>
               {% csrf_token %}
               <!-- Input Sequence -->
-              <label class="form-label" for="inputSequence"><strong>Input Sequence</strong> (Only <span style="color:red"><strong>One</strong></span> Id/Position/Sequence required; <strong>Design speed:</strong> Id = Position > Fasta Sequence) <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="right" title='Recommended input Gene Id or Genome Position'></i></label>
+              <label class="form-label" for="inputSequence"><strong>Input Sequences</strong> (Only <span style="color:red"><strong>One</strong></span> Id/Position/Sequence required; <strong>Design speed:</strong> Id = Position > Fasta Sequence) <i class='fas fa-info-circle p-1' data-mdb-toggle="tooltip" data-mdb-placement="right" title='Recommended input Gene Id or Genome Position'></i></label>
               <div class="form-outline mb-5 position-relative">
                 <textarea class="form-control" name="inputSequence", id="inputSequence" rows="4" value="" placeholder="Input Your Gene Id / DNA Sequence or See a DEMO as show in example" required></textarea>
                 <div class="invalid-tooltip">Please input a valid Gene Id or Genome Position or Sequence.</div>

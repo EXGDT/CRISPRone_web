@@ -2,10 +2,10 @@ import shlex
 import subprocess
 
 
-def mysql_connect():
-    import pymysql
-    cursor = pymysql.connect(host="localhost", user="hliu", password="hliu_123", database="CRISPRone").cursor()
-    return cursor
+# def mysql_connect():
+#     import pymysql
+#     cursor = pymysql.connect(host="localhost", user="hliu", password="hliu_123", database="CRISPRone").cursor()
+#     return cursor
 
 
 def initial_sgRNA(pamType):

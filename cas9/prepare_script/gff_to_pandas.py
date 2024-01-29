@@ -18,7 +18,7 @@ def gff_to_pandas(gff_file):
 
     gff["family"] = gff.parallel_apply(
         lambda row: "intergenic" if row.type == "intergenic"
-        else re.search(r'ID=(.*)', row.attributes).group(1) if row.type == "gene"
+        else re.search(r'ID=(.*?)[;\n]', row.attributes).group(1) if row.type == "gene"
         # else re.search(r'ID=cds\.(.*?)\.', row.attributes).group(1) if row.type == "CDS"
         else re.search(r'ID=(.*?)\.', row.attributes).group(1),
         # lambda row: row if type(row.attributes) is not float else print(row),

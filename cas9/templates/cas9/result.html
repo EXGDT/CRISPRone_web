@@ -13,15 +13,15 @@
 <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
 
 <script
-src="//unpkg.com/react@16/umd/react.development.js"
+src="{% static 'cas9/react.development.js' %}"
 crossorigin
 ></script>
 <script
-src="//unpkg.com/react-dom@16/umd/react-dom.development.js"
+src="{% static 'cas9/react-dom.development.js' %}"
 crossorigin
 ></script>
 <script
-src="//unpkg.com/@jbrowse/react-linear-genome-view/dist/react-linear-genome-view.umd.development.js"
+src="{% static 'cas9/react-linear-genome-view.umd.development.js' %}"
 crossorigin
 ></script>
 
@@ -36,7 +36,39 @@ crossorigin
   </p>
   <!-- Input Information -->
 
+
+  <button data-type="gene_button" data-location="1:94762..94855">
+    CYP2C19
+  </button>
+  <button data-type="gene_button" data-location="2:32315..32400">
+    BRCA2
+  </button>
   <div id="jbrowse_linear_genome_view"></div>
+  <script type="module">
+    import assembly from "{% static 'cas9/jbrowse/assembly.js' %}"
+    const { createViewState, JBrowseLinearGenomeView } =
+        JBrowseReactLinearGenomeView
+    const { createElement } = React
+    const { render } = ReactDOM
+    const state = new createViewState({
+      assembly,
+      location: '1:100,987,269..100,987,368',
+    })
+    function navTo(event) {
+        state.session.view.navToLocString(event.target.dataset.location)
+      }
+      const buttons = document.getElementsByTagName('button')
+      for (const button of buttons) {
+        if (button.dataset.type === 'gene_button') {
+          button.addEventListener('click', navTo)
+        }
+      }
+    render(
+        createElement(JBrowseLinearGenomeView, { viewState: state }),
+        document.getElementById('jbrowse_linear_genome_view'),
+      )
+  </script>
+
 
   <table id="ontarget_table" style="font-family: monospace">
     <thead>
@@ -65,6 +97,17 @@ crossorigin
     detailViewByClick: true,
     detailView: true,
     detailViewIcon: false,
+    formatNoMatches: function(){
+      return 'Task is running, just wait.';
+    },
+    onLoadError: function (status, jqXHR){
+      if (status==404){
+        setTimeout(function(){
+          $('#ontarget_table').bootstrapTable('updateFormatText', 'formatNoMatches', 'Running/Waiting/Loading');
+          $('#ontarget_table').bootstrapTable('refresh');
+        }, 5000);
+      }
+    },
     onExpandRow: function (index, row, $detail){
       InitSubTable(index, row, $detail)
     }
@@ -73,7 +116,7 @@ crossorigin
   function InitSubTable(index, row, $detail){
     var ontargetSequence = row.sgRNA_seq;
     var cur_table = $detail.html('<table></table>').find('table');
-    console.log(ontargetSequence);
+    // console.log(ontargetSequence);
     $(cur_table).bootstrapTable({
       // url: '/cas9_task/{{ task_id }}/{{ task_id }}_' + ontargetSequence + '.json',
       url: '/cas9_pagi_offtarget?task_id={{ task_id }}&sgRNA_seq=' + ontargetSequence,
@@ -96,10 +139,10 @@ crossorigin
           field: 'types',
           title: 'offtarget_gene_locus'
         }
-      ],
-      onLoadError: function(status, jqXHR){
-        alert(JSON.stringify(status));
-      }
+      ]
+      // onLoadError: function(status, jqXHR){
+      //   alert(JSON.stringify(status));
+      // }
     })
   };
 </script>

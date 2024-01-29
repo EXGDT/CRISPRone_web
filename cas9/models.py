@@ -13,6 +13,12 @@ class result_cas9_list(models.Model):
     spacerLength = models.PositiveSmallIntegerField()
     sgRNAJson = models.JSONField(default=dict)
     task_finished = models.BooleanField(default=False)
+
+
+class genome_gff_data(models.Model):
+    name_db = models.CharField(max_length=255,  primary_key=True)
+    genome_file = models.FileField(upload_to='genome_files')
+    annotation_file = models.FileField(upload_to='annotation_files')
     
 
 # class result_cas9_list_sgRNAs(models.Model):

@@ -15,7 +15,7 @@
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.1.0/mdb.min.css" rel="stylesheet"/> -->
     <link href="{% static 'pe/mdb.min.css' %}" rel="stylesheet">
     <!-- jquery-3.6.0 -->
-    <script src="{% static 'base/jquery-3.6.0.min.js' %}">
+    <script src="{% static 'base/jquery-3.6.0.min.js' %}"></script>
 
     <!--导入在线highcharts库文件-->
     <script src="https://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
@@ -225,6 +225,9 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                       <li>
+                        <a class="dropdown-item" href="{% url 'barcodeDesign' %}">Barcode Design</a>
+                      </li>
+                      <li>
                         <a class="dropdown-item" href="{% url 'editingAnalysis' %}">Editing Analysis</a>
                       </li>
                       <li>
@@ -280,6 +283,11 @@
                     </ul>
                   </li>
                   <!-- Literature Dropdown -->
+                  <!-- ChatCRISPR -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'chatcrispr' %}">ChatCRISPR</a>
+                  </li>
+                  <!-- ChatCRISPR -->
                   <!-- Help About Dropdown -->
                   <li class="nav-item dropdown">
                     <a

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,7 +52,9 @@ INSTALLED_APPS = [
     'editedAnalysis.apps.EditedanalysisConfig',
     'protocol.apps.ProtocolConfig',
     'literature.apps.LiteratureConfig',
+    'chatcrispr.apps.ChatcrisprConfig',
     'helpAbout.apps.HelpaboutConfig',
+    'upload.apps.UploadConfig',
 ]
 
 MIDDLEWARE = [
@@ -141,8 +144,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'CRISPRone/static/'
-STATIC_ROOT = '/disk2/users/yxguo/html/CRISPRone/static/'
+STATIC_URL = 'CRISPRone_static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'CRISPRone_static/')
+
+MEDIA_URL = 'CRISPRone_data/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'CRISPRone_data/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
