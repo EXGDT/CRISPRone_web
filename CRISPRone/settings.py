@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'literature.apps.LiteratureConfig',
     'chatcrispr.apps.ChatcrisprConfig',
     'helpAbout.apps.HelpaboutConfig',
-    'upload.apps.UploadConfig',
+    # 'upload.apps.UploadConfig',
 ]
 
 MIDDLEWARE = [
@@ -110,8 +110,8 @@ DATABASES = {
         'NAME': 'CRISPRone',
         'HOST': 'localhost',
         'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': 'crisprdb_root@2022'
+        'USER': 'crisprone',
+        'PASSWORD': 'crisprone'
     }
 }
 

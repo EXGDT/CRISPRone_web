@@ -1,8 +1,8 @@
 # urls.py
-from django.urls import path
-from . import views
+# from django.urls import path
+# from . import views
 
-urlpatterns = [
-    path('upload/', views.upload_initial, name='upload_initial')
-]
+# urlpatterns = [
+#     path('upload/', views.upload_initial, name='upload_initial')
+# ]
 

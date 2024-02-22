@@ -9,6 +9,9 @@ from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render,redirect
 from pkg_resources import ContextualVersionConflict
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from cas9 import cas9_function, tasks
 
 from cas9.models import result_cas9_list
@@ -138,3 +141,18 @@ def cas9_pagi_offtarget(request):
             offtargetDict = i['offtarget_json']
     offtargetPagiDict = {'total':offtargetDict['total'],'rows':offtargetDict['rows'][offset:offset+limit]}
     return JsonResponse(offtargetPagiDict)
+
+
+@api_view(['POST'])
+def cas9_API(request):
+    data = request.data
+    # {inputSequence: 'AAAA', pam: 'NNGRRT', spacerLength: '', sgRNAModule: 'spacerpam', name_db: 'Gossypium_hirsutum_TM1_HAU'}
+    inputSequence = data['inputSequence']
+    name_db = data['name_db']
+    pam = data['pam']
+    spacerLength = data['spacerLength']
+    sgRNAModule = data['sgRNAModule']
+    hash_input = f"{pam}{name_db}{inputSequence}{sgRNAModule}{spacerLength}"
+    task_id = hashlib.sha256(hash_input.encode('utf-8')).hexdigest()
+    tasks.cas9_task_process.delay(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
+    return Response(task_id)

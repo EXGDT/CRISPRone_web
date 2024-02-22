@@ -36,5 +36,5 @@ urlpatterns = [
     path('', include('literature.urls')),
     path('', include('chatcrispr.urls')),
     path('', include('helpAbout.urls')),
-    path('', include('upload.urls')),
+    # path('', include('upload.urls')),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

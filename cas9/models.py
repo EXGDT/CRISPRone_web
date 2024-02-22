@@ -5,20 +5,21 @@ from django.db import models
 class result_cas9_list(models.Model):
     def __str__(self):
         return self.task_id
-    task_id = models.CharField(max_length=32, primary_key=True)
-    pamType = models.CharField(max_length=30)
+    task_id = models.CharField(max_length=64, primary_key=True)
+    pam_type = models.CharField(max_length=30)
     name_db = models.CharField(max_length=255)
-    inputSequence = models.TextField()
-    sgRNAModule = models.CharField(max_length=20)
-    spacerLength = models.PositiveSmallIntegerField()
-    sgRNAJson = models.JSONField(default=dict)
-    task_finished = models.BooleanField(default=False)
+    input_sequence = models.TextField()
+    sgRNA_module = models.CharField(max_length=20)
+    spacer_length = models.PositiveSmallIntegerField()
+    sgRNA_json = models.JSONField(default=dict)
+    task_status = models.CharField(max_length=20)
+    log = models.TextField(default="")
 
 
-class genome_gff_data(models.Model):
-    name_db = models.CharField(max_length=255,  primary_key=True)
-    genome_file = models.FileField(upload_to='genome_files')
-    annotation_file = models.FileField(upload_to='annotation_files')
+# class genome_gff_data(models.Model):
+#     name_db = models.CharField(max_length=255,  primary_key=True)
+#     genome_file = models.FileField(upload_to='genome_files')
+#     annotation_file = models.FileField(upload_to='annotation_files')
     
 
 # class result_cas9_list_sgRNAs(models.Model):

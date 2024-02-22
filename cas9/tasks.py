@@ -6,12 +6,6 @@ from celery import shared_task
 from cas9.models import result_cas9_list
 
 
-# def mysql_connect():
-#     import pymysql
-#     cursor = pymysql.connect(host="localhost", user="hliu", password="hliu_123", database="CRISPRone").cursor()
-#     return cursor
-
-
 def initial_sgRNA(pamType):
     pam_dict = {
         'NGG': ['spacerpam', 20],
@@ -741,3 +735,90 @@ def form2resultjson(fasta_sequence_position, pam, spacerLength, sgRNAModule, nam
 
     return guide_json, task_finished
     
+
+@shared_task
+def cas9_task_process(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db):
+
+    if result_cas9_list.objects.filter(task_id=task_id).exists():
+        form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
+        return 0
+    else:
+        form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
+        return 0
+
+
+def form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db):
+    cas9_task_record = result_cas9_list(task_id=task_id, input_sequence=inputSequence, pam_type=pam, spacer_length=spacerLength, sgRNA_module=sgRNAModule, name_db=name_db, task_status='running')
+    cas9_task_record.save()
+    print(task_id)
+
+    input_type = input_sequence_to_fasta_sequence_position(inputSequence)
+    fasta_sequence, fasta_sequence_position = input_type_to_sequence_and_position(input_type, name_db, task_id)
+
+    return 0
+
+
+def input_sequence_to_fasta_sequence_position(inputSequence):
+    import re
+
+    input_type = {"locus": None, "position": None, "seq": None}
+
+    normalized_seq = inputSequence.replace('\r\n', '\n').replace('\r', '\n')
+
+    if re.search(r'^[\w.-]+:\d+-\d+$', inputSequence):
+        input_type['position'] = inputSequence
+    elif re.fullmatch(r'(>[^\n]*\n)?[ACGT\n]+', normalized_seq, re.IGNORECASE):
+        input_type['seq'] = inputSequence
+    else:
+        input_type['locus'] = inputSequence
+    return input_type
+
+
+def input_type_to_sequence_and_position(input_type, name_db, task_id):
+    import os
+    import pandas as pd
+    from Bio import SeqIO
+    import pysam
+    task_path = f'/tmp/CRISPRone/{task_id}'
+    os.makedirs(task_path, exist_ok=True)
+
+    if input_type['seq']:
+        seq = input_type['seq']
+        if not seq.startswith(">"):
+            seq = f'>{task_id}\n{seq}'
+        seq_path = os.path.join(task_path, f'{task_id}.fasta')
+        with open(seq_path, 'w') as seq_file:
+            seq_file.write(seq)
+
+        blastn_command = [
+        "/usr/local/bin/blastn",
+        "-query", seq_path,
+        "-db", f"data/{name_db}.fasta",
+        "-perc_identity", "100", "-max_target_seqs", "1", "-qcov_hsp_perc", "100",
+        "-out", f"{task_path}/{task_id}.blastn.out6",
+        "-outfmt", "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore qlen qcovhsp",
+        "-num_threads", "12"
+        ]
+
+        try:
+            result = subprocess.run(blastn_command, check=True, text=True, capture_output=True)
+            print(result.stdout)
+        except subprocess.CalledProcessError as e:
+            print(f"BLASTn failed: {e.stderr}")
+
+        with open(f"{task_path}/{task_id}.blastn.out6") as blastn_out_file:
+            first_record = blastn_out_file.readline().strip().split('\t')
+            seqid = first_record[1]
+            start = int(first_record[8])
+            end = int(first_record[9])
+        blastnfmt6_100_dict = {'seqid': seqid, 'start': start, 'end': end}
+        sequence = str(next(SeqIO.parse('{}/{}.fasta'.format(task_path, task_id), 'fasta')).seq)
+        print(blastnfmt6_100_dict[0])
+        return sequence, blastnfmt6_100_dict[0]
+    if input_type['position']:
+        seqid, start, end = input_type['position'].split(':')
+        start, end = int(start), int(end)
+        sequence = pysam.FastaFile('data/{}.fasta'.format(name_db)).fetch(seqid, start, end)
+        blastnfmt6_100_dict = {'seqid': seqid, 'start': start, 'end': end}
+        return sequence, blastnfmt6_100_dict
+    return 0, 1

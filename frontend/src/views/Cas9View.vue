@@ -5,21 +5,105 @@ import Footer from '@/components/Footer.vue';
 
 import cas9_img from '@/assets/cas9.png';
 
-import { reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 
 import axios from 'axios'
 
-const form = reactive({
+import type { FormInstance, FormRules } from 'element-plus'
+
+const pam_dict = ref({
+  'NGG': ['spacerpam', 20],
+  'NG': ['spacerpam', 20],
+  'NNG': ['spacerpam', 20],
+  'NGN': ['spacerpam', 20],
+  'NNGT': ['spacerpam', 20],
+  'NAA': ['spacerpam', 20],
+  'NNGRRT': ['spacerpam', 21],
+  'NNGRRT-20': ['spacerpam', 20],
+  'NGK': ['spacerpam', 20],
+  'NNNRRT': ['spacerpam', 21],
+  'NNNRRT-20': ['spacerpam', 20],
+  'NGA': ['spacerpam', 20],
+  'NNNNCC': ['spacerpam', 24],
+  'NGCG': ['spacerpam', 20],
+  'NNAGAA': ['spacerpam', 20],
+  'NGGNG': ['spacerpam', 20],
+  'NNNNGMTT': ['spacerpam', 20],
+  'NNNNACA': ['spacerpam', 20],
+  'NNNNRYAC': ['spacerpam', 22],
+  'NNNVRYAC': ['spacerpam', 22],
+  'TTCN': ['pamspacer', 20],
+  'YTTV': ['pamspacer', 20],
+  'NNNNCNAA': ['spacerpam', 20],
+  'NNN': ['spacerpam', 20],
+  'NRN': ['spacerpam', 20],
+  'NYN': ['spacerpam', 20]
+})
+
+interface RuleForm {
+  inputSequence: string
+  pam: string
+  spacerLength: number
+  sgRNAModule: string
+  name_db: string
+}
+
+const form = reactive<RuleForm>({
   inputSequence: '',
   pam: '',
-  spacerLength: '',
+  spacerLength: 20,
   sgRNAModule: '',
   name_db: '',
 })
 
-const onSubmit = () => {
-  console.log('submit!')
+const rules = {
+  inputSequence: [{ required: true, message: 'Check here', trigger: 'blur' }],
+  pam: [{ required: true, message: 'Check here', trigger: 'blur' }],
+  spacerLength: [{ required: true, message: 'Check here', trigger: 'blur' }],
+  sgRNAModule: [{ required: true, message: 'Check here', trigger: 'change' }],
+  name_db: [{ required: true, message: 'Check here', trigger: 'blur' }],
+};
+
+const formRef = ref<FormInstance>()
+
+watch(() => form.pam, (pam) => {
+  if (pam in pam_dict.value) {
+    const pam_prop = pam_dict.value[pam as keyof typeof pam_dict.value];
+    form.sgRNAModule = pam_prop[0].toString()
+    form.spacerLength = pam_prop[1] as number
+  }
+})
+
+const task_id = ref('')
+const toCas9 = () => {
+  formRef.value?.validate(async (valid) => {
+    if (valid) {
+      const response = await axios.post('http://211.69.141.134:8866/cas9_API/', form)
+      console.log(response.data)
+      task_id.value = response.data.task_id
+    } else {
+      console.log('error submit!!')
+      return false
+    }
+  })
 }
+
+const fillExampleID = () => {
+  form.inputSequence = 'Gh_A07G001000'
+  form.pam = 'NGG'
+  form.name_db = 'Gossypium_hirsutum_Jin668_HZAU'
+}
+const fillExamplePosition = () => {
+  form.inputSequence = 'Ghjin_A01:80323913-80324566'
+  form.pam = 'NGG'
+  form.name_db = 'Gossypium_hirsutum_Jin668_HZAU'
+}
+const fillExampleSeq = () => {
+  form.inputSequence = '>Ghjin_A01g000010\nATGTTTATACACTCATCTTTTCTTGGGTAGTCCGCAAGCCTTAAGCAATAAGAGAACCAGGGGGACTATTGAAACAGTGTAATGAAGGATCAAACCATGCCAGAAGCAATCAAATGCCTTTTTCATGAACATCTGGATTCAGTTTTTGATTCTGAGAAGAAAATGAGGCACTTTATCAAA'
+  form.pam = 'NGG'
+  form.name_db = 'Gossypium_hirsutum_Jin668_HZAU'
+}
+
 </script>
 
 <template>
@@ -55,9 +139,9 @@ const onSubmit = () => {
         <el-row justify="center"><el-col :span="18">
           </el-col></el-row>
 
-        <el-form :model="form" label-position="top">
+        <el-form :model="form" label-position="top" ref="formRef" :rules="rules" :hide-required-asterisk="true">
           <el-row justify="center"><el-col :span="18">
-              <el-form-item>
+              <el-form-item prop="inputSequence">
                 <template #label>
                   <h4>
                     <strong>Input Sequences</strong> (Only <span style="color:red"><strong>One</strong></span>
@@ -71,21 +155,21 @@ const onSubmit = () => {
                 </template>
                 <el-input v-model="form.inputSequence" type="textarea" rows="4"
                   placeholder="Please input a valid Gene Id or Genome Position or Sequence."
-                  :autosize="{ minRows: 4, maxRows: 12 }" clearable="false" />
+                  :autosize="{ minRows: 4, maxRows: 12 }" :clearable="false" />
               </el-form-item>
             </el-col></el-row>
 
-          <el-row justify="center" gutter="20">
+          <el-row justify="center" :gutter="20">
             <el-col :span="9">
-              <el-form-item label="PAM Type">
+              <el-form-item label="PAM Type" prop="pam">
                 <template #label>
                   <strong>PAM Type <i class="fas fa-level-down-alt"></i>
                   </strong>
-                  <a href="/help/#enzymes" target="_blank">See notes on enzymes in the help <el-icon>
+                  <a href="/help/#enzymes" target="_blank"> See notes on enzymes in the help <el-icon>
                       <Link />
                     </el-icon></a>
                 </template>
-                <el-select v-model="form.pam" placeholder="please select your zone">
+                <el-select v-model="form.pam" placeholder="Please select a PAM type">
                   <el-option label="SpCas9 from Streptococcus pyogenes: 5'-NGG-3'" value="NGG"></el-option>
                   <el-option label="NG-Cas9 or xCas9 3.7 (TLIKDIV SpCas9) from Streptococcus pyogenes: 5'-NG-3'"
                     value="NG"></el-option>
@@ -122,14 +206,14 @@ const onSubmit = () => {
             </el-col>
 
             <el-col :span="9">
-              <el-form-item label="Target Genome">
+              <el-form-item label="Target Genome" prop="name_db">
                 <template #label>
                   <strong>Target Genome</strong><a href="/help/#genomes" target="_blank">: More Information of Genomes
                     Metadata <el-icon>
                       <Link />
                     </el-icon></a>
                 </template>
-                <el-select v-model="form.name_db" placeholder="please select your zone">
+                <el-select v-model="form.name_db" placeholder="Select your targer genome">
                   <el-option label="Gossypium hirsutum Jin668" value="Gossypium_hirsutum_Jin668_HZAU"></el-option>
                   <el-option label="Gossypium hirsutum YZ1" value="Gossypium_hirsutum_YZ1_HZAU"></el-option>
                   <el-option label="Gossypium hirsutum TM-1 (HAU v1.1)" value="Gossypium_hirsutum_TM1_HAU"></el-option>
@@ -141,11 +225,12 @@ const onSubmit = () => {
             </el-col>
           </el-row>
 
-          <el-row justify="center" gutter="20">
+          <el-row justify="center" :gutter="20">
             <el-col :span="9">
-              <el-form-item label="Activity name">
+              <el-form-item prop="pam">
                 <template #label>
-                  <strong>Customized PAM</strong> (Need to select <code>Customized PAM</code> in <strong>PAM Type</strong>
+                  <strong>Customized PAM</strong> (IUPAC nucleotide code is allowed to be filled in. <strong>PAM
+                    Type</strong>
                   <i class="fas fa-level-up-alt"></i>)
                 </template>
                 <el-input v-model="form.pam" />
@@ -153,11 +238,11 @@ const onSubmit = () => {
             </el-col>
 
             <el-col :span="5">
-              <el-form-item label="Activity name">
+              <el-form-item prop="sgRNAModule">
                 <template #label>
                   <strong>sgRNA module of Customized PAM</strong>
                 </template>
-                <el-select v-model="form.sgRNAModule" placeholder="please select your zone">
+                <el-select v-model="form.sgRNAModule" placeholder="Select an order for PAM & spacer.">
                   <el-option label="5'-Spacer + PAM-3'" value="spacerpam" />
                   <el-option label="5'-PAM + Spacer-3'" value="pamspacer" />
                 </el-select>
@@ -165,7 +250,7 @@ const onSubmit = () => {
             </el-col>
 
             <el-col :span="4">
-              <el-form-item label="Activity name">
+              <el-form-item prop="spacerLength">
                 <template #label>
                   <strong>Spacer length of Customized PAM</strong>
                 </template>
@@ -176,8 +261,10 @@ const onSubmit = () => {
 
           <el-row justify="center"><el-col :span="18">
               <el-form-item>
-                <el-button type="primary" @click="onSubmit">Create</el-button>
-                <el-button>Cancel</el-button>
+                <el-button type="primary" @click="toCas9">Create</el-button>
+                <el-button @click="fillExampleID">Example(Gene ID)</el-button>
+                <el-button @click="fillExamplePosition">Example(Genome Position)</el-button>
+                <el-button @click="fillExampleSeq">Example(Genome Sequence)</el-button>
               </el-form-item>
             </el-col></el-row>
         </el-form>
