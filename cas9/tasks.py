@@ -1,9 +1,42 @@
 import shlex
 import subprocess
+import re
+import json
+import os
+import time
 
 from celery import shared_task
 
 from cas9.models import result_cas9_list
+
+import pandas as pd
+import pysam
+from Bio import SeqIO
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+import pybedtools
+from pybedtools import BedTool
+from pandarallel import pandarallel
+pandarallel.initialize(nb_workers=20, progress_bar=False)
+
+
+IUPAC_dict = {
+    'A': 'A',
+    'T': 'T',
+    'C': 'C',
+    'G': 'G',
+    'R': '[A|G]',
+    'Y': '[C|T]',
+    'S': '[G|C]',
+    'W': '[A|T]',
+    'K': '[G|T]',
+    'M': '[A|C]',
+    'B': '[C|G|T]',
+    'D': '[A|G|T]',
+    'H': '[A|C|T]',
+    'V': '[A|C|G]',
+    'N': '[A|T|C|G]'
+}
 
 
 def initial_sgRNA(pamType):
@@ -736,35 +769,215 @@ def form2resultjson(fasta_sequence_position, pam, spacerLength, sgRNAModule, nam
     return guide_json, task_finished
     
 
-@shared_task
-def cas9_task_process(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db):
-
-    if result_cas9_list.objects.filter(task_id=task_id).exists():
-        form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
-        return 0
-    else:
-        form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
-        return 0
-
-
 def form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db):
+    start_time = time.time()
+
     cas9_task_record = result_cas9_list(task_id=task_id, input_sequence=inputSequence, pam_type=pam, spacer_length=spacerLength, sgRNA_module=sgRNAModule, name_db=name_db, task_status='running')
     cas9_task_record.save()
-    print(task_id)
+    print(f"Create record: {time.time() - start_time:.2f} seconds")
 
+    step_time = time.time()
     input_type = input_sequence_to_fasta_sequence_position(inputSequence)
     fasta_sequence, fasta_sequence_position = input_type_to_sequence_and_position(input_type, name_db, task_id)
+    print(f"Parse input sequence: {time.time() - step_time:.2f} seconds")
 
+    step_time = time.time()
+    target_start, target_end, target_seq, target_seq_reverse = sequence_and_position_to_target_seq(name_db, fasta_sequence_position, spacerLength)
+    print(f"Generate target sequence: {time.time() - step_time:.2f} seconds")
+
+    step_time = time.time()
+    family_records = target_to_ontarget(name_db, fasta_sequence_position['seqid'], target_start, target_end)
+    print(f"Get family records: {time.time() - step_time:.2f} seconds")
+
+    step_time = time.time()
+    sgRNA_dataframe, sgRNA_json = generate_sgRNA_dataframe(family_records, target_seq, target_seq_reverse, target_start, target_end, fasta_sequence_position['seqid'], pam, spacerLength, sgRNAModule, task_id)
+    print(f"Generate sgRNA dataframe and JSON: {time.time() - step_time:.2f} seconds")
+
+    step_time = time.time()
+    sam_file, intersect_file = run_batman(f'/tmp/CRISPRone/{task_id}', name_db, task_id)
+    sam_pandas, intersect_pandas = intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db)
+    print(f"Run BATMAN and intersection analysis: {time.time() - step_time:.2f} seconds")
+
+    step_time = time.time()
+    guide_json = sam_intersect_pandas_to_json(sam_pandas, intersect_pandas, f'/tmp/CRISPRone/{task_id}')
+    print(f"Convert intersection data to JSON: {time.time() - step_time:.2f} seconds")
+
+    step_time = time.time()
+    cas9_task_record.sgRNA_json = guide_json
+    cas9_task_record.task_status = 'finished'
+    cas9_task_record.save()
+    print(f"Total time: {time.time() - start_time:.2f} seconds")
     return 0
+
+
+def sam_intersect_pandas_to_json(sam_pandas, intersect_pandas, task_path):
+    def merge_extract(row):
+        return sam_pandas.loc[(row['seqid'], row['sgRNA_start'])].iloc[0]
+    intersect_pandas.to_csv(f'{task_path}/intersect_pandas.csv')
+    if len(sam_pandas) < 1000:
+        intersect_pandas[
+            ['qname', 'flag', 'rname', 'pos', 'seq', 'NM', 'MD', 'pos_end', 'rseq', 'pos_0_base']
+            ] = intersect_pandas.apply(merge_extract, axis=1, result_type='expand')
+        intersect_pandas['family'] = intersect_pandas['attributes'].str.extract(r'Family=([^;]+)', expand=False)
+    else:
+        intersect_pandas[
+            ['qname', 'flag', 'rname', 'pos', 'seq', 'NM', 'MD', 'pos_end', 'rseq', 'pos_0_base']
+            ] = intersect_pandas.parallel_apply(merge_extract, axis=1, result_type='expand')
+        intersect_pandas['family'] = intersect_pandas['attributes'].str.extract(r'Family=([^;]+)', expand=False)
+    intersect_pandas.set_index(['seq', 'family'], inplace=True, drop=True)
+    with open(f'{task_path}/Guide.json') as guide_json_handle:
+        guide_json = json.load(guide_json_handle)
+        for target_seq in intersect_pandas.index.get_level_values(0).unique():
+            intersect_target_tmp_pandas = intersect_pandas.loc[target_seq]
+            intersect_target_tmp_pandas.to_csv(f'{task_path}/intersect_target_tmp_pandas.csv')
+            intersect_target_pandas = intersect_target_tmp_pandas[intersect_target_tmp_pandas['type']=='gene'].drop_duplicates()
+            intersect_target_pandas.to_csv(f'{task_path}/intersect_target_pandas_1.csv')
+            intersect_target_pandas['types_list'] = intersect_target_tmp_pandas.groupby('family').apply(lambda x: sorted(x.type.unique().tolist()))
+            intersect_target_pandas.to_csv(f'{task_path}/intersect_target_pandas_2.csv')
+            intersect_target_pandas['types'] = intersect_target_pandas.apply(lambda row: 'intron' if len(row.types_list) == 2 else ', '.join(row.types_list).replace(', gene, mRNA', ''), axis=1)
+            intersect_target_pandas.to_csv(f'{task_path}/intersect_target_pandas_3.csv')
+            intersect_target_pandas.reset_index(level='family', inplace=True)
+            intersect_target_json = intersect_target_pandas.to_json(orient='records')
+            json_handle = json.loads(intersect_target_json)
+            json_handle = {'total': len(json_handle), 'rows': json_handle}
+            for index, item in enumerate(guide_json['rows']):
+                if target_seq == item['sgRNA_seq']:
+                    guide_json['rows'][index]['offtarget_num'] = json_handle['total']
+                    guide_json['rows'][index]['offtarget_json'] = json_handle
+                    break
+            else:
+                guide_json['rows'][index]['offtarget_num'] = 0
+                guide_json['rows'][index]['offtarget_json'] = None
+    with open(f'{task_path}/Guide.json2', 'w') as guide_json_handle:
+        json.dump(guide_json, guide_json_handle, indent=4)
+    return guide_json
+
+
+def intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db):
+    spacerLength = int(spacerLength)
+    sam_pandas = pd.read_csv(
+        sam_file,
+        header=None,
+        sep='\t',
+        comment='@',
+        names=['qname','flag','rname','pos','mapq','cigar','rnext','pnext','tlen','seq','qual','NM','MD']
+    )
+    genome_handle = pysam.FastaFile(f'data/genome_files/{name_db}.fa')
+    sam_pandas['NM'] = sam_pandas['NM'].str.replace('NM:i:', '')
+    sam_pandas['MD'] = sam_pandas['MD'].str.replace('MD:Z:', '')
+    sam_pandas['pos_end'] = sam_pandas['pos'] + spacerLength
+    sam_pandas['rseq'] = sam_pandas.apply(lambda row: genome_handle.fetch(row['rname'], row['pos']-1, row['pos_end']-2), axis=1, result_type='expand')
+    sam_pandas['pos_0_base'] = sam_pandas['pos'] - 1
+    sam_pandas.set_index(['rname', 'pos_0_base'], inplace=True, drop=False)
+    sam_pandas.sort_index(inplace=True)
+    intersect_pandas = pd.read_csv(
+        intersect_file,
+        header=None,
+        sep='\t'
+    )
+    intersect_pandas.drop([3,4,5,6,7,8,9,10,11,12,21,13,17,19], axis=1, inplace=True)
+    intersect_pandas.columns = ['seqid', 'sgRNA_start', 'sgRNA_end', 'type', 'start', 'end', 'strand', 'attributes']
+    sam_pandas.drop(['mapq', 'cigar', 'rnext', 'pnext', 'tlen', 'qual'], axis=1, inplace=True)
+    return sam_pandas, intersect_pandas
+
+
+def run_batman(task_path, name_db, task_id):
+    os.system(f'/disk2/users/yxguo/opt/bin/batman -q {task_path}/Guide.fasta -g data/genome_files/{name_db}.fa -n 5 -mall -l /dev/null -o {task_path}/{task_id}.bin 1> /dev/null')
+    os.system(f'/disk2/users/yxguo/opt/bin/batdecode -i {task_path}/{task_id}.bin -g data/genome_files/{name_db}.fa -o {task_path}/{task_id}.txt')
+    os.system(f'/disk2/users/yxguo/opt/bin/samtools view -bS {task_path}/{task_id}.txt > {task_path}/{task_id}.bam')
+    os.system(f'/usr/local/bin/bedtools intersect -a {task_path}/{task_id}.bam -b data/processed_annotation_files/{name_db}.processed.gff3 -wo -bed > {task_path}/{task_id}.intersect')
+    return f'{task_path}/{task_id}.txt', f'{task_path}/{task_id}.intersect'
+
+
+def generate_sgRNA_dataframe(family_records, target_seq, target_seq_reverse, target_start, target_end, target_seqid, pam, spacerLength, sgRNAModule, task_id):
+    task_path = f'/tmp/CRISPRone/{task_id}'
+    def ontarget_apply():
+        confirmed_records = family_records[family_records['interval'].apply(lambda row: row.overlaps(pd.Interval(sgRNA_position_start, sgRNA_position_end)))]
+        print(f'confirmed_records={confirmed_records}')
+        if confirmed_records.empty:
+            return family_records.iloc[0, -1], 'intron'
+        else:
+            return confirmed_records.iloc[0, -1], ", ".join(confirmed_records['ID'].unique().tolist())
+    sgRNA_seqrecords = []
+    sgRNA_dataframe = pd.DataFrame(columns=['sgRNA_id', 'sgRNA_position', 'sgRNA_strand', 'sgRNA_seq', 'sgRNA_seq_html', 'sgRNA_GC', 'sgRNA_family', 'sgRNA_type'])
+    pam_regex = create_regex_patterns(pam, spacerLength, sgRNAModule)
+    for idx, sgRNA in enumerate(re.finditer(pam_regex, target_seq)):
+        sgRNA_seq = sgRNA.group()
+        sgRNA_seq_html = str("<span style='font-weight:900'>" + sgRNA_seq + '</span>' + '</br>' + '|' * len(sgRNA_seq) + '</br>' + Seq(sgRNA_seq).complement())
+        sgRNA_id = 'Guide_' + str(idx)
+        sgRNA_GC = str('{:.2f}'.format((sgRNA_seq.count('C') + sgRNA_seq.count('G')) / len(sgRNA_seq) * 100)) + '%'
+        sgRNA_position_start = target_start + sgRNA.start()
+        sgRNA_position_end = target_start + sgRNA.end() - 1
+        sgRNA_position = target_seqid + ':' + str(sgRNA_position_start)
+        sgRNA_family, sgRNA_type = ontarget_apply()
+        sgRNA_seqrecord = SeqRecord(Seq(sgRNA_seq), sgRNA_id, '', '')
+        sgRNA_seqrecords.append(sgRNA_seqrecord)
+        sgRNA_dataframe.loc[idx] = [sgRNA_id, sgRNA_position, "5'------3'", sgRNA_seq, sgRNA_seq_html, sgRNA_GC, sgRNA_family, sgRNA_type]
+    sgRNA_reverse_seqrecords = []
+    sgRNA_reverse_dataframe = pd.DataFrame(columns=['sgRNA_id', 'sgRNA_position', 'sgRNA_strand', 'sgRNA_seq', 'sgRNA_seq_html', 'sgRNA_GC', 'sgRNA_family', 'sgRNA_type'])
+    for idx, sgRNA_reverse in enumerate(re.finditer(pam_regex, target_seq_reverse)):
+        sgRNA_reverse_seq = sgRNA_reverse.group()
+        sgRNA_reverse_seq_html = str(Seq(sgRNA_reverse_seq).complement()[::-1] + '</br>' + '|' * len(sgRNA_reverse_seq) + '</br>' + "<span style='font-weight:900'>" + sgRNA_reverse_seq[::-1] + '</span>')
+        sgRNA_reverse_id = 'Guide_reverse_' + str(idx)
+        sgRNA_reverse_GC = str('{:.2f}'.format((sgRNA_reverse_seq.count('C') + sgRNA_reverse_seq.count('G')) / len(sgRNA_reverse_seq) * 100)) + '%'
+        sgRNA_reverse_position_end = target_end - sgRNA_reverse.start() - 1
+        sgRNA_reverse_position_start = target_end - sgRNA_reverse.end()
+        sgRNA_reverse_position = target_seqid + ':' + str(sgRNA_reverse_position_end)
+        sgRNA_reverse_family, sgRNA_reverse_type = ontarget_apply()
+        sgRNA_reverse_seqrecord = SeqRecord(Seq(sgRNA_reverse_seq), sgRNA_reverse_id, '', '')
+        sgRNA_reverse_seqrecords.append(sgRNA_reverse_seqrecord)
+        sgRNA_reverse_dataframe.loc[idx] = [sgRNA_reverse_id, sgRNA_reverse_position, "3'------5'", sgRNA_reverse_seq, sgRNA_reverse_seq_html, sgRNA_reverse_GC, sgRNA_reverse_family, sgRNA_reverse_type]
+    sgRNA_dataframe = pd.concat([sgRNA_dataframe, sgRNA_reverse_dataframe])
+    sgRNA_dataframe.reset_index(inplace=True, drop=True)
+    sgRNA_json = sgRNA_dataframe.to_json(orient='records')
+    json_handle = json.loads(sgRNA_json)
+    json_handle = {'total': len(json_handle), 'rows': json_handle}
+    with open('{}/Guide.json'.format(task_path), 'w') as file_handle:
+        json.dump(json_handle, file_handle)
+    SeqIO.write(sgRNA_seqrecords + sgRNA_reverse_seqrecords, '{}/Guide.fasta'.format(task_path), 'fasta')
+    return sgRNA_dataframe, sgRNA_json
+
+
+def target_to_ontarget(name_db, target_seqid, target_start, target_end):
+    base_path = f"data/processed_annotation_files/{name_db}"
+    gff_path = f"{base_path}.processed.gff3"
+    pickle_path = f"{base_path}.processed.gff3.pkl"
+    gff_bed = pybedtools.BedTool(gff_path)
+    target_bed = pybedtools.BedTool(f"{target_seqid}\t{target_start}\t{target_end}\t.\t.\t+", from_string=True)
+    overlaps = gff_bed.intersect(target_bed, wa=True, u=True)
+    df = pd.read_pickle(pickle_path)
+    family_records = pd.DataFrame()
+    for feature in overlaps:
+        matches = df[(df['seqid'] == feature.chrom) & (df['start'] == int(feature.start) + 1) & (df['end'] == int(feature.end))]
+        family_records = pd.concat([family_records, matches], ignore_index=True)
+    return family_records
+
+
+def sequence_and_position_to_target_seq(name_db, fasta_sequence_position, spacer_length):
+    with pysam.FastaFile(f"./data/genome_files/{name_db}.fa") as genome_handle:
+        seqid = fasta_sequence_position['seqid']
+        start = fasta_sequence_position['start']
+        end = fasta_sequence_position['end']
+        chromosome_length = genome_handle.get_reference_length(seqid)
+        target_start = max(start - spacer_length, 1)
+        target_end = min(end + spacer_length, chromosome_length)
+        target_seq = genome_handle.fetch(seqid, target_start, target_end)
+        target_seq_reverse = str(Seq(target_seq).reverse_complement())
+    return target_start, target_end, target_seq, target_seq_reverse
+
+
+def create_regex_patterns(pam, spacerLength, sgRNAModule='spacerpam'):
+    pam_regex = ''.join(IUPAC_dict[nuc] for nuc in pam if nuc in IUPAC_dict)
+    if sgRNAModule == 'spacerpam':
+        return rf'\w{{{spacerLength}}}{pam_regex}'
+    elif sgRNAModule == 'pamspacer':
+        return rf'{pam_regex}\w{{{spacerLength}}}'
 
 
 def input_sequence_to_fasta_sequence_position(inputSequence):
     import re
-
     input_type = {"locus": None, "position": None, "seq": None}
-
     normalized_seq = inputSequence.replace('\r\n', '\n').replace('\r', '\n')
-
     if re.search(r'^[\w.-]+:\d+-\d+$', inputSequence):
         input_type['position'] = inputSequence
     elif re.fullmatch(r'(>[^\n]*\n)?[ACGT\n]+', normalized_seq, re.IGNORECASE):
@@ -781,7 +994,6 @@ def input_type_to_sequence_and_position(input_type, name_db, task_id):
     import pysam
     task_path = f'/tmp/CRISPRone/{task_id}'
     os.makedirs(task_path, exist_ok=True)
-
     if input_type['seq']:
         seq = input_type['seq']
         if not seq.startswith(">"):
@@ -789,36 +1001,53 @@ def input_type_to_sequence_and_position(input_type, name_db, task_id):
         seq_path = os.path.join(task_path, f'{task_id}.fasta')
         with open(seq_path, 'w') as seq_file:
             seq_file.write(seq)
-
         blastn_command = [
         "/usr/local/bin/blastn",
         "-query", seq_path,
-        "-db", f"data/{name_db}.fasta",
+        "-db", f"data/genome_files/{name_db}.fa",
         "-perc_identity", "100", "-max_target_seqs", "1", "-qcov_hsp_perc", "100",
         "-out", f"{task_path}/{task_id}.blastn.out6",
         "-outfmt", "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore qlen qcovhsp",
         "-num_threads", "12"
         ]
-
         try:
             result = subprocess.run(blastn_command, check=True, text=True, capture_output=True)
             print(result.stdout)
         except subprocess.CalledProcessError as e:
             print(f"BLASTn failed: {e.stderr}")
-
         with open(f"{task_path}/{task_id}.blastn.out6") as blastn_out_file:
             first_record = blastn_out_file.readline().strip().split('\t')
             seqid = first_record[1]
             start = int(first_record[8])
             end = int(first_record[9])
         blastnfmt6_100_dict = {'seqid': seqid, 'start': start, 'end': end}
-        sequence = str(next(SeqIO.parse('{}/{}.fasta'.format(task_path, task_id), 'fasta')).seq)
-        print(blastnfmt6_100_dict[0])
-        return sequence, blastnfmt6_100_dict[0]
+        sequence = str(next(SeqIO.parse(f'{task_path}/{task_id}.fasta', 'fasta')).seq)
+        return sequence, blastnfmt6_100_dict
     if input_type['position']:
-        seqid, start, end = input_type['position'].split(':')
+        seqid, position_range = input_type['position'].split(':')
+        start, end = position_range.split('-')
         start, end = int(start), int(end)
-        sequence = pysam.FastaFile('data/{}.fasta'.format(name_db)).fetch(seqid, start, end)
+        sequence = pysam.FastaFile(f'data/genome_files/{name_db}.fa').fetch(seqid, start, end)
         blastnfmt6_100_dict = {'seqid': seqid, 'start': start, 'end': end}
         return sequence, blastnfmt6_100_dict
+    if input_type['locus']:
+        genome_handle = pysam.FastaFile(f"./data/genome_files/{name_db}.fa")
+        gff_pandas = pd.read_pickle(f"./data/processed_annotation_files/{name_db}.processed.gff3.pkl")
+        print(input_type['locus'])
+        locus = gff_pandas.loc[gff_pandas['ID'] == input_type['locus'], ['seqid', 'start', 'end']].iloc[0].tolist()
+        print(locus)
+        seqid, start, end = locus[0], locus[1], locus[2]
+        return genome_handle.fetch(seqid, start, end), {"seqid": seqid, "start": start, "end": end}
+
     return 0, 1
+
+
+@shared_task
+def cas9_task_process(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db):
+
+    if result_cas9_list.objects.filter(task_id=task_id).exists():
+        form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
+        return 0
+    else:
+        form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
+        return 0

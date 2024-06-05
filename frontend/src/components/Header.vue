@@ -15,6 +15,9 @@ const updateActiveIndex = (path: string) => {
         case '/cas9':
             activeIndex.value = '2';
             break;
+        case '/cas12a':
+            activeIndex.value = '3';
+            break;
     }
 }
 
@@ -34,8 +37,8 @@ onMounted(() => {
             <el-menu-item index="2" @click="toPage('/cas9')">Cas9</el-menu-item>
             <el-sub-menu index="3">
                 <template #title>Cas12</template>
-                <el-menu-item index="3-1">Cas12a/Cpf1</el-menu-item>
-                <el-menu-item index="3-2">Cas12b/C2c1</el-menu-item>
+                <el-menu-item index="3-1" @click="toPage('/cas12a')">Cas12a/Cpf1</el-menu-item>
+                <el-menu-item index="3-2" @click="toPage('/cas12b')">Cas12b/C2c1</el-menu-item>
             </el-sub-menu>
             <el-menu-item index="4">Cas13</el-menu-item>
             <el-menu-item index="5">Base Editor</el-menu-item>

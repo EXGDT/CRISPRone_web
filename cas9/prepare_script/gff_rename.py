@@ -53,44 +53,33 @@ def format_attributes(attr_dict):
     return ";".join([f"{key}={value}" for key, value in attr_dict.items()])
 
 
-def process_gff3(lines):
-    records = []
-    children = {}
-    type_counter = {}
-    unique_id_counter = {}
+def process_gff3(gff3_path):
+    cols = ['seqid', 'source', 'type', 'start', 'end', 'score', 'strand', 'phase', 'attributes']
+    gff_raw = pd.read_csv(gff3_path, sep='\t', names=cols, comment='#')
+    gff_raw['ID'] = gff_raw['attributes'].str.extract(r'ID=([^;]+)')
+    gff_raw['Parent'] = gff_raw['attributes'].str.extract(r'Parent=([^;]+)')
+    gff_raw.loc[gff_raw['attributes'].str.contains('Parent='), 'ID'] = pd.NA
 
-    for line in lines:
-        if line.startswith("#"):
-            continue
-        parts = line.strip().split("\t")
-        attr_dict = parse_attributes(parts[8])
-        record = {
-            "seqid": parts[0],
-            "source": parts[1],
-            "type": parts[2],
-            "start": parts[3],
-            "end": parts[4],
-            "score": parts[5],
-            "strand": parts[6],
-            "phase": parts[7],
-            "attributes": attr_dict
-        }
-        records.append(record)
+    return gff_raw
 
 
-input_file_path = 'Gossypium_hirsutum_Jin668_HZAU.gff3'
+# def process_gff3(gff3_path):
+#     with open(gff3_path, 'r') as gff_file:
+#         gff_lines = gff_file.readlines()
+#         for line in gff_lines:
+#             if line.startswith("##gff-version"):
+#                 version = line.split()[1]
+#                 break
+
+
+input_file_path = '/disk2/users/yxguo/test/test.gff3'
 
 base_name, _ = os.path.splitext(input_file_path)
 
 output_file_path = f"{base_name}.processed.gff3"
 
-with open(input_file_path, 'r') as gff_file:
-    gff3_content = gff_file.readlines()
+final_list = process_gff3(input_file_path)
 
-processed_lines = process_gff3(gff3_content)
-
-with open(output_file_path, 'w') as processed_file:
-    for line in processed_lines:
-        processed_file.write(line + '\n')
+print(final_list)
 
 obo_path = 'SO-Ontologies/Ontology_Files/so.obo'

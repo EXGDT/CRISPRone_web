@@ -142,7 +142,7 @@ def cas9_pagi_offtarget(request):
     offtargetPagiDict = {'total':offtargetDict['total'],'rows':offtargetDict['rows'][offset:offset+limit]}
     return JsonResponse(offtargetPagiDict)
 
-
+# 2024-5-31
 @api_view(['POST'])
 def cas9_API(request):
     data = request.data
@@ -156,3 +156,26 @@ def cas9_API(request):
     task_id = hashlib.sha256(hash_input.encode('utf-8')).hexdigest()
     tasks.cas9_task_process.delay(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
     return Response(task_id)
+
+
+def cas9_namedb_list(request):
+    file_path = 'data/genome_files'
+    file_list = os.listdir(file_path)
+    genomes = []
+    for filename in file_list:
+        base, ext = os.path.splitext(filename)
+        if ext == '.fa':
+            value = base
+            label = value.replace('_', ' ')
+            genomes.append({
+                'label': label,
+                'value': value
+            })
+    print(genomes)
+    return JsonResponse(genomes, safe=False)
+
+
+def cas9_module_API(request):
+    task_id = request.GET.get('task_id')
+    task = result_cas9_list.objects.get(task_id=task_id)
+    return JsonResponse({"task_id": task.task_id, "task_status": task.task_status, "sgRNAJson": task.sgRNA_json})
