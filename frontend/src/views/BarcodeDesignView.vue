@@ -2,7 +2,7 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
-import cas9_img from '@/assets/cas9.png'
+import BarcodeDesign_img from '@/assets/cas9.png'
 
 import { ref, reactive, watch, onMounted } from 'vue'
 
@@ -126,7 +126,7 @@ onMounted(fillNameDB)
       <el-main style="height: 90vh">
         <el-row justify="center" :gutter="30">
           <el-col :span="8">
-            <el-image :src="cas9_img" />
+            <el-image :src="BarcodeDesign_img" />
           </el-col>
           <el-col :span="8">
             <h4>

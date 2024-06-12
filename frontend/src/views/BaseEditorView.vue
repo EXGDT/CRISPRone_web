@@ -2,7 +2,7 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
-import cas9_img from '@/assets/cas9.png'
+import baseEditor_img from '@/assets/baseEditing.png'
 
 import { ref, reactive, watch, onMounted } from 'vue'
 
@@ -43,7 +43,10 @@ interface RuleForm {
   inputSequence: string
   pam: string
   spacerLength: number
+  baseEditingWindowmin: number
+  baseEditingWindowmax: number
   sgRNAModule: string
+  EditorModule: string
   name_db: string
 }
 
@@ -51,7 +54,10 @@ const form = reactive<RuleForm>({
   inputSequence: '',
   pam: '',
   spacerLength: 20,
+  baseEditingWindowmin: 14,
+  baseEditingWindowmax: 16,
   sgRNAModule: '',
+  EditorModule: '',
   name_db: ''
 })
 
@@ -59,7 +65,10 @@ const rules = {
   inputSequence: [{ required: true, message: 'Check here', trigger: 'blur' }],
   pam: [{ required: true, message: 'Check here', trigger: 'blur' }],
   spacerLength: [{ required: true, message: 'Check here', trigger: 'blur' }],
+  baseEditingWindowmin: [{ required: true, message: 'Check here', trigger: 'blur' }],
+  baseEditingWindowmax: [{ required: true, message: 'Check here', trigger: 'blur' }],
   sgRNAModule: [{ required: true, message: 'Check here', trigger: 'change' }],
+  EditorModule: [{ required: true, message: 'Check here', trigger: 'change' }],
   name_db: [{ required: true, message: 'Check here', trigger: 'blur' }]
 }
 
@@ -77,10 +86,10 @@ watch(
 )
 
 const task_id = ref('')
-const toCas9 = () => {
+const tobaseEditor = () => {
   formRef.value?.validate(async (valid) => {
     if (valid) {
-      const response = await axios.post('http://211.69.141.134:8866/cas9_API/', form)
+      const response = await axios.post('http://211.69.141.134:8866/baseEditor_API/', form)
       console.log(response.data)
       task_id.value = response.data.task_id
     } else {
@@ -109,7 +118,7 @@ const fillExampleSeq = () => {
 
 const namedb_value = ref([])
 const fillNameDB = async () => {
-  const response = await axios.get('http://211.69.141.134:8866/cas9_namedb_list')
+  const response = await axios.get('http://211.69.141.134:8866/baseEditor_namedb_list')
   namedb_value.value = response.data.map((item) => ({
     label: item.label,
     value: item.value
@@ -126,39 +135,20 @@ onMounted(fillNameDB)
       <el-main style="height: 90vh">
         <el-row justify="center" :gutter="30">
           <el-col :span="8">
-            <el-image :src="cas9_img" />
+            <el-image :src="baseEditor_img" />
           </el-col>
           <el-col :span="8">
-            <h4>
-              <strong>Design of <span style="color: red">CRISPR/Cas9</span> guide RNAs</strong>
-            </h4>
+            <h4><strong>Design of <span style="color:red">B</span>ase <span style="color:red">E</span>diting guide RNAs</strong></h4>
             <p class="text-muted">
-              CRISPR/Cas enzymes will introduce a double-strand break (DSB) at a specific location
-              based on a gRNA-defined target sequence. DSBs are preferentially repaired in the cell
-              by non-homologous end joining (NHEJ), a mechanism which frequently causes insertions
-              or deletions (indels) in the DNA. Indels often lead to frameshifts, creating loss of
-              function alleles.
-              <a href="https://www.synthego.com/blog/crispr-knockin-tips-tricks" target="_blank"
-                >More ...<el-icon>
-                  <Link />
-                </el-icon>
-              </a>
+              Base editors (BE) have two principal components that are fused together to form a single protein: (i) a CRISPR protein, bound to a guide RNA, and (ii) a base editing enzyme, such as a deaminase, which carries out the desired chemical modification of the target DNA base. <a href="https://www.nature.com/articles/s41586-019-1711-4" target="_blank">More ...<i class="fas fa-external-link-alt"></i></a>.
             </p>
-            <p><strong>Components:</strong></p>
-            <ul>
-              <li>
-                Guide RNA (gRNA or sgRNA), a short synthetic RNA composed of a scaffold sequence
-                necessary for Cas-binding and a user-defined ∼20 nucleotide spacer that defines the
-                genomic target to be modified.
-              </li>
-              <li>CRISPR-associated endonuclease (Cas protein)</li>
-            </ul>
+            <p><strong>Advantages:</strong></p>
+            <p>1) The creation of precise, predictable and efficient genetic outcomes at a targeted sequence; 2) High efficiency editing without need for template-based homology directed repair, and 3) Avoidance of the unwanted consequences of double-stranded DNA breaks.</p>
+            <p><strong>Note:</strong></p>
+            <p class="text-muted">The designed sgRNA can enable efficient disruption of genes through induction of <span style="color:blue">STOP Codons</span> and <span style="color:blue">Alternative Splicing (AS)</span>.</p>
           </el-col>
         </el-row>
-        <el-row justify="center"
-          ><el-col :span="18"><el-divider /></el-col>
-        </el-row>
-        <el-row justify="center"><el-col :span="18"> </el-col></el-row>
+        <el-row justify="center"><el-col :span="18"><el-divider /></el-col></el-row>
 
         <el-form
           :model="form"
@@ -339,10 +329,48 @@ onMounted(fillNameDB)
             </el-col>
           </el-row>
 
+          <el-row justify="center" :gutter="20">
+            <el-col :span="9">
+              <el-form-item prop="EditorModule">
+                <template #label>
+                  <strong>Base Editor Module</strong>
+                </template>
+                <el-select
+                  v-model="form.EditorModule"
+                  placeholder="Select a Base Editor Module."
+                >
+                  <el-option label="ABE (A to G)" value="abe" />
+                  <el-option label="CBE (C to T)" value="cbe" />
+                  <el-option label="GBE (C to G)" value="gbe" />
+                  <el-option label="ABE + CBE" value="acbe" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="5">
+              <el-form-item prop="baseEditingWindowmin">
+                <template #label>
+                  <strong>Base Editing Window Min</strong>
+                </template>
+                <el-input v-model="form.baseEditingWindowmin" type="number" min="10" max="20" />
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="4">
+              <el-form-item prop="baseEditingWindowmax">
+                <template #label>
+                  <strong>Base Editing Window Max</strong>
+                </template>
+                <el-input v-model="form.baseEditingWindowmax" type="number" min="10" max="20" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row justify="center"><el-col :span="18"><el-divider /></el-col></el-row>
           <el-row justify="center"
             ><el-col :span="18">
               <el-form-item>
-                <el-button type="primary" @click="toCas9">Create</el-button>
+                <el-button type="primary" @click="tobaseEditor">Create</el-button>
                 <el-button @click="fillExampleID">Example(Gene ID)</el-button>
                 <el-button @click="fillExamplePosition">Example(Genome Position)</el-button>
                 <el-button @click="fillExampleSeq">Example(Genome Sequence)</el-button>
@@ -355,5 +383,3 @@ onMounted(fillNameDB)
     </el-container>
   </div>
 </template>
-
-<style scoped></style>

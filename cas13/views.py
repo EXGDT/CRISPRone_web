@@ -9,6 +9,25 @@ logger = logging.getLogger(__name__)
 import textwrap
 import re
 
+import hashlib
+import os
+import random
+import string
+import json
+from http.client import HTTPResponse
+
+from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest, JsonResponse
+from django.shortcuts import render,redirect
+from pkg_resources import ContextualVersionConflict
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from cas12 import tasks
+
+from cas12.models import result_cas12a_list
+
+from celery import chain
 
 # Create your views here.
 
@@ -110,3 +129,41 @@ def inputSequenceParse(sequence):
         annotations_ref.append(ref_seq)
         annotations_edit.append(edit_seq)
     return '<br>'.join(textwrap.wrap(''.join(annotations_ref_coler), 100)), '<br>'.join(textwrap.wrap(''.join(annotations_edit_coler), 100)), ''.join(annotations_ref), ''.join(annotations_edit)
+
+########################################## New Cas13 ##########################################
+@api_view(['POST'])
+def cas13_API(request):
+    data = request.data
+    # {inputSequence: 'AAAA', pam: 'NNGRRT', spacerLength: '', sgRNAModule: 'spacerpam', name_db: 'Gossypium_hirsutum_TM1_HAU'}
+    inputSequence = data['inputSequence']
+    name_db = data['name_db']
+    pam = data['pam']
+    spacerLength = data['spacerLength']
+    sgRNAModule = data['sgRNAModule']
+    hash_input = f"{pam}{name_db}{inputSequence}{sgRNAModule}{spacerLength}"
+    task_id = hashlib.sha256(hash_input.encode('utf-8')).hexdigest()
+    tasks.cas13_task_process.delay(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
+    return Response(task_id)
+
+
+def cas13_namedb_list(request):
+    file_path = 'data/genome_files'
+    file_list = os.listdir(file_path)
+    genomes = []
+    for filename in file_list:
+        base, ext = os.path.splitext(filename)
+        if ext == '.fa':
+            value = base
+            label = value.replace('_', ' ')
+            genomes.append({
+                'label': label,
+                'value': value
+            })
+    print(genomes)
+    return JsonResponse(genomes, safe=False)
+
+
+def cas13_module_API(request):
+    task_id = request.GET.get('task_id')
+    task = result_cas13_list.objects.get(task_id=task_id)
+    return JsonResponse({"task_id": task.task_id, "task_status": task.task_status, "sgRNAJson": task.sgRNA_json})

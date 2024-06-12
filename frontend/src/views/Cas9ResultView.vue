@@ -2,33 +2,38 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import cas9_img from '@/assets/cas9.png'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 import type { FormInstance, FormRules } from 'element-plus'
 import { createViewState, JBrowseLinearGenomeView } from '@jbrowse/react-linear-genome-view'
-import * as ReactDOM from 'react-dom'
-import React from 'react'
 import '@fontsource/roboto'
-import assembly from '@/assets/jbrowse/assembly2.ts'
-import tracks from '@/assets/jbrowse/tracks2.ts'
-import config from '@/assets/jbrowse/config2.ts'
-import jbrowse from '@//components/JBrowse.vue'
+import assemblyData from '@/assets/jbrowse/assembly.ts'
+import tracksData from '@/assets/jbrowse/tracks.ts'
+import configData from '@/assets/jbrowse/config.json'
+import defaultSessionData from '@/assets/jbrowse/defaultSession.ts'
+import * as ReactDOM from 'react-dom/client'
+import React from 'react'
 
 const route = useRoute()
 const taskID = ref(route.query.taskID)
 const taskStatus = ref('running')
 const sgRNAJson = ref('')
-const assemblyData = ref(assembly)
-const tracksData = ref(tracks)
-const configurationData = ref(config)
+const jbrowse = ref<HTMLElement | null>(null)
 let intervalId
 
-defineExpose({
-  assembly: assemblyData,
-  tracks: tracksData,
-  configuration: configurationData
-})
+const renderJBrowse = () => {
+  if (jbrowse.value) {
+    const viewState = createViewState({
+      tracks: tracksData,
+      assembly: assemblyData
+      // defaultSession: defaultSessionData,
+      // configuration: configData
+    })
+    const root = ReactDOM.createRoot(jbrowse.value)
+    root.render(React.createElement(JBrowseLinearGenomeView, { viewState }))
+  }
+}
 
 const fetchTaskStatus = async () => {
   try {
@@ -47,6 +52,7 @@ const fetchTaskStatus = async () => {
 
 onMounted(() => {
   intervalId = setInterval(fetchTaskStatus, 2000)
+  renderJBrowse()
 })
 
 onUnmounted(() => {
@@ -58,8 +64,8 @@ onUnmounted(() => {
   <div class="common-layout">
     <el-container direction="vertical">
       <Header />
+      <div ref="jbrowse"></div>
       <el-main style="height: 90vh">
-        <jbrowse :assembly="assembly" :tracks="tracks" :configuration="configuration"/>
         <el-table :data="sgRNAJson.rows" style="width: 100%">
           <el-table-column type="expand">
             <template #default="props">

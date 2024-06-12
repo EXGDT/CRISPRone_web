@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import ElementPlus from 'element-plus'
+import 'element-plus/theme-chalk/index.css'
 
 const activeIndex = ref('1')
 const router = useRouter()
@@ -40,45 +42,37 @@ onMounted(() => {
                 <el-menu-item index="3-1" @click="toPage('/cas12a')">Cas12a/Cpf1</el-menu-item>
                 <el-menu-item index="3-2" @click="toPage('/cas12b')">Cas12b/C2c1</el-menu-item>
             </el-sub-menu>
-            <el-menu-item index="4">Cas13</el-menu-item>
-            <el-menu-item index="5">Base Editor</el-menu-item>
-            <el-menu-item index="6">Prime Editor</el-menu-item>
-            <el-menu-item index="7">CRISPRa</el-menu-item>
-            <el-menu-item index="8">CRISPR Knock-in</el-menu-item>
-            <el-menu-item index="9">CRISPR Epigenome</el-menu-item>
+            <el-menu-item index="4" @click="toPage('/cas13')">Cas13</el-menu-item>
+            <el-menu-item index="5" @click="toPage('/baseEditor')">Base Editor</el-menu-item>
+            <el-menu-item index="6" @click="toPage('/PrimeEditor')">Prime Editor</el-menu-item>
+            <el-menu-item index="7" @click="toPage('/CRISPRa')">CRISPRa</el-menu-item>
+            <el-menu-item index="8" @click="toPage('/CRISPRKnockIn')">CRISPR Knock-in</el-menu-item>
+            <el-menu-item index="9" @click="toPage('/CRISPREpigenome')">CRISPR Epigenome</el-menu-item>
             <el-sub-menu index="2">
                 <template #title>Fragment Editor</template>
-                <el-menu-item index="9-1">Deletion</el-menu-item>
-                <el-menu-item index="9-2">Inversion</el-menu-item>
-                <el-menu-item index="9-3">Translocation</el-menu-item>
+                <el-menu-item index="9-1" @click="toPage('/FragmentEditorDeletion')">Deletion</el-menu-item>
+                <el-menu-item index="9-2" @click="toPage('/FragmentEditorInversion')">Inversion</el-menu-item>
+                <el-menu-item index="9-3" @click="toPage('/FragmentEditorTranslocation')">Translocation</el-menu-item>
             </el-sub-menu>
             <el-sub-menu index="10">
                 <template #title>Edited Analysis</template>
-                <el-menu-item index="10-1">Barcode Design</el-menu-item>
-                <el-menu-item index="10-2">Editing Analysis</el-menu-item>
-                <el-menu-item index="10-3">Off-Target Analysis</el-menu-item>
+                <el-menu-item index="10-1" @click="toPage('/BarcodeDesign')">Barcode Design</el-menu-item>
+                <el-menu-item index="10-2" @click="toPage('/EditingAnalysis')">Editing Analysis</el-menu-item>
+                <el-menu-item index="10-3" @click="toPage('/OffTargetAnalysis')">Off-Target Analysis</el-menu-item>
             </el-sub-menu>
             <el-sub-menu index="11">
-                <template #title>Literature</template>
-                <el-menu-item index="11-1">Cas9</el-menu-item>
-                <el-menu-item index="11-2">Base Editor</el-menu-item>
-                <el-menu-item index="11-3">Prime Edtitors</el-menu-item>
-            </el-sub-menu>
-            <el-sub-menu index="12">
                 <template #title>Protocol</template>
-                <el-menu-item index="12-1">Plasmids List</el-menu-item>
-                <el-menu-item index="12-2">Get Plasmids</el-menu-item>
+                <el-menu-item index="11-1" @click="toPage('/ProtocolPlasmidList')">Plasmids List</el-menu-item>
+                <el-menu-item index="11-2" @click="toPage('/ProtocolGetPlasmids')">Get Plasmids</el-menu-item>
             </el-sub-menu>
-            <el-menu-item index="13">Literature</el-menu-item>
-            <el-menu-item index="14">ChatCRISPR</el-menu-item>
-            <el-sub-menu index="15">
+            <el-menu-item index="12" @click="toPage('/ChatCRISPR')">ChatCRISPR</el-menu-item>
+            <el-sub-menu index="13">
                 <template #title>Help&About</template>
-                <el-menu-item index="15-1">Help</el-menu-item>
-                <el-menu-item index="15-2">Download</el-menu-item>
-                <el-menu-item index="15-3">News</el-menu-item>
-                <el-menu-item index="15-4">Contact US</el-menu-item>
+                <el-menu-item index="13-1" @click="toPage('/Help')">Help</el-menu-item>
+                <el-menu-item index="13-2" @click="toPage('/Download')">Download</el-menu-item>
+                <el-menu-item index="13-3" @click="toPage('/News')">News</el-menu-item>
+                <el-menu-item index="13-4" @click="toPage('/Contact')">Contact US</el-menu-item>
             </el-sub-menu>
-
         </el-menu>
     </el-header>
 </template>

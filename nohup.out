@@ -1,0 +1,1111 @@
+Watching for file changes with StatReloader
+[10/Jun/2024 02:36:11] "GET /cas13_submit/ HTTP/1.1" 200 31565
+[10/Jun/2024 02:36:20] "GET /pe_submit/ HTTP/1.1" 200 57352
+[10/Jun/2024 02:36:20] "GET /CRISPRone_static/pe/images/prime-editor-pegRNA-complex.jpg HTTP/1.1" 200 70692
+[10/Jun/2024 02:37:49] "GET /cas9_submit/ HTTP/1.1" 200 38063
+Internal Server Error: /index/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/base/views.py", line 6, in index
+    return render(request, 'pe/index.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'cas12a_submit' not found. 'cas12a_submit' is not a valid view function or pattern name.
+[10/Jun/2024 02:38:27] "GET /index/ HTTP/1.1" 500 145916
+Internal Server Error: /index/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/base/views.py", line 6, in index
+    return render(request, 'pe/index.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'cas12a_submit' not found. 'cas12a_submit' is not a valid view function or pattern name.
+[10/Jun/2024 02:38:29] "GET /index/ HTTP/1.1" 500 145892
+Internal Server Error: /index/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/base/views.py", line 6, in index
+    return render(request, 'pe/index.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'cas12b_submit' not found. 'cas12b_submit' is not a valid view function or pattern name.
+[10/Jun/2024 02:39:44] "GET /index/ HTTP/1.1" 500 146064
+[10/Jun/2024 02:39:59] "GET /index/ HTTP/1.1" 200 23799
+/disk2/users/yxguo/html/CRISPRone/cas12/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 02:36:04
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+/disk2/users/yxguo/html/CRISPRone/cas12/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 02:47:09
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+/disk2/users/yxguo/html/CRISPRone/cas12/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 02:47:51
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Internal Server Error: /index/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/base/views.py", line 6, in index
+    return render(request, 'pe/index.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'cas12a_submit' not found. 'cas12a_submit' is not a valid view function or pattern name.
+[10/Jun/2024 02:48:25] "GET /index/ HTTP/1.1" 500 145892
+/disk2/users/yxguo/html/CRISPRone/cas12/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 02:48:03
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Internal Server Error: /index/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/base/views.py", line 6, in index
+    return render(request, 'pe/index.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'cas12a_submit' not found. 'cas12a_submit' is not a valid view function or pattern name.
+[10/Jun/2024 02:49:11] "GET /index/ HTTP/1.1" 500 145892
+Internal Server Error: /index/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/base/views.py", line 6, in index
+    return render(request, 'pe/index.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'cas12a_submit' not found. 'cas12a_submit' is not a valid view function or pattern name.
+[10/Jun/2024 02:49:21] "GET /index/ HTTP/1.1" 500 145892
+/disk2/users/yxguo/html/CRISPRone/cas12/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 02:49:11
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 26, in <module>
+    path('', include('cas12.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/cas12/urls.py", line 9, in <module>
+    path('cas12a_result/', views.cas12a_result, name='cas12a_result'),
+AttributeError: module 'cas12.views' has no attribute 'cas12a_result'
+/disk2/users/yxguo/html/CRISPRone/cas12/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 26, in <module>
+    path('', include('cas12.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/cas12/urls.py", line 9, in <module>
+    path('cas12a_result/', views.cas12a_result, name='cas12a_result'),
+AttributeError: module 'cas12.views' has no attribute 'cas12a_result'
+/disk2/users/yxguo/html/CRISPRone/cas12/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+[10/Jun/2024 02:51:15] "GET / HTTP/1.1" 200 23803
+Internal Server Error: /cas12a_submit/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/cas12/views.py", line 26, in cas12a_submit
+    return render(request, 'cas12a/cas12a_submit.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: cas12a/cas12a_submit.html
+[10/Jun/2024 02:51:19] "GET /cas12a_submit/ HTTP/1.1" 500 87654
+/disk2/users/yxguo/html/CRISPRone/cas12/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 02:51:14
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+[10/Jun/2024 02:52:35] "GET /cas12a_submit/ HTTP/1.1" 200 33599
+[10/Jun/2024 02:52:36] "GET /CRISPRone_static/cas12/images/cpf1.webp HTTP/1.1" 200 61704
+[10/Jun/2024 02:52:41] "GET /cas12b_submit/ HTTP/1.1" 200 32839
+[10/Jun/2024 02:52:48] "POST /cas12b_submit/ HTTP/1.1" 200 22499
+[10/Jun/2024 02:52:48] "GET /CRISPRone_static/base/bootstrap-icons.css HTTP/1.1" 200 80510
+[10/Jun/2024 02:52:48] "GET /CRISPRone_static/base/bootstrap.min.css HTTP/1.1" 200 163873
+[10/Jun/2024 02:52:48] "GET /CRISPRone_static/base/bootstrap.bundle.min.js HTTP/1.1" 200 78129
+Not Found: /cas12b_task//Guide.json
+[10/Jun/2024 02:52:50] "GET /cas12b_task//Guide.json HTTP/1.1" 404 9661
+[10/Jun/2024 02:52:59] "GET /cas9_submit/ HTTP/1.1" 200 38067
+[10/Jun/2024 02:55:12] "GET /cas9_submit/ HTTP/1.1" 200 38067
+[10/Jun/2024 02:55:15] "GET /cas12a_submit/ HTTP/1.1" 200 33599
+[10/Jun/2024 02:55:17] "GET /cas12b_submit/ HTTP/1.1" 200 32839
+[10/Jun/2024 06:19:52] "GET /cas12b_submit/ HTTP/1.1" 200 32839
+[10/Jun/2024 06:19:55] "GET /cas13_submit/ HTTP/1.1" 200 31569
+[10/Jun/2024 06:19:57] "GET /cas12a_submit/ HTTP/1.1" 200 33599
+[10/Jun/2024 06:20:00] "GET /cas12b_submit/ HTTP/1.1" 200 32839
+[10/Jun/2024 06:20:03] "GET /cas12a_submit/ HTTP/1.1" 200 33599
+[10/Jun/2024 12:02:25] "GET /cas9_submit/ HTTP/1.1" 200 38067
+[10/Jun/2024 12:02:29] "GET /cas12a_submit/ HTTP/1.1" 200 33599
+[10/Jun/2024 12:04:15] "GET /cas9_submit/ HTTP/1.1" 200 38067
+[10/Jun/2024 12:05:58] "GET / HTTP/1.1" 200 23803
+[10/Jun/2024 12:07:08] "GET /cas9_submit/ HTTP/1.1" 200 38067
+[10/Jun/2024 12:09:19] "GET /cas12a_submit/ HTTP/1.1" 200 33599
+[10/Jun/2024 12:38:30] "GET /cas12b_submit/ HTTP/1.1" 200 32839
+[10/Jun/2024 12:42:07] "GET /cas12a_submit/ HTTP/1.1" 200 33599
+[10/Jun/2024 12:44:38] "GET /cas12b_submit/ HTTP/1.1" 200 32839
+[10/Jun/2024 12:45:07] "GET /cas12b_submit/ HTTP/1.1" 200 32839
+/disk2/users/yxguo/html/CRISPRone/cas13/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 02:52:35
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 27, in <module>
+    path('', include('cas13.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/cas13/urls.py", line 11, in <module>
+    path('cas13_API/', views.cas13_API, name='cas13_API'),
+AttributeError: module 'cas13.views' has no attribute 'cas13_API'
+/disk2/users/yxguo/html/CRISPRone/cas13/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 27, in <module>
+    path('', include('cas13.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/cas13/urls.py", line 12, in <module>
+    path('cas13_API/', views.cas13_API, name='cas13_API'),
+AttributeError: module 'cas13.views' has no attribute 'cas13_API'
+/disk2/users/yxguo/html/CRISPRone/cas13/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 27, in <module>
+    path('', include('cas13.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/cas13/urls.py", line 4, in <module>
+    from . import views
+  File "/disk2/users/yxguo/html/CRISPRone/cas13/views.py", line 115, in <module>
+    @api_view(['POST'])
+NameError: name 'api_view' is not defined
+/disk2/users/yxguo/html/CRISPRone/cas13/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 27, in <module>
+    path('', include('cas13.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/cas13/urls.py", line 12, in <module>
+    path('cas13_API/', views.cas13_API, name='cas13_API'),
+AttributeError: module 'cas13.views' has no attribute 'cas13_API'
+/disk2/users/yxguo/html/CRISPRone/cas13/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 27, in <module>
+    path('', include('cas13.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/cas13/urls.py", line 12, in <module>
+    path('cas13_API/', views.cas13_API, name='cas13_API'),
+AttributeError: module 'cas13.views' has no attribute 'cas13_API'
+/disk2/users/yxguo/html/CRISPRone/cas13/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+/disk2/users/yxguo/html/CRISPRone/cas13/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 13:49:02
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+[11/Jun/2024 00:40:01] "GET /cas13_submit/ HTTP/1.1" 200 31569
+[11/Jun/2024 01:23:09] "GET /baseEditor_submit/ HTTP/1.1" 200 37742
+[11/Jun/2024 01:23:09] "GET /CRISPRone_static/baseEditor/images/baseEditing.png HTTP/1.1" 200 677812
+[11/Jun/2024 01:23:21] "GET /cas9_submit/ HTTP/1.1" 200 38067
+[11/Jun/2024 01:23:23] "GET /cas13_submit/ HTTP/1.1" 200 31569
+[11/Jun/2024 01:23:26] "GET /baseEditor_submit/ HTTP/1.1" 200 37742
+/disk2/users/yxguo/html/CRISPRone/baseEditor/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 10, 2024 - 13:49:44
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 28, in <module>
+    path('', include('baseEditor.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/baseEditor/urls.py", line 10, in <module>
+    path('cas13_API/', views.cas13_API, name='cas13_API'),
+AttributeError: module 'baseEditor.views' has no attribute 'cas13_API'
+/disk2/users/yxguo/html/CRISPRone/baseEditor/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 28, in <module>
+    path('', include('baseEditor.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/baseEditor/urls.py", line 10, in <module>
+    path('baseEditor_API/', views.baseEditor_API, name='baseEditor_API'),
+AttributeError: module 'baseEditor.views' has no attribute 'baseEditor_API'
+/disk2/users/yxguo/html/CRISPRone/baseEditor/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/management/base.py", line 485, in check
+    all_issues = checks.run_checks(
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 494, in check
+    for pattern in self.url_patterns:
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 715, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/resolvers.py", line 708, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/CRISPRone/urls.py", line 28, in <module>
+    path('', include('baseEditor.urls')),
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/urls/conf.py", line 38, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/disk2/users/yxguo/html/CRISPRone/baseEditor/urls.py", line 10, in <module>
+    path('baseEditor_API/', views.baseEditor_API, name='baseEditor_API'),
+AttributeError: module 'baseEditor.views' has no attribute 'baseEditor_API'
+/disk2/users/yxguo/html/CRISPRone/baseEditor/views.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+Watching for file changes with StatReloader
+[11/Jun/2024 01:34:53] "GET /favicon.ico HTTP/1.1" 200 1988
+[11/Jun/2024 01:34:53] "GET /favicon.ico HTTP/1.1" 200 1988
+[11/Jun/2024 01:45:14] "GET /chatcrispr/ HTTP/1.1" 200 19620
+[11/Jun/2024 01:45:18] "GET /help/ HTTP/1.1" 200 25420
+[11/Jun/2024 01:45:19] "GET /CRISPRone_static/helpAbout/images/Prime_Editor_Works.png HTTP/1.1" 200 240880
+[11/Jun/2024 01:45:19] "GET /CRISPRone_static/helpAbout/images/prime-medicine-logo.gif HTTP/1.1" 200 995549
+[11/Jun/2024 01:45:20] "GET /download/ HTTP/1.1" 200 23615
+[11/Jun/2024 01:45:22] "GET /news/ HTTP/1.1" 200 21686
+[11/Jun/2024 01:45:25] "GET /contact_us/ HTTP/1.1" 200 23901
+[11/Jun/2024 02:01:13] "GET /fragmentEditor_Deletion_submit/ HTTP/1.1" 200 36403
+[11/Jun/2024 02:01:14] "GET /CRISPRone_static/fragmentEditor/images/fragmentEditor_Deletion.png HTTP/1.1" 200 258668
+[11/Jun/2024 02:01:14] "GET /CRISPRone_static/fragmentEditor/images/ftl1.svg HTTP/1.1" 200 3611
+[11/Jun/2024 02:01:14] "GET /CRISPRone_static/fragmentEditor/images/ftr1.svg HTTP/1.1" 200 3606
+[11/Jun/2024 02:02:07] "GET /baseEditor_submit/ HTTP/1.1" 200 37742
+[11/Jun/2024 02:05:10] "GET /fragmentEditor_Deletion_submit/ HTTP/1.1" 200 36403
+[11/Jun/2024 02:05:12] "GET /fragmentEditor_Inversion_submit/ HTTP/1.1" 200 36385
+[11/Jun/2024 02:05:12] "GET /CRISPRone_static/fragmentEditor/images/d1cs00722j-f5.gif HTTP/1.1" 200 98933
+[11/Jun/2024 02:05:15] "GET /fragmentEditor_Translocation_submit/ HTTP/1.1" 200 38109
+[11/Jun/2024 02:05:16] "GET /CRISPRone_static/fragmentEditor/images/ft2.svg HTTP/1.1" 200 3605
+[11/Jun/2024 02:05:18] "GET /fragmentEditor_Deletion_submit/ HTTP/1.1" 200 36403
+Internal Server Error: /barcodeDesign/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/editedAnalysis/views.py", line 5, in barcodeDesign
+    return render(request, 'barcodeDesign/editingAnalysis.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: barcodeDesign/editingAnalysis.html
+[11/Jun/2024 02:05:49] "GET /barcodeDesign/ HTTP/1.1" 500 87687
+[11/Jun/2024 02:05:53] "GET /fragmentEditor_Deletion_submit/ HTTP/1.1" 200 36403
+Internal Server Error: /barcodeDesign/
+Traceback (most recent call last):
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/disk2/users/yxguo/html/CRISPRone/editedAnalysis/views.py", line 5, in barcodeDesign
+    return render(request, 'barcodeDesign/editingAnalysis.html')
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/disk2/users/yxguo/html/CRISPRone/virtualenv/lib64/python3.9/site-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: barcodeDesign/editingAnalysis.html
+[11/Jun/2024 02:06:39] "GET /barcodeDesign/ HTTP/1.1" 500 87687
+[11/Jun/2024 02:06:43] "GET /editingAnalysis/ HTTP/1.1" 200 26823
+[11/Jun/2024 02:06:43] "GET /CRISPRone_static/editedAnalysis/images/on-target.jpg HTTP/1.1" 200 260872
+[11/Jun/2024 02:06:49] "GET /offTargetAnalysis/ HTTP/1.1" 200 27494
+[11/Jun/2024 02:06:49] "GET /CRISPRone_static/editedAnalysis/images/off-target.webp HTTP/1.1" 200 95952
+[11/Jun/2024 02:06:53] "GET /protocol_plasmidsList/ HTTP/1.1" 200 35498
+[11/Jun/2024 02:06:53] "GET /CRISPRone_static/protocol/images/CBE.png HTTP/1.1" 200 1123367
+[11/Jun/2024 02:06:53] "GET /CRISPRone_static/protocol/images/ABE.png HTTP/1.1" 200 476464
+[11/Jun/2024 02:18:53] "GET /baseEditor_submit/ HTTP/1.1" 200 37742
+[11/Jun/2024 03:00:10] "GET /baseEditor_submit/ HTTP/1.1" 200 37741
+[11/Jun/2024 03:16:25] "GET /crisprknockin_submit/ HTTP/1.1" 200 33216
+[11/Jun/2024 03:16:26] "GET /CRISPRone_static/crisprknockin/images/crisprknockin.png HTTP/1.1" 200 102431
+[11/Jun/2024 04:59:18] "GET /crisprknockin_submit/ HTTP/1.1" 200 33216
+[11/Jun/2024 04:59:21] "GET /CRISPRone_static/crisprknockin/images/crisprknockin.png HTTP/1.1" 200 102431
+[11/Jun/2024 05:48:56] "GET /chatcrispr/ HTTP/1.1" 200 19620
+[11/Jun/2024 05:49:14] "GET /baseEditor_submit/ HTTP/1.1" 200 37741
+[11/Jun/2024 05:50:58] "GET /contact_us/ HTTP/1.1" 200 23901
+[11/Jun/2024 08:46:30] "GET /news/ HTTP/1.1" 200 21686
+/disk2/users/yxguo/html/CRISPRone/cas12/urls.py changed, reloading.
+Performing system checks...
+
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 20 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+System check identified no issues (0 silenced).
+June 11, 2024 - 01:26:59
+Django version 4.2.4, using settings 'CRISPRone.settings'
+Starting development server at http://0.0.0:8002/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader

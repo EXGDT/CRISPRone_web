@@ -2,7 +2,7 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
-import cas9_img from '@/assets/cas9.png'
+import cas9_img from '@/assets/fragmentEditor_Deletion.png'
 
 import { ref, reactive, watch, onMounted } from 'vue'
 

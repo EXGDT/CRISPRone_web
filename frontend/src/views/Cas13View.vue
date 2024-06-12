@@ -2,9 +2,10 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
-import cas9_img from '@/assets/cas9.png'
+import cas13_img from '@/assets/cas13.jpg'
 
 import { ref, reactive, watch, onMounted } from 'vue'
+import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
 
 import axios from 'axios'
 
@@ -77,10 +78,10 @@ watch(
 )
 
 const task_id = ref('')
-const toCas9 = () => {
+const toCas13 = () => {
   formRef.value?.validate(async (valid) => {
     if (valid) {
-      const response = await axios.post('http://211.69.141.134:8866/cas9_API/', form)
+      const response = await axios.post('http://211.69.141.134:8866/cas13_API/', form)
       console.log(response.data)
       task_id.value = response.data.task_id
     } else {
@@ -109,7 +110,7 @@ const fillExampleSeq = () => {
 
 const namedb_value = ref([])
 const fillNameDB = async () => {
-  const response = await axios.get('http://211.69.141.134:8866/cas9_namedb_list')
+  const response = await axios.get('http://211.69.141.134:8866/cas13_namedb_list')
   namedb_value.value = response.data.map((item) => ({
     label: item.label,
     value: item.value
@@ -126,32 +127,20 @@ onMounted(fillNameDB)
       <el-main style="height: 90vh">
         <el-row justify="center" :gutter="30">
           <el-col :span="8">
-            <el-image :src="cas9_img" />
+            <el-image :src="cas13_img" />
           </el-col>
           <el-col :span="8">
             <h4>
-              <strong>Design of <span style="color: red">CRISPR/Cas9</span> guide RNAs</strong>
+              <strong>Design of <span style="color: red">CRISPR/Cas13</span> guide RNAs</strong>
             </h4>
             <p class="text-muted">
-              CRISPR/Cas enzymes will introduce a double-strand break (DSB) at a specific location
-              based on a gRNA-defined target sequence. DSBs are preferentially repaired in the cell
-              by non-homologous end joining (NHEJ), a mechanism which frequently causes insertions
-              or deletions (indels) in the DNA. Indels often lead to frameshifts, creating loss of
-              function alleles.
-              <a href="https://www.synthego.com/blog/crispr-knockin-tips-tricks" target="_blank"
-                >More ...<el-icon>
-                  <Link />
-                </el-icon>
-              </a>
+              The RNA-targeting endonuclease Cas13 (Type VI CRISPR) ability to selectively target cellular RNAs and influence gene expression without making permanent genetic changes. <a href="https://www.nature.com/articles/nbt.4054" target="_blank">More ...<i class="fas fa-external-link-alt"></i></a>.
             </p>
-            <p><strong>Components:</strong></p>
+            <p><strong>Advantages:</strong></p>
             <ul>
-              <li>
-                Guide RNA (gRNA or sgRNA), a short synthetic RNA composed of a scaffold sequence
-                necessary for Cas-binding and a user-defined ∼20 nucleotide spacer that defines the
-                genomic target to be modified.
-              </li>
-              <li>CRISPR-associated endonuclease (Cas protein)</li>
+              <li>RNA editing doesn't require homology-directed repair (HDR) machinery.</li>
+              <li>Cas13 enzymes also don't require a PAM sequence at the target locus.</li>
+              <li>Cas13 enzymes do not contain the RuvC and HNH domains responsible for DNA cleavage, so they cannot directly edit the genome.</li>
             </ul>
           </el-col>
         </el-row>
@@ -186,7 +175,7 @@ onMounted(fillNameDB)
                   v-model="form.inputSequence"
                   type="textarea"
                   rows="4"
-                  placeholder="Please input a valid Gene Id or Genome Position or Sequence."
+                  placeholder="Input Your Gene Id / DNA Sequence or See a DEMO as show in example&#10;To improve accuracy and run time, the recommended input sequence length is 80 to 500 bp"
                   :autosize="{ minRows: 4, maxRows: 12 }"
                   :clearable="false"
                 />
@@ -194,93 +183,7 @@ onMounted(fillNameDB)
           ></el-row>
 
           <el-row justify="center" :gutter="20">
-            <el-col :span="9">
-              <el-form-item label="PAM Type" prop="pam">
-                <template #label>
-                  <strong>PAM Type <i class="fas fa-level-down-alt"></i> </strong>
-                  <a href="/help/#enzymes" target="_blank">
-                    See notes on enzymes in the help
-                    <el-icon>
-                      <Link /> </el-icon
-                  ></a>
-                </template>
-                <el-select v-model="form.pam" placeholder="Please select a PAM type">
-                  <el-option
-                    label="SpCas9 from Streptococcus pyogenes: 5'-NGG-3'"
-                    value="NGG"
-                  ></el-option>
-                  <el-option
-                    label="NG-Cas9 or xCas9 3.7 (TLIKDIV SpCas9) from Streptococcus pyogenes: 5'-NG-3'"
-                    value="NG"
-                  ></el-option>
-                  <el-option label="20bp-NNG - Cas9 S. canis" value="NNG"></el-option>
-                  <el-option label="20bp-NGN - SpG" value="NGN"></el-option>
-                  <el-option
-                    label="20bp-NNGT - Cas9 S. canis - high efficiency PAM, recommended"
-                    value="NNGT"
-                  ></el-option>
-                  <el-option label="20bp-NAA - iSpyMacCas9" value="NAA"></el-option>
-                  <el-option
-                    label="21bp-NNG(A/G)(A/G)T - Cas9 S. Aureus"
-                    value="NNGRRT"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NNG(A/G)(A/G)T - Cas9 S. Aureus with 20bp-guides"
-                    value="NNGRRT-20"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NG(G/T) - xCas9, recommended PAM, see notes"
-                    value="NGK"
-                  ></el-option>
-                  <el-option label="21bp-NNN(A/G)(A/G)T - KKH SaCas9" value="NNNRRT"></el-option>
-                  <el-option
-                    label="20bp-NNN(A/G)(A/G)T - KKH SaCas9 with 20bp-guides"
-                    value="NNNRRT-20"
-                  ></el-option>
-                  <el-option label="20bp-NGA - Cas9 S. Pyogenes mutant VQR" value="NGA"></el-option>
-                  <el-option label="24bp-NNNNCC - Nme2Cas9" value="NNNNCC"></el-option>
-                  <el-option
-                    label="20bp-NGCG - Cas9 S. Pyogenes mutant VRER"
-                    value="NGCG"
-                  ></el-option>
-                  <el-option label="20bp-NNAGAA - Cas9 S. Thermophilus" value="NNAGAA"></el-option>
-                  <el-option label="20bp-NGGNG - Cas9 S. Thermophilus" value="NGGNG"></el-option>
-                  <el-option
-                    label="20bp-NNNNG(A/C)TT - Cas9 N. Meningitidis"
-                    value="NNNNGMTT"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NNNNACA - Cas9 Campylobacter jejuni, original PAM"
-                    value="NNNNACA"
-                  ></el-option>
-                  <el-option
-                    label="22bp-NNNNRYAC - Cas9 Campylobacter jejuni, revised PAM"
-                    value="NNNNRYAC"
-                  ></el-option>
-                  <el-option
-                    label="22bp-NNNVRYAC - Cas9 Campylobacter jejuni, opt. efficiency"
-                    value="NNNVRYAC"
-                  ></el-option>
-                  <el-option label="TTCN-20bp - CasX" value="TTCN"></el-option>
-                  <el-option
-                    label="YTTV-20bp - MAD7 Nuclease, Lui, Schiel, Maksimova et al, CRISPR J 2020"
-                    value="YTTV"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NNNNCNAA - Thermo Cas9 - Walker et al, Metab Eng Comm 2020"
-                    value="NNNNCNAA"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NNN - SpRY, Walton et al Science 2020"
-                    value="NNN"
-                  ></el-option>
-                  <el-option label="20bp-NRN - SpRY (high efficiency PAM)" value="NRN"></el-option>
-                  <el-option label="20bp-NYN - SpRY (low efficiency PAM)" value="NYN"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="9">
+            <el-col :span="10">
               <el-form-item label="Target Genome" prop="name_db">
                 <template #label>
                   <strong>Target Genome</strong
@@ -301,35 +204,7 @@ onMounted(fillNameDB)
                 </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-
-          <el-row justify="center" :gutter="20">
-            <el-col :span="9">
-              <el-form-item prop="pam">
-                <template #label>
-                  <strong>Customized PAM</strong> (IUPAC nucleotide code is allowed to be filled in.
-                  <strong>PAM Type</strong> <i class="fas fa-level-up-alt"></i>)
-                </template>
-                <el-input v-model="form.pam" />
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="5">
-              <el-form-item prop="sgRNAModule">
-                <template #label>
-                  <strong>sgRNA module of Customized PAM</strong>
-                </template>
-                <el-select
-                  v-model="form.sgRNAModule"
-                  placeholder="Select an order for PAM & spacer."
-                >
-                  <el-option label="5'-Spacer + PAM-3'" value="spacerpam" />
-                  <el-option label="5'-PAM + Spacer-3'" value="pamspacer" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="4">
+            <el-col :span="8">
               <el-form-item prop="spacerLength">
                 <template #label>
                   <strong>Spacer length of Customized PAM</strong>
@@ -342,10 +217,10 @@ onMounted(fillNameDB)
           <el-row justify="center"
             ><el-col :span="18">
               <el-form-item>
-                <el-button type="primary" @click="toCas9">Create</el-button>
-                <el-button @click="fillExampleID">Example(Gene ID)</el-button>
-                <el-button @click="fillExamplePosition">Example(Genome Position)</el-button>
-                <el-button @click="fillExampleSeq">Example(Genome Sequence)</el-button>
+                <el-button type="primary" :icon="Search" size="large" @click="toCas13">Create</el-button>
+                <el-button type="success" size="large" @click="fillExampleID">Example(Gene ID)</el-button>
+                <el-button type="success" size="large" @click="fillExamplePosition">Example(Genome Position)</el-button>
+                <el-button type="success" size="large" @click="fillExampleSeq">Example(Genome Sequence)</el-button>
               </el-form-item>
             </el-col></el-row
           >

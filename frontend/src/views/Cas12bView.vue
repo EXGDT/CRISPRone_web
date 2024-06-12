@@ -2,7 +2,7 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
-import cas9_img from '@/assets/cas9.png'
+import cas12b_img from '@/assets/cas12b.png'
 
 import { ref, reactive, watch, onMounted } from 'vue'
 
@@ -77,10 +77,10 @@ watch(
 )
 
 const task_id = ref('')
-const toCas9 = () => {
+const toCas12b = () => {
   formRef.value?.validate(async (valid) => {
     if (valid) {
-      const response = await axios.post('http://211.69.141.134:8866/cas9_API/', form)
+      const response = await axios.post('http://211.69.141.134:8866/cas12b_API/', form)
       console.log(response.data)
       task_id.value = response.data.task_id
     } else {
@@ -109,7 +109,7 @@ const fillExampleSeq = () => {
 
 const namedb_value = ref([])
 const fillNameDB = async () => {
-  const response = await axios.get('http://211.69.141.134:8866/cas9_namedb_list')
+  const response = await axios.get('http://211.69.141.134:8866/cas12b_namedb_list')
   namedb_value.value = response.data.map((item) => ({
     label: item.label,
     value: item.value
@@ -126,32 +126,22 @@ onMounted(fillNameDB)
       <el-main style="height: 90vh">
         <el-row justify="center" :gutter="30">
           <el-col :span="8">
-            <el-image :src="cas9_img" />
+            <el-image :src="cas12b_img" />
           </el-col>
           <el-col :span="8">
             <h4>
-              <strong>Design of <span style="color: red">CRISPR/Cas9</span> guide RNAs</strong>
+              <strong>Design of <span style="color: red">CRISPR/Cas12b (C2c1)</span> guide RNAs</strong>
             </h4>
             <p class="text-muted">
-              CRISPR/Cas enzymes will introduce a double-strand break (DSB) at a specific location
-              based on a gRNA-defined target sequence. DSBs are preferentially repaired in the cell
-              by non-homologous end joining (NHEJ), a mechanism which frequently causes insertions
-              or deletions (indels) in the DNA. Indels often lead to frameshifts, creating loss of
-              function alleles.
-              <a href="https://www.synthego.com/blog/crispr-knockin-tips-tricks" target="_blank"
-                >More ...<el-icon>
-                  <Link />
-                </el-icon>
-              </a>
+              The CRISPR-Cas12b (<span style="color:blue">TTN + 20bp</span>) is an RNA-guided endonuclease that can specifically cleave target double stranded DNA in the presence of PAM.
+              Cas12b has high cleavage activity, and the optimal temperature of cleavage reaction is 48 °C, which makes it nearly impossible to use it in mammalian and plant cells. Fortunately, scientists have found several other Cas12b variants which cleave DNA at lower temperatures.
+              <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pbi.13417" target="_blank">More ...<i class="fas fa-external-link-alt"></i></a>.
             </p>
-            <p><strong>Components:</strong></p>
+            <p><strong>Advantages:</strong></p>
             <ul>
-              <li>
-                Guide RNA (gRNA or sgRNA), a short synthetic RNA composed of a scaffold sequence
-                necessary for Cas-binding and a user-defined ∼20 nucleotide spacer that defines the
-                genomic target to be modified.
-              </li>
-              <li>CRISPR-associated endonuclease (Cas protein)</li>
+              <li>Cas12b nucleases are smaller than Cas9 and Cas12a/Cpf1</li>
+              <li>Cas12b can maintain high enzyme activity in a wide temperature and pH range</li>
+              <li>Cas12b have very high target specificity (low off-target editing)</li>
             </ul>
           </el-col>
         </el-row>
@@ -205,77 +195,8 @@ onMounted(fillNameDB)
                   ></a>
                 </template>
                 <el-select v-model="form.pam" placeholder="Please select a PAM type">
-                  <el-option
-                    label="SpCas9 from Streptococcus pyogenes: 5'-NGG-3'"
-                    value="NGG"
-                  ></el-option>
-                  <el-option
-                    label="NG-Cas9 or xCas9 3.7 (TLIKDIV SpCas9) from Streptococcus pyogenes: 5'-NG-3'"
-                    value="NG"
-                  ></el-option>
-                  <el-option label="20bp-NNG - Cas9 S. canis" value="NNG"></el-option>
-                  <el-option label="20bp-NGN - SpG" value="NGN"></el-option>
-                  <el-option
-                    label="20bp-NNGT - Cas9 S. canis - high efficiency PAM, recommended"
-                    value="NNGT"
-                  ></el-option>
-                  <el-option label="20bp-NAA - iSpyMacCas9" value="NAA"></el-option>
-                  <el-option
-                    label="21bp-NNG(A/G)(A/G)T - Cas9 S. Aureus"
-                    value="NNGRRT"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NNG(A/G)(A/G)T - Cas9 S. Aureus with 20bp-guides"
-                    value="NNGRRT-20"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NG(G/T) - xCas9, recommended PAM, see notes"
-                    value="NGK"
-                  ></el-option>
-                  <el-option label="21bp-NNN(A/G)(A/G)T - KKH SaCas9" value="NNNRRT"></el-option>
-                  <el-option
-                    label="20bp-NNN(A/G)(A/G)T - KKH SaCas9 with 20bp-guides"
-                    value="NNNRRT-20"
-                  ></el-option>
-                  <el-option label="20bp-NGA - Cas9 S. Pyogenes mutant VQR" value="NGA"></el-option>
-                  <el-option label="24bp-NNNNCC - Nme2Cas9" value="NNNNCC"></el-option>
-                  <el-option
-                    label="20bp-NGCG - Cas9 S. Pyogenes mutant VRER"
-                    value="NGCG"
-                  ></el-option>
-                  <el-option label="20bp-NNAGAA - Cas9 S. Thermophilus" value="NNAGAA"></el-option>
-                  <el-option label="20bp-NGGNG - Cas9 S. Thermophilus" value="NGGNG"></el-option>
-                  <el-option
-                    label="20bp-NNNNG(A/C)TT - Cas9 N. Meningitidis"
-                    value="NNNNGMTT"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NNNNACA - Cas9 Campylobacter jejuni, original PAM"
-                    value="NNNNACA"
-                  ></el-option>
-                  <el-option
-                    label="22bp-NNNNRYAC - Cas9 Campylobacter jejuni, revised PAM"
-                    value="NNNNRYAC"
-                  ></el-option>
-                  <el-option
-                    label="22bp-NNNVRYAC - Cas9 Campylobacter jejuni, opt. efficiency"
-                    value="NNNVRYAC"
-                  ></el-option>
-                  <el-option label="TTCN-20bp - CasX" value="TTCN"></el-option>
-                  <el-option
-                    label="YTTV-20bp - MAD7 Nuclease, Lui, Schiel, Maksimova et al, CRISPR J 2020"
-                    value="YTTV"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NNNNCNAA - Thermo Cas9 - Walker et al, Metab Eng Comm 2020"
-                    value="NNNNCNAA"
-                  ></el-option>
-                  <el-option
-                    label="20bp-NNN - SpRY, Walton et al Science 2020"
-                    value="NNN"
-                  ></el-option>
-                  <el-option label="20bp-NRN - SpRY (high efficiency PAM)" value="NRN"></el-option>
-                  <el-option label="20bp-NYN - SpRY (low efficiency PAM)" value="NYN"></el-option>
+                  <el-option label="TTN-20bp - GhCas12b" value="TTN"></el-option>
+                  <el-option label="ATTN-23bp - BhCas12b v4" value="ATTN"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -342,7 +263,7 @@ onMounted(fillNameDB)
           <el-row justify="center"
             ><el-col :span="18">
               <el-form-item>
-                <el-button type="primary" @click="toCas9">Create</el-button>
+                <el-button type="primary" @click="toCas12b">Create</el-button>
                 <el-button @click="fillExampleID">Example(Gene ID)</el-button>
                 <el-button @click="fillExamplePosition">Example(Genome Position)</el-button>
                 <el-button @click="fillExampleSeq">Example(Genome Sequence)</el-button>
