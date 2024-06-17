@@ -44,76 +44,10 @@ const session = {
           {
             id: 'FinKswChSr',
             type: 'LinearAlignmentsDisplay',
-            PileupDisplay: {
-              id: 'YAAaF494z',
-              type: 'LinearPileupDisplay',
-              height: 134,
-              configuration: {
-                type: 'LinearPileupDisplay',
-                displayId:
-                  'NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome-LinearAlignmentsDisplay_LinearPileupDisplay_xyz',
-              },
-              showSoftClipping: false,
-              filterBy: {
-                flagInclude: 0,
-                flagExclude: 1540,
-              },
-            },
-            SNPCoverageDisplay: {
-              id: 'VTQ_VGbAVJ',
-              type: 'LinearSNPCoverageDisplay',
-              height: 45,
-              configuration: {
-                type: 'LinearSNPCoverageDisplay',
-                displayId:
-                  'NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome-LinearAlignmentsDisplay_snpcoverage_xyz',
-              },
-              selectedRendering: '',
-              resolution: 1,
-              constraints: {},
-              filterBy: {
-                flagInclude: 0,
-                flagExclude: 1540,
-              },
-            },
-            snpCovHeight: 45,
             configuration:
               'NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome-LinearAlignmentsDisplay',
             height: 179,
             lowerPanelType: 'LinearPileupDisplay',
-          },
-        ],
-      },
-      {
-        id: 'EUnTnpVI6',
-        type: 'QuantitativeTrack',
-        configuration: 'hg38.100way.phyloP100way',
-        minimized: false,
-        displays: [
-          {
-            id: 'mrlawr9Wtg',
-            type: 'LinearWiggleDisplay',
-            height: 100,
-            configuration: 'hg38.100way.phyloP100way-LinearWiggleDisplay',
-            selectedRendering: '',
-            resolution: 1,
-            constraints: {},
-          },
-        ],
-      },
-      {
-        id: 'Cbnwl72EX',
-        type: 'VariantTrack',
-        configuration:
-          'ALL.wgs.shapeit2_integrated_snvindels_v2a.GRCh38.27022019.sites.vcf',
-        minimized: false,
-        displays: [
-          {
-            id: 'dvXz01Wf6w',
-            type: 'LinearVariantDisplay',
-            height: 100,
-            configuration:
-              'ALL.wgs.shapeit2_integrated_snvindels_v2a.GRCh38.27022019.sites.vcf-LinearVariantDisplay',
           },
         ],
       },

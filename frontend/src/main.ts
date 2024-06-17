@@ -13,6 +13,10 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
+import { Buffer } from 'buffer'
+
+window.Buffer = Buffer;
+
 const app = createApp(App)
 
 app.use(createPinia())

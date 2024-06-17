@@ -772,7 +772,7 @@ def form2resultjson(fasta_sequence_position, pam, spacerLength, sgRNAModule, nam
 def form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db):
     start_time = time.time()
 
-    cas9_task_record = result_cas9_list(task_id=task_id, input_sequence=inputSequence, pam_type=pam, spacer_length=spacerLength, sgRNA_module=sgRNAModule, name_db=name_db, task_status='running')
+    cas9_task_record = result_cas9_list(task_id=task_id, input_sequence=inputSequence, pam_type=pam, spacer_length=spacerLength, sgRNA_module=sgRNAModule, name_db=name_db, task_status='running', sequence_position='')
     cas9_task_record.save()
     print(f"Create record: {time.time() - start_time:.2f} seconds")
 

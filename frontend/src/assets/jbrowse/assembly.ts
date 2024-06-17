@@ -6,11 +6,11 @@ const assembly = {
         "adapter": {
           "type": "IndexedFastaAdapter",
           "fastaLocation": {
-            "uri": "http://211.69.141.134:5173/jbrowse/Zea_mays.fa",
+            "uri": "/jbrowse/Zea_mays.fa",
             "locationType": "UriLocation"
           },
           "faiLocation": {
-            "uri": "http://211.69.141.134:5173/jbrowse/Zea_mays.fa.fai",
+            "uri": "/jbrowse/Zea_mays.fa.fai",
             "locationType": "UriLocation"
           }
         }

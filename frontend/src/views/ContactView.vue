@@ -2,12 +2,7 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
-import baseEditor_img from '@/assets/baseEditing.png'
-
 import { ref, reactive, watch, onMounted } from 'vue'
-
-import axios from 'axios'
-
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {

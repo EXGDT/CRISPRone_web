@@ -50,8 +50,14 @@ const fetchTaskStatus = async () => {
   }
 }
 
+// onMounted(() => {
+//   intervalId = setInterval(fetchTaskStatus, 2000)
+//   renderJBrowse()
+// })
 onMounted(() => {
-  intervalId = setInterval(fetchTaskStatus, 2000)
+  // setTimeout(() => {
+  //   intervalId = setInterval(fetchTaskStatus, 2000)
+  // }, 2000)
   renderJBrowse()
 })
 
