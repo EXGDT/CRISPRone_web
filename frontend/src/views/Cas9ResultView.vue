@@ -11,7 +11,6 @@ import '@fontsource/roboto'
 import assemblyData from '@/assets/jbrowse/assembly.ts'
 import tracksData from '@/assets/jbrowse/tracks.ts'
 import configData from '@/assets/jbrowse/config.json'
-import defaultSessionData from '@/assets/jbrowse/defaultSession.ts'
 import * as ReactDOM from 'react-dom/client'
 import React from 'react'
 
@@ -22,12 +21,79 @@ const sgRNAJson = ref('')
 const jbrowse = ref<HTMLElement | null>(null)
 let intervalId
 
+const assembly = {
+  name: 'Zea_mays',
+  sequence: {
+    type: 'ReferenceSequenceTrack',
+    trackId: 'Zea_mays-ReferenceSequenceTrack',
+    adapter: {
+      type: 'IndexedFastaAdapter',
+      fastaLocation: {
+        uri: '/jbrowse/Zea_mays.fa',
+        locationType: 'UriLocation'
+      },
+      faiLocation: {
+        uri: '/jbrowse/Zea_mays.fa.fai',
+        locationType: 'UriLocation'
+      }
+    }
+  }
+}
+
+const tracks = [
+  {
+    type: 'FeatureTrack',
+    trackId: 'Zea_mays.processed',
+    name: 'Zea_mays.processed',
+    adapter: {
+      type: 'Gff3Adapter',
+      gffLocation: {
+        uri: '/jbrowse/Zea_mays.processed.gff3',
+        locationType: 'UriLocation'
+      }
+    },
+    assemblyNames: ['Zea_mays']
+  }
+]
+
+const defaultSession = {
+  id: 'Zea_mays',
+  name: 'Session',
+  view: {
+    id: 'linearGenomeView',
+    type: 'LinearGenomeView',
+    displayedRegions: [
+      {
+        refName: '3',
+        start: 50000,
+        end: 140000,
+        reversed: false,
+        assemblyName: 'Zea_mays'
+      }
+    ],
+    tracks: [
+      {
+        id: 'IpTYJKmsp',
+        type: 'ReferenceSequenceTrack',
+        configuration: 'Zea_mays-ReferenceSequenceTrack',
+        displays: [
+          {
+            id: 's877wHWtzD',
+            type: 'LinearReferenceSequenceDisplay',
+            configuration: 'Zea_mays-ReferenceSequenceTrack-LinearReferenceSequenceDisplay'
+          }
+        ]
+      }
+    ],
+  }
+}
+
 const renderJBrowse = () => {
   if (jbrowse.value) {
     const viewState = createViewState({
-      tracks: tracksData,
-      assembly: assemblyData
-      // defaultSession: defaultSessionData,
+      tracks: tracks,
+      assembly: assembly,
+      defaultSession: defaultSession
       // configuration: configData
     })
     const root = ReactDOM.createRoot(jbrowse.value)
@@ -50,14 +116,10 @@ const fetchTaskStatus = async () => {
   }
 }
 
-// onMounted(() => {
-//   intervalId = setInterval(fetchTaskStatus, 2000)
-//   renderJBrowse()
-// })
 onMounted(() => {
-  // setTimeout(() => {
-  //   intervalId = setInterval(fetchTaskStatus, 2000)
-  // }, 2000)
+  setTimeout(() => {
+    intervalId = setInterval(fetchTaskStatus, 2000)
+  }, 2000)
   renderJBrowse()
 })
 

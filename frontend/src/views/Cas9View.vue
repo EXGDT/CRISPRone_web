@@ -110,6 +110,14 @@ const fillExampleSeq = () => {
   form.name_db = 'Gossypium_hirsutum_Jin668_V1.1_HZAU'
 }
 
+const fillExample = async () => {
+  const response = await axios.get('http://211.69.141.134:8866/cas9_fill_example')
+  form.inputSequence = response.data.inputSequence
+  form.pam = response.data.pam
+  form.name_db = response.data.name_db
+  console.log(response.data)
+}
+
 const namedb_value = ref([])
 const fillNameDB = async () => {
   const response = await axios.get('http://211.69.141.134:8866/cas9_namedb_list')
@@ -349,6 +357,7 @@ onMounted(fillNameDB)
                 <el-button @click="fillExampleID">Example(Gene ID)</el-button>
                 <el-button @click="fillExamplePosition">Example(Genome Position)</el-button>
                 <el-button @click="fillExampleSeq">Example(Genome Sequence)</el-button>
+                <el-button @click="fillExample">Example(By chance)</el-button>
               </el-form-item>
             </el-col></el-row
           >

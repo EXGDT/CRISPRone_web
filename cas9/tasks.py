@@ -779,6 +779,15 @@ def form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_d
     step_time = time.time()
     input_type = input_sequence_to_fasta_sequence_position(inputSequence)
     fasta_sequence, fasta_sequence_position = input_type_to_sequence_and_position(input_type, name_db, task_id)
+    fasta_sequence_position_json = json.dumps(fasta_sequence_position)
+    if fasta_sequence:
+        cas9_task_record.sequence_position = fasta_sequence_position_json
+        cas9_task_record.save()
+    else:
+        cas9_task_record.task_status = 'failed'
+        cas9_task_record.log = 'empty BLAST result'
+        cas9_task_record.save()
+        return 0
     print(f"Parse input sequence: {time.time() - step_time:.2f} seconds")
 
     step_time = time.time()
@@ -812,6 +821,8 @@ def form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_d
 
 def sam_intersect_pandas_to_json(sam_pandas, intersect_pandas, task_path):
     def merge_extract(row):
+        print((row['seqid'], row['sgRNA_start']))
+        print(sam_pandas.loc[(row['seqid'], row['sgRNA_start'])])
         return sam_pandas.loc[(row['seqid'], row['sgRNA_start'])].iloc[0]
     intersect_pandas.to_csv(f'{task_path}/intersect_pandas.csv')
     if len(sam_pandas) < 1000:
@@ -893,7 +904,6 @@ def generate_sgRNA_dataframe(family_records, target_seq, target_seq_reverse, tar
     task_path = f'/tmp/CRISPRone/{task_id}'
     def ontarget_apply():
         confirmed_records = family_records[family_records['interval'].apply(lambda row: row.overlaps(pd.Interval(sgRNA_position_start, sgRNA_position_end)))]
-        print(f'confirmed_records={confirmed_records}')
         if confirmed_records.empty:
             return family_records.iloc[0, -1], 'intron'
         else:
@@ -908,7 +918,7 @@ def generate_sgRNA_dataframe(family_records, target_seq, target_seq_reverse, tar
         sgRNA_GC = str('{:.2f}'.format((sgRNA_seq.count('C') + sgRNA_seq.count('G')) / len(sgRNA_seq) * 100)) + '%'
         sgRNA_position_start = target_start + sgRNA.start()
         sgRNA_position_end = target_start + sgRNA.end() - 1
-        sgRNA_position = target_seqid + ':' + str(sgRNA_position_start)
+        sgRNA_position = str(target_seqid) + ':' + str(sgRNA_position_start)
         sgRNA_family, sgRNA_type = ontarget_apply()
         sgRNA_seqrecord = SeqRecord(Seq(sgRNA_seq), sgRNA_id, '', '')
         sgRNA_seqrecords.append(sgRNA_seqrecord)
@@ -961,6 +971,7 @@ def sequence_and_position_to_target_seq(name_db, fasta_sequence_position, spacer
         chromosome_length = genome_handle.get_reference_length(seqid)
         target_start = max(start - spacer_length, 1)
         target_end = min(end + spacer_length, chromosome_length)
+        print(f'seqid: {seqid}, target_start: {target_start}, target_end: {target_end}')
         target_seq = genome_handle.fetch(seqid, target_start, target_end)
         target_seq_reverse = str(Seq(target_seq).reverse_complement())
     return target_start, target_end, target_seq, target_seq_reverse
@@ -1016,13 +1027,17 @@ def input_type_to_sequence_and_position(input_type, name_db, task_id):
         except subprocess.CalledProcessError as e:
             print(f"BLASTn failed: {e.stderr}")
         with open(f"{task_path}/{task_id}.blastn.out6") as blastn_out_file:
-            first_record = blastn_out_file.readline().strip().split('\t')
-            seqid = first_record[1]
-            start = int(first_record[8])
-            end = int(first_record[9])
-        blastnfmt6_100_dict = {'seqid': seqid, 'start': start, 'end': end}
-        sequence = str(next(SeqIO.parse(f'{task_path}/{task_id}.fasta', 'fasta')).seq)
-        return sequence, blastnfmt6_100_dict
+            first_line = blastn_out_file.readline().strip()
+            if first_line: 
+                first_record = first_line.split('\t')
+                seqid = first_record[1]
+                start = int(first_record[8])
+                end = int(first_record[9])
+                blastnfmt6_100_dict = {'seqid': seqid, 'start': start, 'end': end}
+                sequence = str(next(SeqIO.parse(f'{task_path}/{task_id}.fasta', 'fasta')).seq)
+                return sequence, blastnfmt6_100_dict
+            else:
+                return 0, 1
     if input_type['position']:
         seqid, position_range = input_type['position'].split(':')
         start, end = position_range.split('-')
@@ -1033,10 +1048,8 @@ def input_type_to_sequence_and_position(input_type, name_db, task_id):
     if input_type['locus']:
         genome_handle = pysam.FastaFile(f"./data/genome_files/{name_db}.fa")
         gff_pandas = pd.read_pickle(f"./data/processed_annotation_files/{name_db}.processed.gff3.pkl")
-        print(input_type['locus'])
         locus = gff_pandas.loc[gff_pandas['ID'] == input_type['locus'], ['seqid', 'start', 'end']].iloc[0].tolist()
-        print(locus)
-        seqid, start, end = locus[0], locus[1], locus[2]
+        seqid, start, end = locus[0], int(locus[1]), int(locus[2])
         return genome_handle.fetch(seqid, start, end), {"seqid": seqid, "start": start, "end": end}
 
     return 0, 1
