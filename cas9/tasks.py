@@ -865,6 +865,12 @@ def sam_intersect_pandas_to_json(sam_pandas, intersect_pandas, task_path):
 
 
 def intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db):
+    def fetch_rseq(row):
+        try:
+            return genome_handle.fetch(row['rname'], row['pos']-1, row['pos_end']-2)
+        except Exception as e:
+            print(f"Error fetching sequence for row: rname={row['rname']}, pos={row['pos']-1}, pos_end={row['pos_end']-2}")
+            raise e
     spacerLength = int(spacerLength)
     sam_pandas = pd.read_csv(
         sam_file,
@@ -877,7 +883,8 @@ def intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db):
     sam_pandas['NM'] = sam_pandas['NM'].str.replace('NM:i:', '')
     sam_pandas['MD'] = sam_pandas['MD'].str.replace('MD:Z:', '')
     sam_pandas['pos_end'] = sam_pandas['pos'] + spacerLength
-    sam_pandas['rseq'] = sam_pandas.apply(lambda row: genome_handle.fetch(row['rname'], row['pos']-1, row['pos_end']-2), axis=1, result_type='expand')
+    # sam_pandas['rseq'] = sam_pandas.apply(lambda row: genome_handle.fetch(row['rname'], row['pos']-1, row['pos_end']-2), axis=1, result_type='expand')
+    sam_pandas['rseq'] = sam_pandas.apply(fetch_rseq, axis=1, result_type='expand')
     sam_pandas['pos_0_base'] = sam_pandas['pos'] - 1
     sam_pandas.set_index(['rname', 'pos_0_base'], inplace=True, drop=False)
     sam_pandas.sort_index(inplace=True)

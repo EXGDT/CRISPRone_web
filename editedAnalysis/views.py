@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def barcodeDesign(request):
-    return render(request, 'barcodeDesign/editingAnalysis.html')
+    return render(request, 'editedAnalysis/editingAnalysis.html')
 
 def editingAnalysis(request):
     return render(request, 'editedAnalysis/editingAnalysis.html')
