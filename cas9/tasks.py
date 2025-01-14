@@ -19,6 +19,8 @@ from pybedtools import BedTool
 from pandarallel import pandarallel
 pandarallel.initialize(nb_workers=20, progress_bar=False)
 
+pd.set_option('display.max_columns', None)
+
 
 IUPAC_dict = {
     'A': 'A',
@@ -804,7 +806,7 @@ def form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_d
 
     step_time = time.time()
     sam_file, intersect_file = run_batman(f'/tmp/CRISPRone/{task_id}', name_db, task_id)
-    sam_pandas, intersect_pandas = intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db)
+    sam_pandas, intersect_pandas = intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db, pam)
     print(f"Run BATMAN and intersection analysis: {time.time() - step_time:.2f} seconds")
 
     step_time = time.time()
@@ -820,22 +822,36 @@ def form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_d
 
 
 def sam_intersect_pandas_to_json(sam_pandas, intersect_pandas, task_path):
-    def merge_extract(row):
-        print((row['seqid'], row['sgRNA_start']))
-        print(sam_pandas.loc[(row['seqid'], row['sgRNA_start'])])
-        return sam_pandas.loc[(row['seqid'], row['sgRNA_start'])].iloc[0]
+    print(f"sam_pandas_name\n{sam_pandas.columns}")
+    print(f"sam_pandas_10\n{sam_pandas.head(10)}")
+    print(f"intersect_pandas_name\n{intersect_pandas.columns}")
+    print(f"sam_pandas_shape\n{sam_pandas.shape}")
+    print(f"intersect_pandas_10\n{intersect_pandas.head(10)}")
+    print(f"intersect_pandas_shape\n{intersect_pandas.shape}")
     intersect_pandas.to_csv(f'{task_path}/intersect_pandas.csv')
-    if len(sam_pandas) < 1000:
-        intersect_pandas[
-            ['qname', 'flag', 'rname', 'pos', 'seq', 'NM', 'MD', 'pos_end', 'rseq', 'pos_0_base']
-            ] = intersect_pandas.apply(merge_extract, axis=1, result_type='expand')
-        intersect_pandas['family'] = intersect_pandas['attributes'].str.extract(r'Family=([^;]+)', expand=False)
-    else:
-        intersect_pandas[
-            ['qname', 'flag', 'rname', 'pos', 'seq', 'NM', 'MD', 'pos_end', 'rseq', 'pos_0_base']
-            ] = intersect_pandas.parallel_apply(merge_extract, axis=1, result_type='expand')
-        intersect_pandas['family'] = intersect_pandas['attributes'].str.extract(r'Family=([^;]+)', expand=False)
-    intersect_pandas.set_index(['seq', 'family'], inplace=True, drop=True)
+    intersect_pandas.to_pickle(f'{task_path}/intersect_pandas.plk')
+    sam_pandas.to_csv(f'{task_path}/sam_pandas.csv')
+    sam_pandas.to_pickle(f'{task_path}/sam_pandas.plk')
+    # def merge_extract(row):
+    #     if len(sam_pandas.loc[(row['seqid'], row['sgRNA_start'])]) != 10:
+    #         print(f"seqid={row['seqid']}, sgRNA_start={row['sgRNA_start']}")
+    #         print(f"sam_pandas.loc[(row['seqid'], row['sgRNA_start'])]\n{sam_pandas.loc[(row['seqid'], row['sgRNA_start'])]}")
+    #     return sam_pandas.loc[(row['seqid'], row['sgRNA_start'])].iloc[0]
+    sam_pandas_reset = sam_pandas.reset_index(drop=True)
+    merged_pandas = intersect_pandas.merge(sam_pandas_reset, left_on=['seqid', 'sgRNA_start'], right_on=['rname', 'pos_0_base'], how='left')
+    merged_pandas['family'] = merged_pandas['attributes'].str.extract(r'Family=([^;]+)', expand=False)
+    # if len(sam_pandas) < 1000:
+    #     intersect_pandas[
+    #         ['qname', 'flag', 'rname', 'pos', 'seq', 'NM', 'MD', 'pos_end', 'rseq', 'pos_0_base']
+    #         ] = intersect_pandas.apply(lambda row: merge_extract(row), axis=1, result_type='expand')
+    #     intersect_pandas['family'] = intersect_pandas['attributes'].str.extract(r'Family=([^;]+)', expand=False)
+    # else:
+    #     intersect_pandas[
+    #         ['qname', 'flag', 'rname', 'pos', 'seq', 'NM', 'MD', 'pos_end', 'rseq', 'pos_0_base']
+    #         ] = intersect_pandas.apply(lambda row: merge_extract(row), axis=1, result_type='expand')
+    #     intersect_pandas['family'] = intersect_pandas['attributes'].str.extract(r'Family=([^;]+)', expand=False)
+    merged_pandas.set_index(['seq', 'family'], inplace=True, drop=True)
+    intersect_pandas = merged_pandas
     with open(f'{task_path}/Guide.json') as guide_json_handle:
         guide_json = json.load(guide_json_handle)
         for target_seq in intersect_pandas.index.get_level_values(0).unique():
@@ -864,13 +880,11 @@ def sam_intersect_pandas_to_json(sam_pandas, intersect_pandas, task_path):
     return guide_json
 
 
-def intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db):
+def intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db, pam):
     def fetch_rseq(row):
-        try:
-            return genome_handle.fetch(row['rname'], row['pos']-1, row['pos_end']-2)
-        except Exception as e:
-            print(f"Error fetching sequence for row: rname={row['rname']}, pos={row['pos']-1}, pos_end={row['pos_end']-2}")
-            raise e
+        print(f"Fetching sequence for row: rname={row['rname']}, pos={row['pos']-1}, pos_end={row['pos_end']-1}")
+        return genome_handle.fetch(row['rname'], row['pos']-1, row['pos_end']-1 + pam_length)
+    pam_length = sum(1 for nuc in pam if nuc in IUPAC_dict)
     spacerLength = int(spacerLength)
     sam_pandas = pd.read_csv(
         sam_file,
@@ -883,7 +897,7 @@ def intersect_to_pandas(sam_file, intersect_file, spacerLength, name_db):
     sam_pandas['NM'] = sam_pandas['NM'].str.replace('NM:i:', '')
     sam_pandas['MD'] = sam_pandas['MD'].str.replace('MD:Z:', '')
     sam_pandas['pos_end'] = sam_pandas['pos'] + spacerLength
-    # sam_pandas['rseq'] = sam_pandas.apply(lambda row: genome_handle.fetch(row['rname'], row['pos']-1, row['pos_end']-2), axis=1, result_type='expand')
+    # sam_pandas['rseq'] = sam_pandas.apply(lambda row: genome_handle.fetch(row['rname'], row['pos']-1, row['pos_end']-1 + pam_length), axis=1, result_type='expand')
     sam_pandas['rseq'] = sam_pandas.apply(fetch_rseq, axis=1, result_type='expand')
     sam_pandas['pos_0_base'] = sam_pandas['pos'] - 1
     sam_pandas.set_index(['rname', 'pos_0_base'], inplace=True, drop=False)
@@ -918,6 +932,7 @@ def generate_sgRNA_dataframe(family_records, target_seq, target_seq_reverse, tar
     sgRNA_seqrecords = []
     sgRNA_dataframe = pd.DataFrame(columns=['sgRNA_id', 'sgRNA_position', 'sgRNA_strand', 'sgRNA_seq', 'sgRNA_seq_html', 'sgRNA_GC', 'sgRNA_family', 'sgRNA_type'])
     pam_regex = create_regex_patterns(pam, spacerLength, sgRNAModule)
+    print(family_records)
     for idx, sgRNA in enumerate(re.finditer(pam_regex, target_seq)):
         sgRNA_seq = sgRNA.group()
         sgRNA_seq_html = str("<span style='font-weight:900'>" + sgRNA_seq + '</span>' + '</br>' + '|' * len(sgRNA_seq) + '</br>' + Seq(sgRNA_seq).complement())

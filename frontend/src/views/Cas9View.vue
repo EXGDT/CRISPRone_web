@@ -125,6 +125,7 @@ const fillNameDB = async () => {
     label: item.label,
     value: item.value
   }))
+  console.log(namedb_value.value)
 }
 
 onMounted(fillNameDB)

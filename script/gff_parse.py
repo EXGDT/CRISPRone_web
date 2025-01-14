@@ -160,6 +160,33 @@ def generate_intergenic_records_vect_improved(gff_raw, fai_path):
             'attributes': 'ID=intergenic_region'
         })
         intergenic_records.append(intergenic_df)
+    gff_seqids = set(genes_sorted['seqid'].unique())
+    fai_seqids = set(seq_lengths_dict.keys()) 
+    missing_seqids = fai_seqids - gff_seqids
+    for seqid in missing_seqids:
+        intergenic_records.append(pd.DataFrame({
+            'seqid': [seqid],
+            'source': ['CRISPRall'],
+            'type': ['intergenic_region'],
+            'start': [1],
+            'end': [seq_lengths_dict[seqid]],
+            'score': ['.'],
+            'strand': ['+'],
+            'phase': ['.'],
+            'attributes': ['ID=intergenic_region']
+        }))
+    for seqid in missing_seqids:
+        intergenic_records.append(pd.DataFrame({
+            'seqid': [seqid],
+            'source': ['CRISPRall'],
+            'type': ['intergenic_region'],
+            'start': [1],
+            'end': [seq_lengths_dict[seqid]],
+            'score': ['.'],
+            'strand': ['-'],
+            'phase': ['.'],
+            'attributes': ['ID=intergenic_region']
+        }))
     intergenic_records_df = pd.concat(intergenic_records, ignore_index=True)
     merged_gff = pd.concat([gff_raw, intergenic_records_df], ignore_index=True).sort_values(by=['seqid', 'strand', 'start'])
     return merged_gff

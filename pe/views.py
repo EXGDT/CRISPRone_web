@@ -118,10 +118,10 @@ def pe_submit(request):
             messages.add_message(request, messages.WARNING, errmes)
         elif pamType1 == "xxx" and not not pamType2.strip().upper():
             input_parameters_results['pamType'] = pamType2.strip().upper()
-        elif pamType1 != "xxx" and not not pamType2.strip().upper():
-            input_parameters_results['pamType'] = "Error: Only one PAM is need. Select or Customized."
-            errmes = '<p><strong><i class="fas fa-exclamation-triangle"></i> Error: Only one PAM is need. Select or Customized.</strong> <i class="fas fa-level-up-alt"></i></p>'
-            messages.add_message(request, messages.WARNING, errmes)
+        # elif pamType1 != "xxx" and not not (pamType2 or "").strip().upper():
+        #     input_parameters_results['pamType'] = "Error: Only one PAM is need. Select or Customized."
+        #     errmes = '<p><strong><i class="fas fa-exclamation-triangle"></i> Error: Only one PAM is need. Select or Customized.</strong> <i class="fas fa-level-up-alt"></i></p>'
+        #     messages.add_message(request, messages.WARNING, errmes)
         else:
             input_parameters_results['pamType'] = pamType1
         targetGenome = request.POST.get('targetGenome')
@@ -455,10 +455,16 @@ def find_pegRNA_in_range(annotations_ref, annotations_edit, mypam, mypam_start, 
         # 20bp+NG
         mypam = r'[ATCG]G'
     # 20bp+NGG
+    mypam = r'[ATCG]GG'
     pamSites = re.finditer(mypam, annotations_ref)
+    print(mypam)
+    print(annotations_ref)
     for site in pamSites:
+        print("ffffffffffffffffffffffffffffffffffff")
+        print(site)
         # PAM距离序列起始不足20bp 或 PAM 起点不在上述确定的 PAM 范围内
         if int(site.start()) - int(spacerLength) < 0 or int(site.start()) < mypam_start or int(site.start()) > mypam_end:
+            print("99999999999999999999999999999999999999")
             pass
         else:
             sgRNA_start = int(site.start()) - int(spacerLength)
@@ -554,6 +560,9 @@ def find_pegRNA_in_range_both_strand(sequence, mypam, cutDistance, spacerLength,
     rev_mypam_end = rev_range[2]
     rev_pegRNAs = find_pegRNA_in_range(rev_annotations_ref, rev_annotations_edit, mypam, rev_mypam_start, rev_mypam_end, cutDistance, spacerLength, pegRNAspacerGC, "-", genome, rev_mutation_start, rtLength, pbsLength, pbsGC, best_pbs_tm, rt_exclude_first_c, ngRNA_Distance[0], ngRNA_Distance[1])
     ## Merge two strand
+    print("111111111111111111111111111111111111111")
+    print(for_pegRNAs)
+    print(rev_pegRNAs)
     sgRNAs_option_df = pd.concat([for_pegRNAs[0], rev_pegRNAs[0]])
     sgRNAs_option_df.insert(0, 'id', "") # 添加空列来放 + 号, 点击后展开
     pbs_rt_df = pd.concat([for_pegRNAs[1], rev_pegRNAs[1]])
