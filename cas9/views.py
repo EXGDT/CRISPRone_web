@@ -3,11 +3,13 @@ import os
 import random
 import string
 import json
+import subprocess
 from http.client import HTTPResponse
 from Bio import SeqIO
 import pandas as pd
+from django.conf import settings
 
-from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest, JsonResponse, FileResponse
 from django.shortcuts import render, redirect
 from pkg_resources import ContextualVersionConflict
 
@@ -257,3 +259,60 @@ def cas9_fill_example(request):
     print(form)
     return JsonResponse(form)
     
+
+def cas9_Jbrowse_API(request):
+    task_id = request.GET.get('task_id')
+    file_type = request.GET.get('file_type')
+    os.makedirs(f'/tmp/CRISPRone/{task_id}', exist_ok=True)
+    cas9_task_record = result_cas9_list.objects.get(task_id=task_id)
+    file_paths = {
+        "fa": os.path.join(settings.BASE_DIR, f"data/genome_files/{cas9_task_record.name_db}.fa"),
+        "fai": os.path.join(settings.BASE_DIR, f"data/genome_files/{cas9_task_record.name_db}.fa.fai"),
+        "gff3.gz": f"/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.input_sequence}_sgRNA.gff3.gz",
+        "gff3.gz.csi": f"/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.input_sequence}_sgRNA.gff3.gz.csi",
+    }
+    if all([os.path.exists(file_paths[file]) for file in file_paths]):
+        return (
+            FileResponse(open(file_paths['fa'], 'rb')) if file_type == 'fa' else
+            FileResponse(open(file_paths['fai'], 'rb')) if file_type == 'fai' else
+            FileResponse(open(file_paths['gff3.gz'], 'rb')) if file_type == 'gff3.gz' else
+            FileResponse(open(file_paths['gff3.gz.csi'], 'rb')) if file_type == 'gff3.gz.csi' else
+            HttpResponseNotFound()
+        )
+    else: 
+        gff_file_path = f'/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.input_sequence}_sgRNA.gff3'
+        with open(gff_file_path, 'w') as gff_file:
+            gff_file.write("##gff-version 3\n")
+        with open(gff_file_path, 'a') as gff_file:
+            for row in cas9_task_record.sgRNA_json['rows']:
+                sgRNA_id = row['sgRNA_id']
+                seqid = row['sgRNA_position'].split(':')[0]
+                start = int(row['sgRNA_position'].split(':')[1])
+                end = start + len(row['sgRNA_seq']) - 1
+                strand = '+' if row['sgRNA_strand'] == "5'------3'" else '-'
+                score = '.'
+                phase = '.'
+                attributes = f"ID={sgRNA_id};Name={sgRNA_id};Sequence={row['sgRNA_seq']}"
+                gff_line = "\t".join([
+                    seqid,           # 序列ID
+                    "sgRNA",         # 来源（Source）
+                    "guide",         # 类型（Feature type）
+                    str(start),      # 开始位置
+                    str(end),        # 结束位置
+                    score,           # 分数（Score）
+                    strand,          # 链方向（Strand）
+                    phase,           # 相位（Phase）
+                    attributes       # 属性（Attributes）
+                ])
+                gff_file.write(gff_line + "\n")
+        os.environ["LD_LIBRARY_PATH"] = "/disk2/users/yxguo/opt/lib64"
+        subprocess.run(["sort", "-k1,1", "-k2,2n", gff_file_path, "-o", gff_file_path], check=True)
+        subprocess.run(["/disk2/users/yxguo/opt/bin/bgzip", "-f", gff_file_path], check=True)
+        subprocess.run(["/disk2/users/yxguo/opt/bin/tabix", "-p", "gff", "-C", f"{gff_file_path}.gz"], check=True)
+        return (
+            FileResponse(open(file_paths['fa'], 'rb')) if file_type == 'fa' else
+            FileResponse(open(file_paths['fai'], 'rb')) if file_type == 'fai' else
+            FileResponse(open(file_paths['gff3.gz'], 'rb')) if file_type == 'gff3.gz' else
+            FileResponse(open(file_paths['gff3.gz.csi'], 'rb')) if file_type == 'gff3.gz.csi' else
+            HttpResponseNotFound()
+        )

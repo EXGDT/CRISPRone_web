@@ -818,7 +818,38 @@ def form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_d
     cas9_task_record.task_status = 'finished'
     cas9_task_record.save()
     print(f"Total time: {time.time() - start_time:.2f} seconds")
+
+    step_time = time.time()
+    add_Jbrowse_to_json(task_id, guide_json)
+    print(f"JSON3 is generated: {time.time() - step_time:.2f} seconds")
+
     return 0
+
+
+def add_Jbrowse_to_json(task_id, guide_json):
+    cas9_task_record = result_cas9_list.objects.get(task_id=task_id)
+    sequence_position = json.loads(cas9_task_record.sequence_position)
+    json_handle = {"TableData": {"json_data": guide_json},
+                   "JbrowseInfo": {
+                       "assembly": {
+                           "name": cas9_task_record.name_db,
+                           "fasta": f"http://crisprall.hzau.edu.cn/CRISPRone_data/genome_files/{cas9_task_record.name_db}.fa",
+                           "fai": f"http://crisprall.hzau.edu.cn/CRISPRone_data/genome_files/{cas9_task_record.name_db}.fa.fai"
+                        },
+                       "tracks": {
+                           "name": cas9_task_record.name_db,
+                           "gff3_gz": f"http://crisprall.hzau.edu.cn/cas9_Jbrowse_API?task_id={task_id}&file_type=gff3.gz",
+                           "gff3_tbi": f"http://crisprall.hzau.edu.cn/cas9_Jbrowse_API?task_id={task_id}&file_type=gff3.gz.csi"
+                       },
+                       "position": f"{sequence_position['seqid']}:{sequence_position['start']}..{sequence_position['end']}"
+                       }}
+    cas9_task_record.sgRNA_with_JBrowse_json = json_handle
+    cas9_task_record.save()
+    cas9_task_record.refresh_from_db()
+    print(f'json_handle:{json_handle}')
+    print(f'cas9_task_record.sgRNA_with_JBrowse_json:{cas9_task_record.sgRNA_with_JBrowse_json}')
+    with open(f'/tmp/CRISPRone/{task_id}/Guide.json3', 'w') as file_handle:
+        json.dump(json_handle, file_handle)
 
 
 def sam_intersect_pandas_to_json(sam_pandas, intersect_pandas, task_path):

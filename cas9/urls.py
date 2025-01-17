@@ -12,5 +12,6 @@ urlpatterns = [
     path('cas9_fill_example', views.cas9_fill_example, name='cas9_fill_example'),
     path('cas9_pagi_ontarget/', views.cas9_pagi_ontarget, name='cas9_pagi_ontarget'),
     path('cas9_pagi_offtarget/', views.cas9_pagi_offtarget, name='cas9_pagi_offtarget'),
+    path('cas9_Jbrowse_API/', views.cas9_Jbrowse_API, name='cas9_Jbrowse_API'),
     re_path(r'^cas9_task/(?P<path>.*)$',serve,{"document_root":"/disk2/users/yxguo/html/CRISPRone/cas9/tmp/"}),
 ]

@@ -13,6 +13,7 @@ class result_cas9_list(models.Model):
     sgRNA_module = models.CharField(max_length=20)
     spacer_length = models.PositiveSmallIntegerField()
     sgRNA_json = models.JSONField(default=dict)
+    sgRNA_with_JBrowse_json = models.JSONField(default=dict)
     task_status = models.CharField(max_length=20)
     log = models.TextField(default="")
 
