@@ -24,6 +24,58 @@ const LoadingIcon = styled(SyncOutlined)`
   animation: loadingSpin 1s infinite linear;
 `;
 
+const CustomButton = styled(Radio.Button)`
+  margin-right: 30px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  color: #fff;
+  background-color: ${(props) => props.color || "#fff"};
+  position: relative;
+  transition: all 0.3s;
+
+  &.ant-radio-button-wrapper-checked {
+    border-color: ${(props) => props.color || "#40a9ff"};
+    color: white;
+    box-shadow: 0 2px 4px rgba(187, 126, 126, 0.1);
+    padding-left: 30px;
+
+    &::before {
+      content: ${(props) =>
+        props.$isSelected && !props.disableRandom ? "'✓'" : ""};
+      position: absolute;
+      left: 10px;
+      font-weight: bold;
+      color: ${(props) => (props.disableRandom ? "transparent" : "inherit")};
+    }
+
+    ${(props) =>
+      props.disableRandom &&
+      `
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: 10px;
+                        width: 14px;
+                        height: 14px;
+                        border: 2px solid #fff;
+                        border-top-color: transparent;
+                        border-radius: 50%;
+                        animation: loadingSpin 1s linear infinite; 
+                    }
+                `}
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @keyframes loadingSpin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
 function SequenceInput({ onExampleClick, disableRandom }) {
   const { TextArea } = Input;
   const [selectedValue, setSelectedValue] = useState(null);
@@ -37,58 +89,6 @@ function SequenceInput({ onExampleClick, disableRandom }) {
     setSelectedValue(null);
     onExampleClick({ target: { value: "" } });
   };
-
-  const CustomButton = styled(Radio.Button)`
-    margin-right: 30px;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    color: #fff;
-    background-color: ${(props) => props.color || "#fff"};
-    position: relative;
-    transition: all 0.3s;
-
-    &.ant-radio-button-wrapper-checked {
-      border-color: ${(props) => props.color || "#40a9ff"};
-      color: white;
-      box-shadow: 0 2px 4px rgba(187, 126, 126, 0.1);
-      padding-left: 30px;
-
-      &::before {
-        content: ${(props) =>
-          selectedValue && !props.disableRandom ? "'✓'" : ""};
-        position: absolute;
-        left: 10px;
-        font-weight: bold;
-        color: ${(props) => (props.disableRandom ? "transparent" : "inherit")};
-      }
-
-      ${(props) =>
-        props.disableRandom &&
-        `
-                    &::after {
-                        content: '';
-                        position: absolute;
-                        left: 10px;
-                        width: 14px;
-                        height: 14px;
-                        border: 2px solid #fff;
-                        border-top-color: transparent;
-                        border-radius: 50%;
-                        animation: loadingSpin 1s linear infinite; 
-                    }
-                `}
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    @keyframes loadingSpin {
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  `;
 
   return (
     <>
@@ -148,6 +148,8 @@ function SequenceInput({ onExampleClick, disableRandom }) {
             <CustomButton
               value="random"
               color="#1FCC1F"
+              $isSelected={selectedValue === "random"}
+              $disableRandom={disableRandom}
               disabled={disableRandom}
               loading={disableRandom}
               onClick={() => onExampleClick({ target: { value: "random" } })}

@@ -16,7 +16,6 @@ function Cas9() {
     const example = cas9_data.example;
     const navigate = useNavigate();
     const [form] = Form.useForm();
-    const [PamType, setPamType] = useState('NGG');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [tempFormData, setTempFormData] = useState(null);
     const [randomExample, setRandomExample] = useState(null);
@@ -166,8 +165,6 @@ function Cas9() {
                     <SequenceInput onExampleClick={handleExampleClick} disableRandom={randomLoading} />
 
                     <CustomizedPAM
-                        PamType={PamType}
-                        setPamType={setPamType}
                         baseEditors={target_genome}
                         pamOptions={PAM_Types}
                     />
