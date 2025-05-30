@@ -92,18 +92,13 @@ const toCas13 = () => {
 }
 
 const fillExampleID = () => {
-  form.inputSequence = 'Ghjin_A07g001000'
-  form.pam = 'NGG'
-  form.name_db = 'Gossypium_hirsutum_Jin668_V1.1_HZAU'
-}
-const fillExamplePosition = () => {
-  form.inputSequence = 'Ghjin_A01:80323913-80324566'
+  form.inputSequence = 'Ghjin_A07g001000.1'
   form.pam = 'NGG'
   form.name_db = 'Gossypium_hirsutum_Jin668_V1.1_HZAU'
 }
 const fillExampleSeq = () => {
   form.inputSequence =
-    '>Ghjin_A01g000010\nATGTTTATACACTCATCTTTTCTTGGGTAGTCCGCAAGCCTTAAGCAATAAGAGAACCAGGGGGACTATTGAAACAGTGTAATGAAGGATCAAACCATGCCAGAAGCAATCAAATGCCTTTTTCATGAACATCTGGATTCAGTTTTTGATTCTGAGAAGAAAATGAGGCACTTTATCAAA'
+    '>Ghjin_A01g000020.1 CDS=1-207\nATGGTTGTTTATTTTTCTTTGATTCTTCTGTGTTGGTTCGCAAAAGAAGGAATGTTTTATGACTTCGAGA\nGGACTGGAATAAGCACTTTAGTCACTATGGGAGTCCGAGATATTCAGGATGAGGGATTTCCCGATCAGTT\nTTCTGGGTTGGCTGACTCCGTATTTCTGGACCTACCACAACCTTGGCTAGCCATTCCTTCAGGTTGA'
   form.pam = 'NGG'
   form.name_db = 'Gossypium_hirsutum_Jin668_V1.1_HZAU'
 }
@@ -207,9 +202,9 @@ onMounted(fillNameDB)
             <el-col :span="8">
               <el-form-item prop="spacerLength">
                 <template #label>
-                  <strong>Spacer length of Customized PAM</strong>
+                  <strong>Spacer length</strong>
                 </template>
-                <el-input v-model="form.spacerLength" type="number" min="10" max="50" />
+                <el-input v-model="form.spacerLength" type="number" min="20" max="30" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -219,8 +214,7 @@ onMounted(fillNameDB)
               <el-form-item>
                 <el-button type="primary" :icon="Search" size="large" @click="toCas13">Create</el-button>
                 <el-button type="success" size="large" @click="fillExampleID">Example(Gene ID)</el-button>
-                <el-button type="success" size="large" @click="fillExamplePosition">Example(Genome Position)</el-button>
-                <el-button type="success" size="large" @click="fillExampleSeq">Example(Genome Sequence)</el-button>
+                <el-button type="success" size="large" @click="fillExampleSeq">Example(RNA Sequence)</el-button>
               </el-form-item>
             </el-col></el-row
           >

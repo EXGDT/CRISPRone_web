@@ -207,7 +207,8 @@ def cas9_module_API(request):
     return JsonResponse({
         "task_id": task.task_id,
         "task_status": task.task_status,
-        "sgRNAJson": task.sgRNA_json
+        "sgRNAJson": task.sgRNA_with_JBrowse_json,
+        "log": task.log
     })
 
 
@@ -268,8 +269,8 @@ def cas9_Jbrowse_API(request):
     file_paths = {
         "fa": os.path.join(settings.BASE_DIR, f"data/genome_files/{cas9_task_record.name_db}.fa"),
         "fai": os.path.join(settings.BASE_DIR, f"data/genome_files/{cas9_task_record.name_db}.fa.fai"),
-        "gff3.gz": f"/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.input_sequence}_sgRNA.gff3.gz",
-        "gff3.gz.csi": f"/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.input_sequence}_sgRNA.gff3.gz.csi",
+        "gff3.gz": f"/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.task_id}_sgRNA.gff3.gz",
+        "gff3.gz.csi": f"/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.task_id}_sgRNA.gff3.gz.csi",
     }
     if all([os.path.exists(file_paths[file]) for file in file_paths]):
         return (
@@ -280,7 +281,8 @@ def cas9_Jbrowse_API(request):
             HttpResponseNotFound()
         )
     else: 
-        gff_file_path = f'/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.input_sequence}_sgRNA.gff3'
+        gff_file_path = f'/tmp/CRISPRone/{task_id}/{cas9_task_record.name_db}_{cas9_task_record.task_id}_sgRNA.gff3'
+        print(gff_file_path)
         with open(gff_file_path, 'w') as gff_file:
             gff_file.write("##gff-version 3\n")
         with open(gff_file_path, 'a') as gff_file:

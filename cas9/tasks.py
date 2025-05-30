@@ -1111,9 +1111,11 @@ def input_type_to_sequence_and_position(input_type, name_db, task_id):
 @shared_task
 def cas9_task_process(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db):
 
-    if result_cas9_list.objects.filter(task_id=task_id).exists():
-        form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
+    if result_cas9_list.objects.filter(task_id=task_id).exists() and result_cas9_list.objects.get(task_id=task_id).task_status == 'finished':
+        # form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
         return 0
+    elif result_cas9_list.objects.filter(task_id=task_id).exists() and result_cas9_list.objects.get(task_id=task_id).task_status == 'failed':
+        return result_cas9_list.objects.get(task_id=task_id).log
     else:
         form2Database(task_id, inputSequence, pam, spacerLength, sgRNAModule, name_db)
         return 0

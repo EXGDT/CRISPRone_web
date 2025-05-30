@@ -12,6 +12,8 @@ urlpatterns = [
     ## New
     path('cas12a_API/', views.cas12a_API, name='cas12a_API'),
     path('cas12a_module_API/', views.cas12a_module_API, name='cas12a_module_API'),
+    path('cas12a_fill_example', views.cas12a_fill_example, name='cas12a_fill_example'),
+    path('cas12b_fill_example', views.cas12b_fill_example, name='cas12b_fill_example'),
     # path('cas12a_namedb_list', views.cas12a_namedb_list, name='cas12a_namedb_list'),
     # path('cas12a_pagi_ontarget/', views.cas12a_pagi_ontarget, name='cas12a_pagi_ontarget'),
     # path('cas12a_pagi_offtarget/', views.cas12a_pagi_offtarget, name='cas12a_pagi_offtarget'),
