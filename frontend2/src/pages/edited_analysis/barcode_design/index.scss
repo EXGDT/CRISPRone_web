@@ -1,0 +1,259 @@
+/* 定义全局变量 */
+:root {
+    --background-color-light: rgba(246, 252, 251, 1);
+    --background-color-dark: rgba(229, 229, 229, 1);
+    --box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+    --border-radius: 6px;
+    --text-color: #333;
+    --font-size-normal: 20px;
+    --font-size-large: 23px;
+    --padding-normal: 10px;
+}
+
+.barcode_design {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding-bottom: 70px;
+
+    .introduction {
+        width: 90%;
+        margin: 40px 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+
+        .introduction_img {
+            width: 50%;
+            height: auto;
+            margin: 10px 0;
+            background-color: var(--background-color-dark);
+            border-radius: var(--border-radius);
+        }
+
+        .introduction_text {
+            width: 40%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            min-width: 400px;
+            background-color: var(--background-color-light);
+            box-shadow: var(--box-shadow);
+            padding: var(--padding-normal) 30px;
+            border-radius: var(--border-radius);
+
+            .introduction_text_top {
+                .introduction_title {
+                    margin: 10px 0;
+                    font-size: var(--font-size-large);
+                    color: var(--text-color);
+                }
+
+                .introduction_content {
+                    margin-left: 3px;
+                    font-size: var(--font-size-normal);
+                    color: var(--text-color);
+                }
+            }
+
+            .introduction_text_bottom {
+                h3 {
+                    margin-bottom: 5px;
+                    font-size: var(--font-size-large);
+                    color: var(--text-color);
+                }
+
+                .introduction_ul {
+                    margin-left: 5px;
+
+                    ol {
+                        font-size: var(--font-size-normal);
+                        color: var(--text-color);
+                    }
+
+                    li::marker {
+                        color: blue;
+                    }
+                }
+            }
+        }
+    }
+
+    .form {
+        width: 90%;
+        margin: 10px auto;
+        padding: 20px;
+        text-align: left;
+
+        .title{
+            display: inline-block;
+            height: 50px;
+            margin: 20px 0;
+            border-radius: 100px;
+            background-color: rgba(94,221,83,0.69);
+            text-align: center;
+            box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.4);
+            border: 1px solid rgba(187,187,187,1);
+            span{
+                margin: 0 60px;
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 50px;
+            }
+        }
+        .content{
+            width: 100%;
+            margin: 20px auto 40px auto;
+            background-color: rgba(246,246,246,1);
+            border-left: 5px solid rgba(22,43,240,0.46);
+            padding: 10px 10px;
+        }
+    }
+}
+
+.form-group {
+    position: relative;
+    margin: 20px 0;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+
+    &:focus {
+        outline: none;
+        border-color: #26397A;
+    }
+
+    &::placeholder {
+        color: transparent;
+    }
+
+    &:focus::placeholder {
+        color: #999;
+    }
+}
+
+.form-label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #666;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    background-color: white;
+    padding: 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
+    
+    &:hover {
+        overflow: visible;
+        z-index: 1;
+    }
+}
+
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+    top: 0;
+    font-size: 12px;
+    color: #26397A;
+}
+
+.floating-form {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(246, 252, 251, 1);
+    border-radius: 10px;
+    border: 1px solid #ccc;
+
+    .form-row {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 20px;
+    }
+
+    .form-column {
+        flex: 1;
+    }
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+    
+    .form-checkbox {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    
+    label {
+        font-size: 16px;
+        color: #333;
+        cursor: pointer;
+    }
+}
+
+.submit-group {
+    text-align: center;
+    margin-top: 40px;
+    
+    .submit-button {
+        width: 400px;
+        height: 40px;
+        background: #26397A;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        
+        &:hover {
+            background: #1a2754;
+        }
+    }
+}
+
+.column-header {
+    margin-bottom: 20px;
+    padding-left: 10px;
+    
+    span {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .required-text {
+        color: #555;
+        font-size: 30px;
+        &::after {
+            content: " *";
+        }
+    }
+    
+    .optional-text {
+        color: #555;
+        font-size: 30px;
+    }
+}
+
+// 调整表单组的上边距，以适应新增的header
+.form-group:first-of-type {
+    margin-top: 0;
+}

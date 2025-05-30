@@ -1,0 +1,486 @@
+// 导入变量和混合器
+@import '../pe_submit/index.scss';
+
+// 定义参数项占位符
+%parameter-item {
+    margin-bottom: map-get($spacing, lg);
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: map-get($spacing, lg);
+    border-bottom: 1px dashed #e8e8e8;
+
+    &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .label {
+        width: 300px;
+        min-width: 300px;
+        font-weight: 600;
+        color: #1a3353;
+        padding: map-get($spacing, sm) map-get($spacing, lg) map-get($spacing, sm) 0;
+        word-wrap: break-word;
+    }
+
+    .value {
+        flex: 1;
+        min-width: 200px;
+        padding: map-get($spacing, sm) map-get($spacing, md);
+        background: #f8f9fa;
+        border-radius: map-get($border-radius, sm);
+        color: #2c3e50;
+        word-break: break-all;
+    }
+}
+
+.result-container {
+    width: 100vw;
+    background-color: #fff;
+
+    .result {
+        width: 90%;
+        height: auto;
+        margin: 30px auto 0 auto;
+    }
+
+    .transcribe {
+        width: 90%;
+        height: auto;
+        margin: 30px auto;
+        display: flex;
+        justify-content: space-between;
+
+        .table-container {
+            padding-top: 20px;
+            width: 50%;
+            height: 600px;
+            /* 固定表格容器的高度 */
+            border: 1px solid #ccc;
+            // overflow: hidden;
+            // max-height: 400px; /* 设置表格区域的最大高度 */
+            overflow-y: auto;
+            /* 启用垂直滚动条 */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    }
+
+    .sgRNA-table {
+        width: 95%;
+        height: 100%;
+        /* 表格高度 */
+        margin: 0 auto;
+        /* 居中 */
+        /* 可以纵向滚动 */
+        overflow: scroll;
+
+        .sgRNA-table-title {
+            width: 50%;
+            background-color: #f2f2f2;
+            /* 灰色背景色 */
+            padding: 10px;
+            /* 内边距 */
+            border-radius: 20px;
+            /* 圆角边框 */
+            margin-bottom: 20px;
+            /* 下外边距 */
+            font-size: 18px;
+            /* 字体大小 */
+            color: #333;
+            /* 字体颜色 */
+            text-align: center;
+            /* 文本居中对齐 */
+        }
+
+
+        .custom-table {
+            // thead {
+            //     background-color: #60BDB4;
+            //     /* 表头背景色 */
+            // }
+
+            // tbody{
+            //     overflow: auto;
+            // }
+            font-size: 11px;
+
+            td,
+            th {
+                padding: 8px 12px;
+                /* 增加内边距 */
+                text-align: center;
+                /* 文本居中对齐 */
+            }
+
+            th {
+                background-color: #60BDB4;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+            tr:hover {
+                background-color: #ddd;
+                /* 鼠标悬停效果 */
+            }
+        }
+    }
+
+    .off-target-table-container {
+        width: 95%;
+        height: 100%;
+        margin: 0 auto;
+        // overflow: scroll;
+        max-height: 600px;
+        overflow-y: auto;
+
+        .off-target-table-title {
+            background-color: #f2f2f2;
+            /* 灰色背景色 */
+            padding: 10px;
+            /* 内边距 */
+            border-radius: 20px;
+            /* 圆角边框 */
+            margin-bottom: 20px;
+            /* 下外边距 */
+            font-size: 18px;
+            /* 字体大小 */
+            color: #333;
+            /* 字体颜色 */
+            text-align: center;
+            /* 文本居中对齐 */
+            width: 90%;
+        }
+
+        ul {
+            list-style: none;
+            /* 去掉列表符号 */
+            padding: 0;
+            margin: 0;
+            font-size: 10px;
+        }
+
+        .off-target-table {
+            font-size: 15px;
+            /* 调整字体大小 */
+            margin: 20px 0;
+            /* 添加上下外边距 */
+            /* height: 100%; */
+            /* overflow: scroll; */
+        }
+
+        // .off-target-table thead {
+        //     background: linear-gradient(to bottom, #a7dad5, #fff);
+        //     /* 表头从上到下渐进变色 */
+        // }
+
+        .off-target-table th {
+            position: sticky;
+            background: linear-gradient(to bottom, #a7dad5, #fff);
+            top: 0;
+        }
+
+        .off-target-table td,
+        .off-target-table th {
+            padding: 8px 12px;
+            /* 增加内边距 */
+            text-align: center;
+            /* 文本居中对齐 */
+        }
+
+        .off-target-table tr:hover {
+            background-color: #ddd;
+            /* 鼠标悬停效果 */
+        }
+
+        .off-target-table th {
+            color: #333;
+            /* 表头字体颜色 */
+        }
+    }
+
+    .sgrna-details {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 16px 0;
+        border-left: 4px solid #1890ff;
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &.highlight {
+                .value {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #1890ff;
+                    background: #e6f7ff;
+                    border-color: #91d5ff;
+                    padding: 8px 16px;
+                }
+            }
+
+            &.type {
+                .value {
+                    color: #52c41a;
+                    background: #f6ffed;
+                    border-color: #b7eb8f;
+                    font-weight: 500;
+                }
+            }
+
+            .label {
+                font-weight: 600;
+                color: #1a3353;
+                min-width: 120px;
+                margin-right: 16px;
+            }
+
+            .value {
+                color: #2c3e50;
+                font-family: monospace;
+                background: #fff;
+                padding: 6px 12px;
+                border-radius: 4px;
+                border: 1px solid #e8e8e8;
+                flex: 1;
+            }
+        }
+    }
+
+    .tables-container {
+        display: flex;
+        gap: 24px;
+        margin-top: 24px;
+        height: 900px; // 固定整体高度
+
+        .table-section {
+            display: flex;
+            flex-direction: column;
+
+            &.left {
+                flex: 1;
+                min-width: 0; // 防止表格溢出
+            }
+
+            &.right {
+                flex: 1.2; // 右侧稍微宽一点
+                min-width: 0;
+            }
+
+            .table-title {
+                display: flex;
+                align-items: center;
+
+                .table-h3 {
+                    background: #ddd;
+                    border-radius: 20px;
+                    padding: 12px 100px;
+                    margin-bottom: 16px;
+                    text-align: center;
+                }
+            }
+
+            .table-content {
+                flex: 1;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+
+                .sgrna-details {
+                    margin-bottom: 16px;
+                }
+
+                .ant-table-wrapper {
+                    flex: 1;
+
+                    // 设置表格滚动区域的样式
+                    .ant-table-body {
+                        &::-webkit-scrollbar {
+                            width: 6px;
+                            height: 6px;
+                        }
+
+                        &::-webkit-scrollbar-thumb {
+                            background: #ccc;
+                            border-radius: 3px;
+                        }
+
+                        &::-webkit-scrollbar-track {
+                            background: #f0f0f0;
+                            border-radius: 3px;
+                        }
+                    }
+
+                    // 添加表头渐变样式
+                    .ant-table-thead {
+                        > tr > th {
+                            background: linear-gradient(to bottom, #60BDB4, rgba(96, 189, 180, 0.2)) !important;
+                            color: #1A3353;
+                            font-weight: 600;
+                            
+                            // 确保在排序和筛选时保持背景
+                            &.ant-table-column-sort,
+                            &.ant-table-column-has-sorters:hover {
+                                background: linear-gradient(to bottom, #60BDB4, rgba(96, 189, 180, 0.2)) !important;
+                            }
+
+                            // 调整排序和筛选图标的颜色
+                            .ant-table-column-sorter-up,
+                            .ant-table-column-sorter-down,
+                            .anticon-search {
+                                color: #1A3353;
+                            }
+                        }
+                    }
+
+                    // 保持滚动时表头固定在顶部
+                    .ant-table-header {
+                        position: sticky;
+                        top: 0;
+                        z-index: 2;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.icon-withdraw {
+    width: 80px;
+    height: 25px;
+    margin-left: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.result-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #fff;
+
+    .result-section {
+        margin-bottom: 24px;
+
+        .ant-table-wrapper {
+            margin-top: 16px;
+
+            .ant-table-tbody {
+                >tr.ant-table-row-selected>td {
+                    background-color: #e6f7ff; // 选中行的背景色
+                }
+
+                >tr:hover>td {
+                    background-color: #f5f5f5; // 鼠标悬停时的背景色
+                }
+            }
+
+            .sequence-cell {
+                font-family: monospace;
+                font-size: 14px;
+                letter-spacing: 1px;
+                padding: 4px;
+
+                span {
+                    &[style*="color:red"] {
+                        background-color: #fff3f0;
+                        padding: 0 2px;
+                        border-radius: 2px;
+                    }
+                }
+            }
+        }
+    }
+
+    // 浏览器说明样式
+    .browser-description {
+        padding: 16px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #1890ff;
+        margin: 16px 0;
+        color: #666;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    // 浏览器容器样式
+    .browser-container {
+        margin-top: 24px;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    // 参数组样式
+    .parameters-group {
+        @include card-style;
+
+        .sequence-title {
+            margin-bottom: map-get($spacing, xl);
+            padding: map-get($spacing, md) map-get($spacing, lg);
+            background: #f7f9fc;
+            border-radius: map-get($border-radius, md);
+            border-left: 4px solid map-get($colors, substitution);
+
+            &-item {
+                @include flex-center;
+
+                &-label,
+                &-value {
+                    font-weight: 600;
+                    color: #1a3353;
+                    font-size: 16px;
+                }
+
+                &-label {
+                    width: 200px;
+                    min-width: 200px;
+                }
+
+                &-value {
+                    flex: 1;
+                }
+            }
+        }
+
+        .sequence-item {
+            @extend %parameter-item;
+        }
+    }
+
+    // 表格相关样式
+    .sgRNA-table,
+    .off-target-table-container {
+        margin-top: 24px;
+    }
+}
+
+// 响应式调整
+@media (max-width: 768px) {
+    .result-container {
+        padding: 16px;
+
+        .parameters-group {
+            .sequence-item {
+                .label {
+                    width: 200px;
+                    min-width: 200px;
+                }
+            }
+        }
+    }
+}

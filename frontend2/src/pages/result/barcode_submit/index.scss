@@ -1,0 +1,163 @@
+// 导入变量和混合器
+@import '../pe_submit/index.scss';
+// 定义参数项占位符
+%parameter-item {
+    margin-bottom: map-get($spacing, lg);
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: map-get($spacing, lg);
+    border-bottom: 1px dashed #e8e8e8;
+
+    &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .label {
+        width: 300px;
+        min-width: 300px;
+        font-weight: 600;
+        color: #1a3353;
+        padding: map-get($spacing, sm) map-get($spacing, lg) map-get($spacing, sm) 0;
+        word-wrap: break-word;
+    }
+
+    .value {
+        flex: 1;
+        min-width: 200px;
+        padding: map-get($spacing, sm) map-get($spacing, md);
+        background: #f8f9fa;
+        border-radius: map-get($border-radius, sm);
+        color: #2c3e50;
+        word-break: break-all;
+    }
+}
+// 参数组样式
+.parameters-group {
+    @include card-style;
+
+    .sequence-title {
+        margin-bottom: map-get($spacing, xl);
+        padding: map-get($spacing, md) map-get($spacing, lg);
+        background: #f7f9fc;
+        border-radius: map-get($border-radius, md);
+        border-left: 4px solid map-get($colors, substitution);
+
+        &-item {
+            @include flex-center;
+
+            &-label,
+            &-value {
+                font-weight: 600;
+                color: #1a3353;
+                font-size: 16px;
+            }
+
+            &-label {
+                width: 200px;
+                min-width: 200px;
+            }
+
+            &-value {
+                flex: 1;
+            }
+        }
+    }
+
+    .sequence-item {
+        @extend %parameter-item;
+    }
+}
+
+.result-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #fff;
+
+    .result-section {
+        margin-bottom: 24px;
+
+        .ant-table-wrapper {
+            margin-top: 16px;
+
+            .ant-table-tbody {
+                >tr.ant-table-row-selected>td {
+                    background-color: #e6f7ff; // 选中行的背景色
+                }
+
+                >tr:hover>td {
+                    background-color: #f5f5f5; // 鼠标悬停时的背景色
+                }
+            }
+
+            .sequence-cell {
+                font-family: monospace;
+                font-size: 14px;
+                letter-spacing: 1px;
+                padding: 4px;
+
+                span {
+                    &[style*="color:red"] {
+                        background-color: #fff3f0;
+                        padding: 0 2px;
+                        border-radius: 2px;
+                    }
+                }
+            }
+        }
+    }
+    // 参数组样式
+    .parameters-group {
+        @include card-style;
+
+        .sequence-title {
+            margin-bottom: map-get($spacing, xl);
+            padding: map-get($spacing, md) map-get($spacing, lg);
+            background: #f7f9fc;
+            border-radius: map-get($border-radius, md);
+            border-left: 4px solid map-get($colors, substitution);
+
+            &-item {
+                @include flex-center;
+
+                &-label,
+                &-value {
+                    font-weight: 600;
+                    color: #1a3353;
+                    font-size: 16px;
+                }
+
+                &-label {
+                    width: 200px;
+                    min-width: 200px;
+                }
+
+                &-value {
+                    flex: 1;
+                }
+            }
+        }
+
+        .sequence-item {
+            @extend %parameter-item;
+        }
+    }
+
+    // 表格相关样式
+    .sgRNA-table,
+    .off-target-table-container {
+        margin-top: 24px;
+    }
+
+    .note{
+        background-color: #FFEECC;
+        padding: 20px;
+        font-size: 18px;
+        line-height: 25px;
+        color: #664400;
+        border-radius: 20px;
+        margin: 30px 0;
+    }
+}

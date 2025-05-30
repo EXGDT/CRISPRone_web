@@ -1,0 +1,175 @@
+/* 定义全局变量 */
+:root {
+    --background-color-light: rgba(246, 252, 251, 1);
+    --background-color-dark: rgba(229, 229, 229, 1);
+    --background-color-form:rgba(229, 226, 212, 0.16);
+    --box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+    --border-radius: 6px;
+    --text-color: #333;
+    --font-size-normal: 20px;
+    --font-size-large: 23px;
+    --padding-normal: 20px;
+}
+
+// 设计页面主体
+.crispr_main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+
+    // 介绍部分
+    .introduction {
+        width: 90%;
+        margin: 30px 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+
+        .introduction_img {
+            width: 50%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+            /* 优化边框圆角 */
+        }
+
+        .introduction_text {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            background-color: var(--background-color-light);
+            width: 40%;
+            min-width: 400px;
+            height: auto;
+            margin: 20px 0;
+            padding: var(--padding-normal) 30px;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+
+            .introduction_text_top {
+                .introduction_title {
+                    margin: 10px 0;
+                    font-size: var(--font-size-large);
+                    color: var(--text-color);
+                    /* 提高可读性 */
+                }
+
+                .introduction_content {
+                    // text-indent: 1em;
+                    margin-left: 3px;
+                    font-size: var(--font-size-normal);
+                    color: var(--text-color);
+                }
+            }
+
+            .introduction_text_middle {
+                h3 {
+                    margin-bottom: 5px;
+                    font-size: var(--font-size-large);
+                    color: var(--text-color);
+                }
+                .introduction_ul {
+                    margin-left: 5px;
+
+                    ul {
+                        list-style: disc;
+                        font-size: var(--font-size-normal);
+                        color: var(--text-color);
+                    }
+
+                    li::marker {
+                        color: blue;
+                    }
+                }
+            }
+
+            .introduction_text_bottom {
+                h3 {
+                    margin-bottom: 5px;
+                    font-size: var(--font-size-large);
+                    color: var(--text-color);
+                }
+                .introduction_ul {
+                    margin-left: 5px;
+
+                    ul {
+                        list-style: disc;
+                        font-size: var(--font-size-normal);
+                        color: var(--text-color);
+                    }
+
+                    li::marker {
+                        color: blue;
+                    }
+                }
+                .introduction_text_bottom_content {
+                    margin-left: 5px;
+                    font-size: var(--font-size-normal);
+                    color: var(--text-color);
+                }
+            }
+        }
+    }
+
+    /* .form 样式 */
+    .design_form {
+        width: 85%;
+        background-color: var(--background-color-form);
+        margin: 40px auto;
+        padding: 22px;
+        text-align: center;
+        box-shadow: var(--box-shadow);
+        border-radius: var(--border-radius);
+        /* 增加圆角 */
+    }
+}
+
+/* 响应式设计：当屏幕宽度小于 768px 时，调整布局 */
+@media screen and (max-width: 768px) {
+    .crispr_main {
+        width: 100%;
+        // align-items: center;
+    }
+
+    .crispr_main .introduction {
+        flex-direction: column;
+    }
+
+    .crispr_main .introduction .introduction_img,
+    .crispr_main .introduction .introduction_text {
+        width: 90%;
+        min-width: unset;
+    }
+
+    .crispr_main .introduction .introduction_text {
+        .introduction_text_top {
+            .introduction_title {
+                font-size: 16px;
+            }
+
+            .introduction_content {
+                font-size: 14px;
+            }
+        }
+
+        .introduction_text_bottom {
+            h3 {
+                font-size: 16px;
+            }
+
+            .introduction_ul {
+                ul {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    .crispr_main .design_form {
+        width: 95%;
+        padding: 15px;
+        margin: 10px auto;
+    }
+}

@@ -1,0 +1,559 @@
+/* 定义全局变量 */
+:root {
+    --background-color-light: rgba(246, 252, 251, 1);
+    --background-color-dark: rgba(229, 229, 229, 1);
+    --box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+    --border-radius: 6px;
+    --text-color: #333;
+    --font-size-normal: 20px;
+    --font-size-large: 23px;
+    --padding-normal: 10px;
+}
+
+$color: #60BDB4;
+$new-color: darken($color, 10%);
+
+// 表格样式
+.ant-table {
+  margin: 20px 0;
+  
+  // 主表格样式
+  &.ant-table-bordered {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+    .ant-table-thead > tr > th {
+      background-color: #f0f7ff;
+      color: #1a3353;
+      font-weight: 600;
+      
+      // 分组表头样式
+      &.ant-table-cell-fix-left {
+        background-color: #e6f0ff;
+      }
+    }
+    
+    // 表格行样式
+    .ant-table-tbody > tr {
+      &:hover > td {
+        background-color: #f5f9ff !important;
+      }
+      
+      // 斑马纹
+      &:nth-child(even) > td {
+        background-color: #fafbfc;
+      }
+    }
+  }
+  
+  // 展开行样式
+  .ant-table-expanded-row {
+    background-color: #fafeff;
+    
+    // 展开行内的标题样式
+    h2 {
+      color: #1a3353;
+      font-size: 1.2rem;
+      margin: 20px 0 10px;
+      padding-left: 10px;
+      border-left: 4px solid #1890ff;
+    }
+    
+    hr {
+      border: none;
+      border-top: 1px solid #e8e8e8;
+      margin: 10px 0 20px;
+    }
+    
+    // 内部表格样式
+    .ant-table {
+      margin: 10px 0;
+      
+      // 分组表头样式
+      .ant-table-thead {
+        // PBS 分组
+        th[class*="pbs"],
+        th[class*="PBS"] {
+          background-color: rgba(0, 0, 255, 0.1) !important; // 使用半透明的蓝色
+          
+          // 分组标题
+          &.ant-table-cell-fix-left {
+            background-color: rgba(0, 0, 255, 0.15) !important;
+          }
+        }
+        
+        // RT 分组
+        th[class*="ptt"],
+        th[class*="PTT"] {
+          background-color: rgba(255, 0, 0, 0.1) !important; // 使用半透明的红色
+          
+          &.ant-table-cell-fix-left {
+            background-color: rgba(255, 0, 0, 0.15) !important;
+          }
+        }
+        
+        // pegLIT 分组
+        th[class*="pegLIT"],
+        th[class*="PegLIT"] {
+          background-color: rgba(0, 255, 0, 0.1) !important; // 使用半透明的绿色
+          
+          &.ant-table-cell-fix-left {
+            background-color: rgba(0, 255, 0, 0.15) !important;
+          }
+        }
+        
+        // 分组标题样式
+        .ant-table-cell {
+          color: #1a3353;
+          font-weight: 600;
+          
+          // 主分组标题
+          &[colspan] {
+            background-color: #f0f7ff !important;
+            text-align: center;
+            font-size: 1.1em;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 确保样式优先级
+.ant-table-wrapper {
+  .ant-table-thead {
+    > tr {
+      > th {
+        // PBS 列
+        &[data-column-key*="pbs"] {
+          background-color: rgba(0, 0, 255, 0.1) !important;
+        }
+        
+        // RT 列
+        &[data-column-key*="ptt"] {
+          background-color: rgba(255, 0, 0, 0.1) !important;
+        }
+        
+        // pegLIT 列
+        &[data-column-key*="pegLIT"] {
+          background-color: rgba(0, 255, 0, 0.1) !important;
+        }
+      }
+    }
+  }
+}
+
+// pegRNA 序列展示区域样式
+.pbs-rt-content {
+  background: #fafeff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  
+  h2 {
+    color: #1a3353;
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  
+  p {
+    margin: 12px 0;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  span {
+    display: block;
+    word-break: break-all;
+    margin: 16px 0;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #d633b4;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px dashed #e8e8e8;
+  }
+}
+
+// 变量定义
+$colors: (
+  substitution: #1890ff,
+  deletion: #eb2f96,
+  spacer: #52c41a,
+  ngrna: #722ed1
+);
+
+$spacing: (
+  xs: 4px,
+  sm: 8px,
+  md: 12px,
+  lg: 16px,
+  xl: 24px
+);
+
+$border-radius: (
+  sm: 4px,
+  md: 8px
+);
+
+// Mixins
+@mixin mutation-type($color) {
+  color: $color;
+  background-color: rgba($color, 0.1);
+  padding: map-get($spacing, sm) map-get($spacing, md);
+  border-radius: map-get($border-radius, sm);
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin card-style {
+  background: #fff;
+  padding: map-get($spacing, xl);
+  border-radius: map-get($border-radius, md);
+  border: 1px solid #e8e8e8;
+}
+
+// 序列显示样式
+.sequence-display {
+  font-family: monospace;
+  letter-spacing: 1px;
+  
+  span {
+    transition: all 0.3s;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+// 基础布局
+.result-page-container {
+  width: 90%;
+  margin: 0 auto;
+  padding: map-get($spacing, xl);
+  min-height: 100vh;
+}
+
+// 参数组样式
+.parameters-group {
+  @include card-style;
+
+  // 标题部分
+  .sequence-title {
+    margin-bottom: map-get($spacing, xl);
+    padding: map-get($spacing, md) map-get($spacing, lg);
+    background: #f7f9fc;
+    border-radius: map-get($border-radius, md);
+    border-left: 4px solid map-get($colors, substitution);
+    
+    &-item {
+      @include flex-center;
+      
+      &-label, &-value {
+        font-weight: 600;
+        color: #1a3353;
+        font-size: 16px;
+      }
+      
+      &-label {
+        width: 200px;
+        min-width: 200px;
+      }
+      
+      &-value {
+        flex: 1;
+      }
+    }
+  }
+
+  // 参数项样式
+  .sequence-item {
+    margin-bottom: map-get($spacing, lg);
+    @include flex-center;
+    align-items: flex-start;
+    padding-bottom: map-get($spacing, lg);
+    border-bottom: 1px dashed #e8e8e8;
+    
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .label {
+      width: 300px;
+      min-width: 300px;
+      font-weight: 600;
+      color: #1a3353;
+      padding: map-get($spacing, sm) map-get($spacing, lg) map-get($spacing, sm) 0;
+      word-wrap: break-word;
+    }
+    
+    .value {
+      flex: 1;
+      min-width: 200px;
+      padding: map-get($spacing, sm) map-get($spacing, md);
+      background: #f8f9fa;
+      border-radius: map-get($border-radius, sm);
+      color: #2c3e50;
+      word-break: break-all;
+    }
+
+    // 序列容器
+    .sequence-container {
+      flex: 1;
+      
+      .sequence-divider {
+        margin: map-get($spacing, md) 0;
+        border: none;
+        border-top: 1px dashed #e8e8e8;
+      }
+
+      .note {
+        @include flex-center;
+        padding: map-get($spacing, md);
+        background: #fafafa;
+        border-radius: map-get($border-radius, sm);
+        font-size: 13px;
+        color: #666;
+        gap: map-get($spacing, xs);
+
+        // 突变类型样式
+        .mutation-type {
+          &-substitution { @include mutation-type(map-get($colors, substitution)); }
+          &-deletion { @include mutation-type(map-get($colors, deletion)); }
+          &-spacer { @include mutation-type(map-get($colors, spacer)); }
+          &-ngrna { @include mutation-type(map-get($colors, ngrna)); }
+        }
+
+        span:not([class^="mutation-type"]) {
+          padding: map-get($spacing, xs) map-get($spacing, sm);
+        }
+      }
+    }
+  }
+}
+
+// 结果表格部分
+.result-table-section {
+  @include card-style;
+  margin: map-get($spacing, xl) 0;
+}
+
+// 表格分隔线
+.table-divider {
+  margin: 30px 20px 30px 40px;
+  height: 1px;
+  background: linear-gradient(to right, map-get($colors, substitution), #fa8c16);
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// 响应式调整
+@media (max-width: 768px) {
+  .ant-table {
+    margin: 10px 0;
+    
+    .ant-table-thead > tr > th {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+    
+    .ant-table-tbody > tr > td {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  .pbs-rt-content {
+    padding: 15px;
+    
+    h2 {
+      font-size: 1.1rem;
+    }
+    
+    span {
+      font-size: 0.8rem;
+    }
+  }
+  
+  .parameters-group {
+    padding: map-get($spacing, md);
+    
+    .sequence-item {
+      .label {
+        width: 200px;
+        min-width: 200px;
+      }
+    }
+  }
+}
+
+.table-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .table-h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #1A3353;
+  }
+
+  .table-actions {
+    .ant-btn {
+      background: #60BDB4;
+      border-color: #60BDB4;
+      
+      &:hover {
+        background: $new-color;
+        border-color: $new-color;
+      }
+      
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+
+      // 为不同按钮添加不同的悬停效果
+      &:nth-child(1) { // Print
+        &:hover {
+          background: #722ed1;
+          border-color: #722ed1;
+        }
+      }
+      
+      &:nth-child(2) { // Copy
+        &:hover {
+          background: #1890ff;
+          border-color: #1890ff;
+        }
+      }
+      
+      &:nth-child(3) { // PDF
+        &:hover {
+          background: #f5222d;
+          border-color: #f5222d;
+        }
+      }
+      
+      &:nth-child(4) { // CSV
+        &:hover {
+          background: #52c41a;
+          border-color: #52c41a;
+        }
+      }
+    }
+  }
+}
+
+.sub-table-section {
+  margin: 16px 0;
+
+  .table-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 40px; // 与表格保持一致的缩进
+
+    .table-h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #1A3353;
+    }
+
+    .table-actions {
+      .ant-btn {
+        background: #60BDB4;
+        border-color: #60BDB4;
+        
+        &:hover {
+          background: $new-color;
+          border-color: $new-color;
+        }
+        
+        &:not(:last-child) {
+          margin-right: 8px;
+        }
+
+        // 为不同按钮添加不同的悬停效果
+        &:nth-child(1) { // Print
+          &:hover {
+            background: #722ed1;
+            border-color: #722ed1;
+          }
+        }
+        
+        &:nth-child(2) { // Copy
+          &:hover {
+            background: #1890ff;
+            border-color: #1890ff;
+          }
+        }
+        
+        &:nth-child(3) { // PDF
+          &:hover {
+            background: #f5222d;
+            border-color: #f5222d;
+          }
+        }
+        
+        &:nth-child(4) { // CSV
+          &:hover {
+            background: #52c41a;
+            border-color: #52c41a;
+          }
+        }
+      }
+    }
+  }
+}
+
+.pbs-rt-section {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  margin: 8px 0;
+
+  .table-title {
+    margin-bottom: 12px;
+    
+    .table-h3 {
+      font-size: 14px;
+    }
+
+    .ant-btn {
+      font-size: 12px;
+      padding: 2px 8px;
+      height: 24px;
+    }
+  }
+}

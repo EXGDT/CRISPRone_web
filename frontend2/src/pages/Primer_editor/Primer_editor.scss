@@ -1,0 +1,182 @@
+/* 定义全局变量 */
+:root {
+    --background-color-light: rgba(246, 252, 251, 1);
+    --background-color-dark: rgba(229, 229, 229, 1);
+    --box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+    --border-radius: 6px;
+    --text-color: #333;
+    --font-size-normal: 20px;
+    --font-size-large: 23px;
+    --padding-normal: 10px;
+}
+
+
+.parameters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    border-radius: 60px;
+    line-height: 50px;
+    font-size: 16px;
+    margin: 30px auto;
+    padding: 0 3%;
+    color: rgba(16, 16, 16, 1);
+    cursor: pointer;
+
+    h3 {
+        margin-left: 10px;
+    }
+
+    svg {
+        cursor: pointer;
+        transition: transform 0.3s ease;
+
+        &.icon-expanded {
+            transform: rotate(0deg);
+        }
+
+        &.icon-collapsed {
+            transform: rotate(180deg);
+        }
+
+        &:hover path {
+            fill: #1890ff;
+        }
+    }
+}
+
+.section-content {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+
+    &.expanded {
+        max-height: 2000px;
+        opacity: 1;
+    }
+
+    &.collapsed {
+        max-height: 0;
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.parameters_top {
+    background-color: rgba(207, 246, 228, 0.9);
+}
+
+.parameters_middle {
+    background-color: rgba(247, 220, 250, 0.9);
+}
+
+.parameters_bottom {
+    background-color: rgba(207, 246, 228, 0.9);
+}
+
+.substitution_module {
+    display: flex;
+    flex-direction: column;
+    width: 94%;
+    margin: 30px auto;
+    color: rgba(16, 16, 16, 1);
+
+    .ant-form-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+
+        label {
+            margin-right: 10px;
+            width: 200px;
+            text-align: right;
+        }
+
+        .ant-input {
+            flex: 1;
+            border-radius: 4px;
+            border: 1px solid #d8d8d8;
+            padding: 8px;
+            transition: border-color 0.3s;
+
+            &:focus {
+                border-color: #4CAF50;
+                box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+            }
+        }
+    }
+}
+
+
+
+.custom-radio-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    width: 80%;
+
+    .custom-radio-button {
+        flex: 1;
+        background-color: #E6F1E5;
+        border: none;
+        border-radius: 0;
+        height: 50px;
+        line-height: 50px;
+        color: rgba(16, 16, 16, 1);
+        font-size: var(--font-size-normal);
+        transition: background-color 0.3s;
+
+        &.ant-radio-button-wrapper-checked {
+            background-color: #AAD0A6;
+            color: white;
+        }
+
+        &:hover {
+            background-color: rgba(178, 207, 170, 0.9);
+        }
+    }
+}
+
+.ant-popover {
+    .ant-popover-inner {
+        .ant-popover-inner-content {
+            padding: 12px 16px;
+
+            .popover-content {
+                text-align: center;
+                word-wrap: break-word;
+                white-space: pre-wrap;
+            }
+        }
+    }
+}
+
+
+.substitution_module_base {
+    display: flex;
+    width: 98%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    text-align: left;
+    margin: 20px auto;
+    padding-left: 5%;
+    background-color: rgba(229,196,47,0.2);
+    color: rgba(16,16,16,1);
+    h3{
+        margin-left: 10px;
+    }
+    ul{
+        list-style: none;
+        display: flex;
+        width: 100%;
+        margin: 0 auto;
+        font-weight: 500;
+        li{
+            width: 25%;
+            text-align: center;
+        }
+    }
+}    

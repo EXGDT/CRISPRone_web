@@ -1,0 +1,178 @@
+.result-container {
+    width: 100vw;
+    background-color: #fff;
+
+    .result {
+        width: 90%;
+        height: auto;
+        margin: 30px auto 0 auto;
+    }
+
+    .transcribe {
+        width: 90%;
+        height: auto;
+        margin: 30px auto;
+        display: flex;
+        justify-content: space-between;
+
+        .table-container {
+            padding-top: 20px;
+            width: 50%;
+            height: 600px;
+            /* 固定表格容器的高度 */
+            border: 1px solid #ccc;
+            // overflow: hidden;
+            // max-height: 400px; /* 设置表格区域的最大高度 */
+            overflow-y: auto;  /* 启用垂直滚动条 */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    }
+
+    .sgRNA-table {
+        width: 95%;
+        height: 100%;
+        /* 表格高度 */
+        margin: 0 auto;
+        /* 居中 */
+        /* 可以纵向滚动 */
+        overflow: scroll;
+
+        .sgRNA-table-title {
+            width: 50%;
+            background-color: #f2f2f2;
+            /* 灰色背景色 */
+            padding: 10px;
+            /* 内边距 */
+            border-radius: 20px;
+            /* 圆角边框 */
+            margin-bottom: 20px;
+            /* 下外边距 */
+            font-size: 18px;
+            /* 字体大小 */
+            color: #333;
+            /* 字体颜色 */
+            text-align: center;
+            /* 文本居中对齐 */
+        }
+
+
+        .custom-table {
+            // thead {
+            //     background-color: #60BDB4;
+            //     /* 表头背景色 */
+            // }
+
+            // tbody{
+            //     overflow: auto;
+            // }
+            font-size: 11px;
+
+            td,
+            th {
+                padding: 8px 12px;
+                /* 增加内边距 */
+                text-align: center;
+                /* 文本居中对齐 */
+            }
+
+            th{
+                background-color: #60BDB4;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+            tr:hover {
+                background-color: #ddd;
+                /* 鼠标悬停效果 */
+            }
+        }
+    }
+
+    .off-target-table-container {
+        width: 95%;
+        height: 100%;
+        margin: 0 auto;
+        // overflow: scroll;
+        max-height: 600px;
+        overflow-y: auto;
+
+        .off-target-table-title {
+            background-color: #f2f2f2;
+            /* 灰色背景色 */
+            padding: 10px;
+            /* 内边距 */
+            border-radius: 20px;
+            /* 圆角边框 */
+            margin-bottom: 20px;
+            /* 下外边距 */
+            font-size: 18px;
+            /* 字体大小 */
+            color: #333;
+            /* 字体颜色 */
+            text-align: center;
+            /* 文本居中对齐 */
+            width: 90%;
+        }
+
+        ul {
+            list-style: none;
+            /* 去掉列表符号 */
+            padding: 0;
+            margin: 0;
+            font-size: 10px;
+        }
+
+        .off-target-table {
+            font-size: 15px;
+            /* 调整字体大小 */
+            margin: 20px 0;
+            /* 添加上下外边距 */
+            /* height: 100%; */
+            /* overflow: scroll; */
+        }
+
+        // .off-target-table thead {
+        //     background: linear-gradient(to bottom, #a7dad5, #fff);
+        //     /* 表头从上到下渐进变色 */
+        // }
+
+        .off-target-table th {
+            position: sticky;
+            background: linear-gradient(to bottom, #a7dad5, #fff);
+            top: 0;
+        }
+
+        .off-target-table td,
+        .off-target-table th {
+            padding: 8px 12px;
+            /* 增加内边距 */
+            text-align: center;
+            /* 文本居中对齐 */
+        }
+
+        .off-target-table tr:hover {
+            background-color: #ddd;
+            /* 鼠标悬停效果 */
+        }
+
+        .off-target-table th {
+            color: #333;
+            /* 表头字体颜色 */
+        }
+    }
+
+}
+
+.icon-withdraw{
+    width:80px; 
+    height:25px; 
+    margin-left: 10px;
+    cursor:pointer;
+    display: flex;
+    align-items: center;
+}

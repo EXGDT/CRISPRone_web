@@ -1,0 +1,28 @@
+.home_title {
+    height: 50px;
+    margin: 20px 0;
+    border-radius: 100px;
+    background-color: rgba(94,221,83,0.69);
+    text-align: center;
+    box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.4);
+    border: 1px solid rgba(187,187,187,1);
+}
+.home_title span{
+  margin: 0 60px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 50px;
+}
+
+.introduction_ul {
+    margin-left: 5px;
+
+    ol {
+        font-size: var(--font-size-normal);
+        color: var(--text-color);
+    }
+
+    li::marker {
+        color: blue;
+    }
+}

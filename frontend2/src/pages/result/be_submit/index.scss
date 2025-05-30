@@ -1,0 +1,65 @@
+.sequence-container {
+    background: #f8f9fa;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 30px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 60px; // 距离页面顶部20px
+    z-index: 100; // 确保在其他内容之上
+    
+    .sequence-display {
+        font-family: monospace;
+        font-size: 16px;
+        line-height: 2;
+        color: #1A3353;
+        
+        .nucleotide-sequence {
+            letter-spacing: 2px;  // 碱基序列字母间距
+            margin-bottom: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .amino-sequence {
+            letter-spacing: 6px;
+            width: 90%;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            
+            // 使用CSS处理特殊标记
+            &::after {
+                content: attr(data-sequence);
+                position: absolute;
+                left: 1px;
+                top: 0;
+                letter-spacing: 6px;
+            }
+            
+            // 处理 Ter 标记
+            [data-ter] {
+                letter-spacing: 0;
+                margin: 0 0.23em;
+            }
+            [data-sequence] {
+                letter-spacing: 0;
+                margin: 0 0.788em;
+            }
+
+        }
+    }
+}
+
+.codon-group {
+    transition: box-shadow 0.2s;
+    
+    &:hover {
+        box-shadow: 0 0 0 1px #d9d9d9;
+    }
+    
+    &[style*="box-shadow"] {
+        z-index: 1;
+        position: relative;
+    }
+}

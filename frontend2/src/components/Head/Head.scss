@@ -1,0 +1,167 @@
+/* _variables.scss - 提取公共变量 */
+$primary-color: #1B2Ae6;  /* 主色调 */
+$light-background: #f6fcfb;  /* 背景色 */
+$dark-text-color: #101010;   /* 深色文字 */
+$font-family: 'PingFang SC', sans-serif;  /* 字体 */
+$border-radius: 34px;  /* 圆角 */
+$box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);  /* 阴影 */
+$max-width: 768px;  /* 响应式最大宽度 */
+$small-max-width: 480px;  /* 小屏设备最大宽度 */
+
+/* _head.scss - 头部样式 */
+// @import 'variables';  /* 导入变量 */
+
+.head {
+  height: auto;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center; 
+  box-shadow: $box-shadow;
+  z-index: 998;
+  position: relative;
+  transition: transform 0.3s ease;
+
+  &.hide {
+    transform: translateY(-100%);
+  }
+  
+  .head-logo {
+    margin: 20px 10px;
+    display: flex;
+    align-items: center;
+
+    .head-logo-img {
+      width: 92px;
+      height: 45px;
+      object-fit: fill;
+    }
+
+    .head-logo-text {
+      padding-left: 10px;
+      color: $dark-text-color;
+      font-size: 20px;
+      text-align: left;
+      overflow: hidden;
+      font-family: $font-family;
+      // white-space: nowrap;
+    }
+  }
+
+  .head-social-media {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px;
+
+    .head-social-media-item {
+      width: 382px;
+      height: 40px;
+      border-radius: $border-radius;
+      background-color: $light-background;
+      color: $dark-text-color;
+      font-size: 18px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 40px;
+      overflow: hidden;
+      font-family: $font-family;
+    }
+
+    .head-social-media-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      li a {
+        width: 30px;
+        height: 30px;
+        font-size: 24px;
+        margin: 0 10px;
+      }
+    }
+  }
+}
+
+/* _nav.scss - 导航样式 */
+.nav {
+  background-color: #DEECE8;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: transform 0.3s ease;
+
+  .nav-swiper {
+    box-shadow: $box-shadow;
+    display: flex;
+    align-items: center;
+
+    .swiper {
+      margin: 15px 10px;
+      list-style: none;
+      display: flex;
+      justify-content: start;
+      flex-wrap: wrap;
+
+      li {
+        margin: 5px 5px;
+        padding-left: 15px;
+        font-size: 14px;
+        position: relative; /* 为了定位子菜单 */
+      }
+    }
+  }
+  
+  /* 子菜单的默认隐藏 */
+  .sub-nav {
+    display: none;
+    position: absolute;
+    top: 100%;  /* 放置在父项下方 */
+    left: -30%;
+    background-color: #F3FCF7;
+    box-shadow: $box-shadow;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    list-style: none;
+    padding: 5px 0;
+    min-width: 140px;  /* 设置子菜单的宽度 */
+    z-index: 10;
+  }
+
+  /* 鼠标移入父项时显示子菜单 */
+  .nav-item:hover .sub-nav {
+    display: block;
+  }
+
+  /* 子菜单项的样式 */
+  .sub-nav li {
+    padding: 5px 5px;
+    font-size: 14px;
+  }
+  
+  .sub-nav li a {
+    color: $dark-text-color;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    svg{
+      margin-right: 5px;
+    }
+  }
+
+  .sub-nav li a:hover {
+    // background-color: #e9f2ee;
+    color: $primary-color;
+  }
+}
+
+/* 活跃项样式 */
+.active {
+  color: $primary-color;
+  font-size: 15px;
+}

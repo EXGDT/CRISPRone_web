@@ -1,0 +1,11 @@
+.example_button {
+    display: flex;
+    justify-content: start;
+    text-decoration: underline;
+    margin-bottom: 40px;
+    span{
+        color: black;
+        margin-left: 30px;
+        cursor: pointer;
+    }
+}

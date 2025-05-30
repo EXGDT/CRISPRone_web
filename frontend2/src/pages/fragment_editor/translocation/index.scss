@@ -1,0 +1,165 @@
+/* 定义全局变量 */
+:root {
+    --background-color-light: rgba(246, 252, 251, 1);
+    --background-color-dark: rgba(229, 229, 229, 1);
+    --box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+    --border-radius: 6px;
+    --text-color: #333;
+    --font-size-normal: 20px;
+    --font-size-large: 23px;
+    --padding-normal: 10px;
+}
+/* .cas9 样式 */
+.translocation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    /* 防止内容过宽，居中 */
+
+    /* .text 样式 */
+    .introduction {
+        width: 90%;
+        margin: 40px 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+
+        .intro_img {
+            width: 50%;
+            min-width: 400px;
+            height: auto;
+            margin: 10px 0;
+            overflow: hidden;
+            /* overflow: scroll 不太合适，改成 hidden 防止多余滚动 */
+            background-color: var(--background-color-dark);
+            // box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            /* 优化边框圆角 */
+        }
+
+        .text_content {
+            width: 40%;
+            height: auto;
+            // padding: 100px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            min-width: 400px;
+            background-color: var(--background-color-light);
+            box-shadow: var(--box-shadow);
+            padding: var(--padding-normal) 30px;
+            border-radius: var(--border-radius);
+    
+            .text_content_design {
+                .design_title {
+                    margin: 10px 0;
+                    font-size: var(--font-size-large);
+                    color: var(--text-color);
+                    /* 提高可读性 */
+                }
+    
+                .design_content {
+                    // text-indent: 1em;
+                    margin-left: 3px;
+                    font-size: var(--font-size-normal);
+                    color: var(--text-color);
+                }
+            }
+    
+            .text_content_componens {
+                h3 {
+                    margin-bottom: 5px;
+                    font-size: var(--font-size-large);
+                    color: var(--text-color);
+                }
+    
+                .components_ul {
+                    margin-left: 5px;
+
+                    ul {
+                        list-style: disc;
+                        font-size: var(--font-size-normal);
+                        color: var(--text-color);
+                        // 列表序号在列表内
+                        li{
+                           list-style-position: inside;
+                        }
+                        li::marker{
+                            color: blue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+    /* .form 样式 */
+    .form {
+        width: 85%;
+        margin: 40px auto 30px;
+        padding: 22px;
+        background-color: rgba(229, 226, 212, 0.16);
+        text-align: center;
+        box-shadow: var(--box-shadow);
+        border-radius: var(--border-radius);
+        /* 增加圆角 */
+        .example_button {
+            display: flex;
+            justify-content: start;
+            text-decoration: underline;
+            margin-bottom: 40px;
+            span{
+                color: black;
+                margin-left: 30px;
+                cursor: pointer;
+            }
+        }
+        .substitution_module_base {
+            display: flex;
+            width: 98%;
+            height: 50px;
+            line-height: 50px;
+            font-size: 16px;
+            text-align: left;
+            margin: 20px auto;
+            padding-left: 5%;
+            background-color: rgba(229,196,47,0.2);
+            color: rgba(16,16,16,1);
+            h3{
+                margin-left: 10px;
+            }
+            ul{
+                list-style: none;
+                display: flex;
+                width: 100%;
+                margin: 0 auto;
+                font-weight: 500;
+                li{
+                    width: 25%;
+                    text-align: center;
+                }
+            }
+        }    
+    }
+
+    .substitution_module {
+        display: flex;
+        width: 98%;
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+        text-align: left;
+        margin: 30px auto;
+        padding-left: 5%;
+        background-color: rgba(229,196,47,0.2);
+        color: rgba(16,16,16,1);
+        h3{
+            margin-left: 10px;
+        }
+    }
+}

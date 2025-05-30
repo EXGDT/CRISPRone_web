@@ -1,0 +1,107 @@
+export const cas9_form_origin = {
+    remember: true,
+    input_sequences: '',
+    pam_type: 'NGG',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    spacer_length: '20',
+};
+export const cpf1_form_origin = {
+    remember: true,
+    input_sequences: '',
+    pam_type: 'TTTR',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    spacer_length: '20',
+};
+export const c2c1_form_origin = {
+    remember: true,
+    input_sequences: '',
+    pam_type: 'TTN',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    spacer_length: '20',
+};
+export const cas13_form_origin = {
+    remember: true,
+    input_sequences: '',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    spacer_length: '20',
+};
+export const baseEditors_form_origin = {
+    remember: true,
+    input_sequences: '',
+    pam_type: 'NGG',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    spacer_length: '20',
+    base_window: [14, 16],
+    substitution_module: '',
+};
+export const primer_form_origin = {
+    input_sequences: '',
+    pam_type: 'NGG',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    cut_distance_to_pam: '-3',
+    spacer_length: '20',
+    pegRNA_spacer_gc_content: [40, 60],
+    pbs_length: [7, 16],
+    pbs_gc_content: [40, 60],
+    recommended_tm_of_pbs_sequence: [20, 40],
+    homologous_rt_template_length: [7, 16],
+    exclude_first_c_in_rt_template: true,
+    dual_pegRNA_model: true,
+    ngRNA_spacers_same_pam_with_pegRNA: true,
+    distance_of_secondary_nicking_sgRNAs_to_pegRNA: [40, 150],
+    pegLIT: true,
+    linker_pattern: '',
+    incorporated_structured_rna_motifs: 'tevopreQ1',
+    substitution_module: 'pOsU3',
+    forward_primer: '',
+    spacer_sequence: '',
+    reverse_primer: '',
+    pbs_rt_template: '',
+};
+export const crispra_form_origin = {
+    remember: true,
+    pam_type: 'NGG',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    spacer_length: '20',
+    flanking_length: 2000,
+};
+export const knockin_form_origin = {
+    remember: true,
+    input_sequences: '',
+    pam_type: 'NGG',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    spacer_length: '20',
+};
+export const epigenome_form_origin = {
+    remember: true,
+    input_sequences: '',
+    pam_type: 'NGG',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    spacer_length: '20',
+};
+export const fragment_form_origin = {
+    remember: true,
+    left_flanking: '111',
+    right_flanking: '',
+    pam_type: 'NGG',
+    target_genome: 'Gossypium_hirsutum_Jin668_HZAU',
+    customized_pam: '',
+    sgRNA_module: 'spacerpam',
+    spacer_length: '20',
+};

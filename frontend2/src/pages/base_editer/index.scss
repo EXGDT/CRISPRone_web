@@ -1,0 +1,145 @@
+/* 定义全局变量 */
+:root {
+    --background-color-light: rgba(246, 252, 251, 1);
+    --background-color-dark: rgba(229, 229, 229, 1);
+    --box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+    --border-radius: 6px;
+    --text-color: #333;
+    --font-size-normal: 20px;
+    --font-size-large: 23px;
+    --padding-normal: 10px;
+}
+
+.substitution_module_base {
+    display: flex;
+    width: 98%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    text-align: left;
+    margin: 20px auto;
+    padding-left: 5%;
+    background-color: rgba(229,196,47,0.2);
+    color: rgba(16,16,16,1);
+    
+    h3 {
+        margin-left: 10px;
+    }
+    
+    ul {
+        list-style: none;
+        display: flex;
+        width: 100%;
+        margin: 0 auto;
+        font-weight: 500;
+        
+        li {
+            width: 25%;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            
+            &:hover {
+                background-color: #D478E6 !important;
+            }
+            
+            &.selected {
+                background-color: #D478E6;
+            }
+        }
+    }
+}   
+
+.custom-radio-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+
+    .custom-radio-button {
+        flex: 1;
+        background-color: #F2DCF4;
+        border: none;
+        border-radius: 0;
+        height: 50px;
+        line-height: 50px;
+        color: rgba(16, 16, 16, 1);
+        font-size: var(--font-size-normal);
+        transition: background-color 0.3s;
+
+        &.ant-radio-button-wrapper-checked {
+            background-color: #D478E6;
+            color: white;
+        }
+
+        &:hover {
+            background-color: rgba(200, 125, 224, 0.9);
+        }
+    }
+}
+
+/* 响应式设计：当屏幕宽度小于 768px 时，调整布局 */
+@media screen and (max-width: 768px) {
+    .crisper_main {
+        width: 100%;
+        // align-items: center;
+    }
+
+    .crisper_main .introduction {
+        flex-direction: column;
+    }
+
+    .crisper_main .introduction .introduction_img,
+    .crisper_main .introduction .introduction_text {
+        width: 90%;
+        min-width: unset;
+    }
+
+    .crisper_main .introduction .introduction_text {
+        .introduction_text_top {
+            .introduction_title {
+                font-size: 16px;
+            }
+
+            .introduction_content {
+                font-size: 14px;
+            }
+        }
+
+        .introduction_text_bottom {
+            h3 {
+                font-size: 16px;
+            }
+
+            .introduction_ul {
+                ul {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    .crisper_main .design_form {
+        width: 95%;
+        padding: 15px;
+        margin: 10px auto;
+        .example_button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .substitution_module_base {
+        padding-left: 2%;
+        
+        ul {
+            flex-wrap: wrap;
+            
+            li {
+                width: 50%;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+   
