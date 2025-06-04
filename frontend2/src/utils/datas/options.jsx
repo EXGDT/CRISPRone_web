@@ -73,7 +73,7 @@ export const cas9_PAM_Types = [
     { value: 'NNNNACA', label: "20bp-NNNNACA- Cas9 Campylobacter jejuni, original PAM" },
     { value: 'NNNNRYAC', label: "22bp-NNNNRYAC-Cas9 Campylobacter jejuni, revised PAM" },
     { value: 'NNNVRYAC', label: "22bp-NNNVRYAC-Cas9 Campylobacter jejuni, opt. efficiency" },
-    { value: 'TTCN', lable: "TTCN-20bp-CasX" },
+    { value: 'TTCN', label: "TTCN-20bp-CasX" },
     { value: 'YTTV', label: "YTTV-20bp-MAD7 Nuclease, Lui, Schiel, Maksimova et al, CRISPR J 2020" },
     { value: 'NNNNCNAA', label: "20bp-NNNNCNAA-Thermo Cas9 - Walker et al, Metab Eng Comm 2020" },
     { value: 'NNN', label: "20bp-NNN-SpRY, Walton et al Science 2020" },

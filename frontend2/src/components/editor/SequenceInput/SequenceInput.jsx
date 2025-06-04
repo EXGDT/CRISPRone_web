@@ -151,7 +151,6 @@ function SequenceInput({ onExampleClick, disableRandom }) {
               $isSelected={selectedValue === "random"}
               $disableRandom={disableRandom}
               disabled={disableRandom}
-              loading={disableRandom}
               onClick={() => onExampleClick({ target: { value: "random" } })}
             >
               {disableRandom ? <LoadingIcon /> : "Random"}

@@ -194,8 +194,6 @@ function CustomizedPAM({ baseEditors, pamOptions }) {
 }
 
 CustomizedPAM.propTypes = {
-  pamType: PropTypes.string.isRequired,
-  setPamType: PropTypes.func.isRequired,
   baseEditors: PropTypes.array.isRequired,
   pamOptions: PropTypes.arrayOf(
     PropTypes.shape({
